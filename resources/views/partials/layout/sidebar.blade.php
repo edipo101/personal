@@ -26,7 +26,7 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
         <li class="active">
-          <a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a>
+          <a href="{{route('personas.index')}}"><i class="fa fa-book"></i> <span>Personas</span></a>
         </li>
       </ul>
     </section>
