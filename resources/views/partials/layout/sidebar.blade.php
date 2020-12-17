@@ -7,7 +7,7 @@
           <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p>{{auth()->user()->nombre}}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -24,9 +24,9 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
+        <li class="header">PERSONAL</li>
         <li class="active">
-          <a href="{{route('personas.index')}}"><i class="fa fa-book"></i> <span>Personas</span></a>
+          <a href="{{route('contratos.index')}}"><i class="fa fa-book"></i> <span>Contratos</span></a>
         </li>
       </ul>
     </section>
