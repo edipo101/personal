@@ -16,7 +16,8 @@ class ContratoController extends Controller
     {
         // return $request;
         $items = Contrato::
-            Search($request->get('field'), $request->get('value'))
+            leftJoin('funcionarios', 'funcionarios.id', 'id_func')
+            ->Search($request->get('field'), $request->get('value'))
             // Id($request->get('value'))
             ->paginate(25);
         // $cant = count($items);
