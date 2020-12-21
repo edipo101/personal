@@ -26,13 +26,13 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Ingrese sus credenciales para iniciar su sesión</p>
+    <p class="login-box-msg">Ingrese sus datos para iniciar su sesión</p>
 
     <form action="{{route('login')}}" method="post">
       {{csrf_field()}}
       <div class="form-group has-feedback {{$errors->has('login') ? 'has-error' : ''}}">
         <input name="login" type="text" class="form-control" value="{{old('login')}}" placeholder="Nombre de usuario">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
         {!! $errors->first('login', '<span class="help-block">:message</span>')!!}
       </div>
       <div class="form-group has-feedback {{$errors->has('password') ? 'has-error' : ''}}">

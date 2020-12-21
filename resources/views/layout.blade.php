@@ -19,6 +19,7 @@
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <link rel="stylesheet" href="css/personal.css">
+
 </head>
 <body class="hold-transition skin-purple sidebar-mini">
   <!-- Site wrapper -->
@@ -261,7 +262,7 @@
  <!-- AdminLTE for demo purposes -->
  <script src="dist/js/demo.js"></script>
 
- @yield('javascript')
+ @stack('javascript')
 
  <script>
   $(document).ready(function () {

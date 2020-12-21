@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::view('home', 'home')->name('home');
+Route::get('home', 'HomeController@index')->name('home');
 
 Route::resource('personas', 'PersonaController');
 Route::resource('contratos', 'ContratoController');

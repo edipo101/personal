@@ -19,7 +19,12 @@ th.center, td.center{
   text-align: center;
 }
 
-.input-filter{
+.float-left5{
   float: left;
   margin-right: 5px; 
+}
+
+.highlight{
+	background-color: #fff2ac;
+    background-image: linear-gradient(to right, #ffe359 0%, #fff2ac 100%);
 }

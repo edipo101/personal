@@ -3,29 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Contrato;
+use App\ViewContrato;
 use Illuminate\Http\Request;
 
 class ContratoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    
     public function index(Request $request)
     {
-        // return $request;
-        $items = Contrato::
-            leftJoin('funcionarios', 'funcionarios.id', 'id_func')
-            ->Search($request->get('field'), $request->get('value'))
-            // Id($request->get('value'))
+        $value = $request->get('value');
+        $items = ViewContrato::
+            Search($request->get('field'), $value)
+            ->Gestion($request->get('year'))
+            ->orderBy('gestion', 'desc')
             ->paginate(25);
-        // $cant = count($items);
-        $totals = Contrato::selectRaw('count(*) cant')
-            ->Search($request->get('field'), $request->get('value'))
+        
+        $totals = ViewContrato::selectRaw('count(*) cant')
+            ->Search($request->get('field'), $value)
+            ->Gestion($request->get('year'))
             ->first();
-        // return $totals;
-        return view('contratos.list', compact('items', 'totals'));
+
+        $years = Contrato::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->get()->pluck('gestion');
+        return view('contratos.list', compact('items', 'totals', 'years'));
     }
 
     /**

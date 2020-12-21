@@ -26,7 +26,7 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">PERSONAL</li>
         <li class="active">
-          <a href="{{route('contratos.index')}}"><i class="fa fa-book"></i> <span>Contratos</span></a>
+          <a href="{{route('contratos.index')}}"><i class="fa fa-file-text-o"></i> <span>Lista de contratos</span></a>
         </li>
       </ul>
     </section>

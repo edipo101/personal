@@ -29,8 +29,8 @@ class LoginController extends Controller
         }
 
         return back()
-            ->withErrors(['email' => 'Estas credenciales no coinciden con nuestros registros'])
-            ->withInput(request(['email']));
+            ->withErrors(['login' => 'Nombre de usuario o contraseña incorrectos'])
+            ->withInput(request(['login']));
     }
 
     public function logout(){
