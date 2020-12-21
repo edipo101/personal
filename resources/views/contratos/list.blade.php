@@ -41,11 +41,14 @@
           </select>
           <input type="text" name="" class="form-control" style="width: 40%">
         </div> --}}
-        <div class="input-group input-group-sm">
+        <div class="input-group input-group-sm float-left5">
           <button type="submit" class="btn btn-info btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
         </div>
+        <div class="input-group input-group-sm">
+          <a href="{{route('contratos.index')}}" class="btn btn-info btn-danger form-control"><i class="fa fa-times"></i> Borrar</a>
         </div>
       </div>
+    </div>
     </div>
     <div class="row">
       <div class="col-xs-12">
