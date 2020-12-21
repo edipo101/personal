@@ -18,7 +18,7 @@ class ViewContrato extends Model
 					$query->where('nombre_completo', 'like', '%'.$value.'%');
 					break;
 				default:
-					# code...
+					$query->where($field, $value);
 					break;
 			}
 	}

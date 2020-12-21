@@ -13,9 +13,9 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
         DB::table('users')->insert([
-    		'nombre'  => 'Admin',
-    		'login'  => 'admin',
-    		'password'  => Hash::make('123456'),
+    		'nombre'  => 'Wilma',
+    		'login'  => 'Wilma',
+    		'password'  => Hash::make('4086000'),
     		'estado'     => 'A',
     	]);
     }

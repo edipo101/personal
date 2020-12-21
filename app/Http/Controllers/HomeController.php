@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Contrato;
+use App\Funcionario;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $total['tot_func'] = Contrato::select('id_func')->groupBy('id_func')->get()->count();
+        $total['tot_contr'] = Contrato::get()->count();
+        // return $total;
+        return view('home', compact('total'));
     }
 }
