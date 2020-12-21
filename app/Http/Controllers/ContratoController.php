@@ -14,20 +14,16 @@ class ContratoController extends Controller
     
     public function index(Request $request)
     {
-        $value = $request->get('value');
         $items = ViewContrato::
-            Search($request->get('field'), $value)
+            Search($request->get('field'), $request->get('value'))
             ->Gestion($request->get('year'))
             ->orderBy('gestion', 'desc')
             ->paginate(25);
         
-        $totals = ViewContrato::selectRaw('count(*) cant')
-            ->Search($request->get('field'), $value)
-            ->Gestion($request->get('year'))
-            ->first();
-
+        $total = $items->total();
+        
         $years = Contrato::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->get()->pluck('gestion');
-        return view('contratos.list', compact('items', 'totals', 'years'));
+        return view('contratos.list', compact('items', 'total', 'years'));
     }
 
     /**

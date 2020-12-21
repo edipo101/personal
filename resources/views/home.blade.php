@@ -18,7 +18,7 @@
             <div class="inner">
                 <h3>{{number_format($total['tot_func'])}}</h3>
 
-                <p>Funcionarios a contrato</p>
+                <p>Personal a contrato</p>
             </div>
             <div class="icon">
                 <i class="fa fa-user"></i>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('home', 'HomeController@index')->name('home');
 
-Route::resource('personas', 'PersonaController');
+Route::resource('acontrato', 'PersonalContratoController');
 Route::resource('contratos', 'ContratoController');
 
 Route::get('/', 'Auth\LoginController@showLoginForm')->name('login.form');

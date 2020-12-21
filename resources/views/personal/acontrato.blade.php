@@ -2,13 +2,13 @@
 
 @section('content-header')
 <h1>
-  Lista de contratos
+  Personal a contrato
   {{-- <small>(filtrada)</small> --}}
 </h1>
 <ol class="breadcrumb">
   <li><a href=""><i class="fa fa-dashboard"></i> Inicio</a></li>
   <li>Personal</li>
-  <li class="active">Contratos</li>
+  <li class="active">Personal a contrato</li>
 </ol>
 @endsection
 
