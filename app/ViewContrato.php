@@ -32,4 +32,9 @@ class ViewContrato extends Model
 		if (($operator != '') && ($value != ''))
 			$query->havingRaw('count(*)'.$operator.$value);
 	}
+
+	public function scopeAval($query, $value){
+		if ($value != '')
+			$query->where('aval', $value);
+	}
 }

@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-<form action="">
+<form id="form-filter" action="">
   <div class="row">
     <div class="col-xs-12">
       <div class="form-group">
@@ -134,6 +134,10 @@
           </div>
           <div class="box-footer">
             <strong>Total registros: {{number_format($total)}}</strong>
+            <div class="pull-right">
+              <input type="hidden" name="pdf" id="pdf">
+              <button id="btn-pdf" class="btn btn-sm btn-danger"><i class="fa fa-download"></i> Descargar</button>
+            </div>
             <nav class="text-center">{{$items->appends(Request::all())->links()}}</nav>
           </div>
         </div>
@@ -171,6 +175,16 @@
         }
         else
           $('#year').removeAttr('disabled');
+      });
+
+      $('#btn-pdf').click(function(){
+        console.log('pdf');
+        $('#pdf').val('1');
+        var form = $('#form-filter');
+        form.attr('target', '_blank');
+        form.submit();
+        form.removeAttr('target');
+        $('#pdf').removeAttr('value');
       });
     });
   </script>

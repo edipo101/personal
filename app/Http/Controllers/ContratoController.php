@@ -14,16 +14,21 @@ class ContratoController extends Controller
     
     public function index(Request $request)
     {
-        $items = ViewContrato::
+        $rows = ViewContrato::
             Search($request->get('field'), $request->get('value'))
             ->Gestion($request->get('op_year'), $request->get('year'))
-            ->orderBy('gestion', 'desc')
-            ->paginate(25);
-        
-        $total = $items->total();
-        
+            ->orderBy('gestion', 'desc');
+
+        $items_pdf = $rows->get();        
+        $items = $rows->paginate(25);
+        $total = $items->total();        
         $years = Contrato::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->get()->pluck('gestion');
-        return view('contratos.list', compact('items', 'total', 'years'));
+        // return $request;
+        // return $items;
+        if (is_null($request->get('pdf')))
+            return view('contratos.list', compact('items', 'total', 'years'));
+        else
+            return view('pdf.layout_pdf', compact('items_pdf'));
     }
 
     /**

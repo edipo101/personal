@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-<form action="">
+<form id="form-filter" action="">
   <div class="row">
     <div class="col-xs-12">
       <div class="form-group">
@@ -48,6 +48,17 @@
           </select>
           <input type="text" name="cant" id="cant" class="form-control" value="{{request('cant')}}" style="width: 30%" disabled="disabled">
         </div>
+        <div class="input-group input-group-sm float-left5" style="width: 200px;">
+          <span class="input-group-btn">
+            <label class="btn btn-default btn-flat">Aval</label>
+          </span>
+          <select name="aval" id="aval" class="form-control">
+            <option {!!((request('aval') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
+            @foreach($avals as $aval)
+            <option {!!((request('aval') == $aval) ? "selected=\"selected\"" : "")!!}>{{$aval}}</option>
+            @endforeach
+          </select>
+        </div>
         <div class="input-group input-group-sm float-left5">
           <button type="submit" class="btn btn-info btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
         </div>
@@ -76,6 +87,9 @@
 
               if (request('cant') != '')
                 $filter['info'] = 'Cant. contratos '.request('op_cant').' '.request('cant');
+
+              if (request('aval') != '')
+                $filter['warning'] = 'Aval: '.request('aval');
 
               if (count($filter) > 1) $filter['default'] = 'Filtros:';
               @endphp
@@ -120,6 +134,8 @@
                   <th class="center">Fecha Mínima</th>
                   <th class="center">Fecha Máxima</th>
                   <th class="center">Gestiones</th>
+                  <th>Aval</th>
+                  <th>...</th>
                 </tr>
               </thead>
               <tbody>
@@ -134,6 +150,10 @@
                   <td class="center">{{date('d/m/Y', strtotime($item->fecha_min))}}</td>
                   <td class="center">{{date('d/m/Y', strtotime($item->fecha_max))}}</td>
                   <td class="center">{{$item->gestiones}}</td>
+                  <td>{{Str::limit($item->aval, 20)}}</td>
+                  <td>
+                    <a href="#" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-default"><i class="fa fa-file-o"></i></a>
+                  </td>
                 </tr>
                 @endforeach
               </tbody>
@@ -142,6 +162,10 @@
           </div>
           <div class="box-footer">
             <strong>Total registros: {{number_format($total)}}</strong>
+            <div class="pull-right">
+              <input type="hidden" name="pdf" id="pdf">
+              <button id="btn-pdf" class="btn btn-sm btn-danger"><i class="fa fa-download"></i> Descargar</button>
+            </div>
             <nav class="text-center">{{$items->appends(Request::all())->links()}}</nav>
           </div>
         </div>
@@ -192,6 +216,16 @@
         }
         else
           $('#year').removeAttr('disabled');
+      });
+
+      $('#btn-pdf').click(function(){
+        console.log('pdf');
+        $('#pdf').val('1');
+        var form = $('#form-filter');
+        form.attr('target', '_blank');
+        form.submit();
+        form.removeAttr('target');
+        $('#pdf').removeAttr('value');
       });
     });
   </script>
