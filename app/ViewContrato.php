@@ -27,4 +27,9 @@ class ViewContrato extends Model
 		if ($value != '')
 			$query->where('gestion', $value);
 	}
+
+	public function scopeCantidad($query, $operator, $value){
+		if (($operator != '') && ($value != ''))
+			$query->havingRaw('count(*)'.$operator.$value);
+	}
 }

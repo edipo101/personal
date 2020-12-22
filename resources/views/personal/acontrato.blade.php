@@ -28,24 +28,23 @@
             @endforeach
           </select>
         </div>
-        <div class="input-group input-group-sm float-left5" style="width: 100px;">
+        <div class="input-group input-group-sm float-left5" style="width: 180px;">
           <span class="input-group-btn">
             <label class="btn btn-default btn-flat">Cant</label>
           </span>
-          {{-- <select name="field3" id="3" class="form-control" style="width: 60%">
-            <option value="nro">Todos</option>
-            <option value="nro">Mayor a...</option>
-            <option value="nro">Igual a...</option>
-            <option value="nombre">Menor a...</option>
-            <option value="nombre">Consultoria</option>
-          </select> --}}
-          <input type="text" name="cant" class="form-control" value="{{request('cant')}}">
+          <select name="op_cant" id="op_cant" class="form-control" style="width: 70%">
+            <option {!!((request('op_cant') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
+            <option {!!((request('op_cant') == '>') ? "selected=\"selected\"" : "")!!} value=">">Mayor a...</option>
+            <option {!!((request('op_cant') == '=') ? "selected=\"selected\"" : "")!!} value="=">Igual a...</option>
+            <option {!!((request('op_cant') == '<') ? "selected=\"selected\"" : "")!!} value="<">Menor a...</option>
+          </select>
+          <input type="text" name="cant" id="cant" class="form-control" value="{{request('cant')}}" style="width: 30%">
         </div>
         <div class="input-group input-group-sm float-left5">
           <button type="submit" class="btn btn-info btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
         </div>
         <div class="input-group input-group-sm">
-          <a href="{{route('contratos.index')}}" class="btn btn-info btn-danger form-control"><i class="fa fa-times"></i> Borrar</a>
+          <a href="{{route('acontrato.index')}}" class="btn btn-info btn-danger form-control"><i class="fa fa-times"></i> Borrar</a>
         </div>
       </div>
     </div>
@@ -55,12 +54,12 @@
         <div class="box">
           <div class="box-header">
             <h3 class="box-title">
-              @php 
+              @php
               $filter['default'] = 'Todos:';
               if ((request('value')) != '' && (request('field') == 'nro'))
                 $filter['primary'] = 'Nro. contrato: '.request('value');
               if ((request('value')) != '' && (request('field') == 'nombre'))
-                $filter['primary'] = 'Nombre: '.request('value'); 
+                $filter['primary'] = 'Nombre: '.request('value');
               if (request('year') != '')
                 $filter['success'] = 'Gestión: '.request('year');
               if (count($filter) > 1) $filter['default'] = 'Filtros:';
@@ -98,39 +97,31 @@
             <table class="table table-hover table-striped table-f12">
               <thead>
                 <tr>
-                  <th>Id</th>
-                  <th class="right">Nro. contrato</th>
+                  <th>Id func</th>
                   <th>Nro. doc.</th>
                   <th>Nombre completo</th>
-                  <th>Cargo</th>
-                  <th>Cantidad</th>
-                  <th class="right">Sueldo (Bs)</th>
-                  <th class="center">Fecha inicio</th>
-                  <th class="center">Fecha final</th>
-                  <th class="center">Gestión</th>
+                  <th class="center">Cant. contratos</th>
+                  <th class="center">Fecha Mínima</th>
+                  <th class="center">Fecha Máxima</th>
+                  <th class="center">Gestiones</th>
                 </tr>
               </thead>
               <tbody>
                 @php $value = request('value'); @endphp
                 @foreach($items as $item)
                 <tr>
-                  <td>{{$item->id}}</td>
-                  <td class="right">
-                    {!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nro_contrato)!!}
-                  </td>
+                  <td>{{$item->id_func}}</td>
                   <td>{{$item->nro_doc}}</td>
                   <td>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</td>
-                  <td>{{$item->cargo}}</td>
-                  <td>{{$item->cant}}</td>
-                  <td class="right">{{number_format($item->sueldo, 2)}}</td>
-                  <td class="center">{{date('d/m/Y', strtotime($item->fecha_inicio))}}</td>
-                  <td class="center">{{date('d/m/Y', strtotime($item->fecha_final))}}</td>
-                  <td class="center">{{$item->gestion}}</td>
+                  <td class="center">{{$item->cant}}</td>
+                  <td class="center">{{date('d/m/Y', strtotime($item->fecha_min))}}</td>
+                  <td class="center">{{date('d/m/Y', strtotime($item->fecha_max))}}</td>
+                  <td class="center">{{$item->gestiones}}</td>
                 </tr>
                 @endforeach
               </tbody>
 
-            </table>		
+            </table>
           </div>
           <div class="box-footer">
             <strong>Total registros: {{number_format($total)}}</strong>
@@ -146,7 +137,6 @@
   @push('javascript')
   <script>
     function resize(option){
-      console.log(option);
       if (option == 'nombre')
         $('#group-value').width(220);
       else
@@ -157,6 +147,12 @@
       $('#field').change(function(){
         resize(this.value);
         $('#value').val('');
+      });
+
+      $('#op_cant').change(function(){
+        option = this.value;
+        if (option == '')
+          $('#cant').val('');
       });
     });
   </script>

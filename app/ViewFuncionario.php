@@ -8,9 +8,9 @@ class ViewFuncionario extends Model
 {
 	protected $table = 'view_funcionarios';
 
-	// public getCantidadAttribute(){
-		
-	// }
+	public function addCantidadSelect(){
+		return 10;
+	}
 
 	public function scopeSearch($query, $field, $value){
 		if ($value != "")
