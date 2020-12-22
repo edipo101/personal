@@ -20,4 +20,9 @@ class Contrato extends Model
     	if ($value != "")
     		$query->where('id', $value);
     }
+
+    public function scopeGestion($query, $value){
+        if ($value != '')
+            $query->where('gestion', $value);
+    }
 }

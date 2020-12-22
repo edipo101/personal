@@ -11,24 +11,17 @@ use Illuminate\Support\Facades\DB;
 class PersonalContratoController extends Controller
 {
     public function index(Request $request){
-    	// $items = ViewPersonalContrato::
-    	// 	Search($request->get('field'), $request->get('value'))
-     //    ->Gestion($request->get('year'))
-    	// 	->paginate(25);	
-
-    	$items = ViewFuncionario::
-    		select('*'
-    			// , (function($query){ 
-     		// 		$query->selectRaw('count(*) cant') 
-       // 			->from('contratos') 
-       // 			->where('contratos.id_func', 'id')
-       // 			// ->get()->count();
-    			// }) cant
-    		)
-    		// ->leftJoin()
+    	$items = ViewFuncionario::addSelect([
+            'cant' => Contrato::selectRaw('count(*)')            
+                ->Gestion($request->get('year'))
+                ->whereColumn('contratos.id_func', 'view_funcionarios.id')
+    		])
+            ->Search($request->get('field'), $request->get('value'))
+            // ->where('cant', 4)
     		->paginate(25);	
+        // $items = $items->where('cant', 9)->paginate(25);
     	$total = $items->total();
-    	return $items;
+        return $items;
     	$years = Contrato::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->get()->pluck('gestion');
     	return view('personal.acontrato', compact('items', 'total', 'years'));
     }

@@ -28,19 +28,19 @@
             @endforeach
           </select>
         </div>
-        {{-- <div class="input-group input-group-sm float-left5" style="width: 200px;">
+        <div class="input-group input-group-sm float-left5" style="width: 100px;">
           <span class="input-group-btn">
             <label class="btn btn-default btn-flat">Cant</label>
           </span>
-          <select name="field3" id="3" class="form-control" style="width: 60%">
+          {{-- <select name="field3" id="3" class="form-control" style="width: 60%">
             <option value="nro">Todos</option>
             <option value="nro">Mayor a...</option>
             <option value="nro">Igual a...</option>
             <option value="nombre">Menor a...</option>
             <option value="nombre">Consultoria</option>
-          </select>
-          <input type="text" name="" class="form-control" style="width: 40%">
-        </div> --}}
+          </select> --}}
+          <input type="text" name="cant" class="form-control" value="{{request('cant')}}">
+        </div>
         <div class="input-group input-group-sm float-left5">
           <button type="submit" class="btn btn-info btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
         </div>
@@ -103,7 +103,7 @@
                   <th>Nro. doc.</th>
                   <th>Nombre completo</th>
                   <th>Cargo</th>
-                  <th>Unidad</th>
+                  <th>Cantidad</th>
                   <th class="right">Sueldo (Bs)</th>
                   <th class="center">Fecha inicio</th>
                   <th class="center">Fecha final</th>
@@ -121,7 +121,7 @@
                   <td>{{$item->nro_doc}}</td>
                   <td>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</td>
                   <td>{{$item->cargo}}</td>
-                  <td>{{$item->unidad}}</td>
+                  <td>{{$item->cant}}</td>
                   <td class="right">{{number_format($item->sueldo, 2)}}</td>
                   <td class="center">{{date('d/m/Y', strtotime($item->fecha_inicio))}}</td>
                   <td class="center">{{date('d/m/Y', strtotime($item->fecha_final))}}</td>
