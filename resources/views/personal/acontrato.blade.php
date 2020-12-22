@@ -17,28 +17,36 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="form-group">
-        <div class="input-group input-group-sm float-left5" style="width: 140px;">
+        <div class="input-group input-group-sm float-left5" style="width: 270px;">
           <span class="input-group-btn">
             <label class="btn btn-default btn-flat">Gestion</label>
           </span>
-          <select name="year" id="year" class="form-control">
-            <option value="">Todos</option>
+          <select name="op_year" id="op_year" class="form-control" style="width: 130px">
+            <option {!!((request('op_year') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
+            <option {!!((request('op_year') == '=') ? "selected=\"selected\"" : "")!!} value="=">Igual a...</option>
+            <option {!!((request('op_year') == '>') ? "selected=\"selected\"" : "")!!} value=">">Mayor a...</option>
+            <option {!!((request('op_year') == '>=') ? "selected=\"selected\"" : "")!!} value=">=">Mayor o igual a...</option>
+            <option {!!((request('op_year') == '<') ? "selected=\"selected\"" : "")!!} value="<">Menor a...</option>
+            <option {!!((request('op_year') == '<=') ? "selected=\"selected\"" : "")!!} value="<=">Menor o igual a...</option>
+          </select>
+          <select name="year" id="year" class="form-control" style="width: 80px" disabled="disabled">
+            <option value=""></option>
             @foreach($years as $year)
             <option {!!((request('year') == $year) ? "selected=\"selected\"" : "")!!}>{{$year}}</option>
             @endforeach
           </select>
         </div>
-        <div class="input-group input-group-sm float-left5" style="width: 180px;">
+        <div class="input-group input-group-sm float-left5" style="width: 200px;">
           <span class="input-group-btn">
-            <label class="btn btn-default btn-flat">Cant</label>
+            <label class="btn btn-default btn-flat">Cantidad</label>
           </span>
           <select name="op_cant" id="op_cant" class="form-control" style="width: 70%">
             <option {!!((request('op_cant') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
-            <option {!!((request('op_cant') == '>') ? "selected=\"selected\"" : "")!!} value=">">Mayor a...</option>
             <option {!!((request('op_cant') == '=') ? "selected=\"selected\"" : "")!!} value="=">Igual a...</option>
+            <option {!!((request('op_cant') == '>') ? "selected=\"selected\"" : "")!!} value=">">Mayor a...</option>
             <option {!!((request('op_cant') == '<') ? "selected=\"selected\"" : "")!!} value="<">Menor a...</option>
           </select>
-          <input type="text" name="cant" id="cant" class="form-control" value="{{request('cant')}}" style="width: 30%">
+          <input type="text" name="cant" id="cant" class="form-control" value="{{request('cant')}}" style="width: 30%" disabled="disabled">
         </div>
         <div class="input-group input-group-sm float-left5">
           <button type="submit" class="btn btn-info btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
@@ -60,8 +68,15 @@
                 $filter['primary'] = 'Nro. contrato: '.request('value');
               if ((request('value')) != '' && (request('field') == 'nombre'))
                 $filter['primary'] = 'Nombre: '.request('value');
+              if ((request('value')) != '' && (request('field') == 'nro_doc'))
+                $filter['primary'] = 'Nro. doc: '.request('value');
+              
               if (request('year') != '')
-                $filter['success'] = 'Gestión: '.request('year');
+                $filter['success'] = 'Gestión '.request('op_year').' '.request('year');
+
+              if (request('cant') != '')
+                $filter['info'] = 'Cant. contratos '.request('op_cant').' '.request('cant');
+
               if (count($filter) > 1) $filter['default'] = 'Filtros:';
               @endphp
               @foreach($filter as $btn => $label)
@@ -97,7 +112,8 @@
             <table class="table table-hover table-striped table-f12">
               <thead>
                 <tr>
-                  <th>Id func</th>
+                  <th>Id func.</th>
+                  <th>Cod. func.</th>
                   <th>Nro. doc.</th>
                   <th>Nombre completo</th>
                   <th class="center">Cant. contratos</th>
@@ -111,6 +127,7 @@
                 @foreach($items as $item)
                 <tr>
                   <td>{{$item->id_func}}</td>
+                  <td>{{$item->cod_func}}</td>
                   <td>{{$item->nro_doc}}</td>
                   <td>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</td>
                   <td class="center">{{$item->cant}}</td>
@@ -149,10 +166,32 @@
         $('#value').val('');
       });
 
+      op_cant = "{{request('op_cant')}}";
+      if (op_cant != '')
+        $('#cant').removeAttr('disabled');
+
       $('#op_cant').change(function(){
         option = this.value;
-        if (option == '')
+        if (option == ''){
+          $('#cant').attr('disabled', 'disabled');
           $('#cant').val('');
+        }
+        else
+          $('#cant').removeAttr('disabled');
+      });
+
+      op_year = "{{request('op_year')}}";
+      if (op_year != '')
+        $('#year').removeAttr('disabled');
+
+      $('#op_year').change(function(){
+        option = this.value;
+        if (option == ''){
+          $('#year').attr('disabled', 'disabled');
+          $('#year').val('');
+        }
+        else
+          $('#year').removeAttr('disabled');
       });
     });
   </script>

@@ -17,30 +17,25 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="form-group">
-        <div class="input-group input-group-sm float-left5" style="width: 140px;">
+        <div class="input-group input-group-sm float-left5" style="width: 270px;">
           <span class="input-group-btn">
             <label class="btn btn-default btn-flat">Gestion</label>
           </span>
-          <select name="year" id="year" class="form-control">
-            <option value="">Todos</option>
+          <select name="op_year" id="op_year" class="form-control" style="width: 130px">
+            <option {!!((request('op_year') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
+            <option {!!((request('op_year') == '=') ? "selected=\"selected\"" : "")!!} value="=">Igual a...</option>
+            <option {!!((request('op_year') == '>') ? "selected=\"selected\"" : "")!!} value=">">Mayor a...</option>
+            <option {!!((request('op_year') == '>=') ? "selected=\"selected\"" : "")!!} value=">=">Mayor o igual a...</option>
+            <option {!!((request('op_year') == '<') ? "selected=\"selected\"" : "")!!} value="<">Menor a...</option>
+            <option {!!((request('op_year') == '<=') ? "selected=\"selected\"" : "")!!} value="<=">Menor o igual a...</option>
+          </select>
+          <select name="year" id="year" class="form-control" style="width: 80px" disabled="disabled">
+            <option value=""></option>
             @foreach($years as $year)
             <option {!!((request('year') == $year) ? "selected=\"selected\"" : "")!!}>{{$year}}</option>
             @endforeach
           </select>
         </div>
-        {{-- <div class="input-group input-group-sm float-left5" style="width: 200px;">
-          <span class="input-group-btn">
-            <label class="btn btn-default btn-flat">Cant</label>
-          </span>
-          <select name="field3" id="3" class="form-control" style="width: 60%">
-            <option value="nro">Todos</option>
-            <option value="nro">Mayor a...</option>
-            <option value="nro">Igual a...</option>
-            <option value="nombre">Menor a...</option>
-            <option value="nombre">Consultoria</option>
-          </select>
-          <input type="text" name="" class="form-control" style="width: 40%">
-        </div> --}}
         <div class="input-group input-group-sm float-left5">
           <button type="submit" class="btn btn-info btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
         </div>
@@ -60,9 +55,11 @@
               if ((request('value')) != '' && (request('field') == 'nro'))
                 $filter['primary'] = 'Nro. contrato: '.request('value');
               if ((request('value')) != '' && (request('field') == 'nombre'))
-                $filter['primary'] = 'Nombre: '.request('value'); 
+                $filter['primary'] = 'Nombre: '.request('value');
+              if ((request('value')) != '' && (request('field') == 'nro_doc'))
+                $filter['primary'] = 'Nro. doc: '.request('value'); 
               if (request('year') != '')
-                $filter['success'] = 'Gestión: '.request('year');
+                $filter['success'] = 'Gestión '.request('op_year').' '.request('year');
               if (count($filter) > 1) $filter['default'] = 'Filtros:';
               @endphp
               @foreach($filter as $btn => $label)
@@ -102,8 +99,8 @@
                   <th class="right">Nro. contrato</th>
                   <th>Nro. doc.</th>
                   <th>Nombre completo</th>
-                  <th>Cargo</th>
-                  <th>Unidad</th>
+                  <th>Cargo/Unidad</th>
+                  {{-- <th>Unidad</th> --}}
                   <th class="right">Sueldo (Bs)</th>
                   <th class="center">Fecha inicio</th>
                   <th class="center">Fecha final</th>
@@ -120,8 +117,11 @@
                   </td>
                   <td>{{$item->nro_doc}}</td>
                   <td>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</td>
-                  <td>{{$item->cargo}}</td>
-                  <td>{{$item->unidad}}</td>
+                  <td>
+                    {{Str::limit($item->cargo, 40)}}<br>
+                    {{$item->unidad}}
+                  </td>
+                  {{-- <td>{{Str::limit($item->unidad, 20)}}</td> --}}
                   <td class="right">{{number_format($item->sueldo, 2)}}</td>
                   <td class="center">{{date('d/m/Y', strtotime($item->fecha_inicio))}}</td>
                   <td class="center">{{date('d/m/Y', strtotime($item->fecha_final))}}</td>
@@ -157,6 +157,20 @@
       $('#field').change(function(){
         resize(this.value);
         $('#value').val('');
+      });
+
+      op_year = "{{request('op_year')}}";
+      if (op_year != '')
+        $('#year').removeAttr('disabled');
+
+      $('#op_year').change(function(){
+        option = this.value;
+        if (option == ''){
+          $('#year').attr('disabled', 'disabled');
+          $('#year').val('');
+        }
+        else
+          $('#year').removeAttr('disabled');
       });
     });
   </script>

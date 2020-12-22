@@ -13,12 +13,12 @@ class PersonalContratoController extends Controller
 {
     public function index(Request $request){
         // return $request;
-        $items = ViewContrato::selectRaw('id_func, nro_doc, nombre_completo, count(*) cant,
+        $items = ViewContrato::selectRaw('id_func, cod_func, nro_doc, nombre_completo, count(*) cant,
                 min(fecha_inicio) fecha_min, max(fecha_final) fecha_max,
                 concat_ws("-",min(gestion),max(gestion)) gestiones')
-            ->Gestion($request->get('year'))
+            ->Gestion($request->get('op_year'), $request->get('year'))
             ->Search($request->get('field'), $request->get('value'))
-            ->groupBy('id_func')
+            ->groupBy('id_func', 'cod_func')
             ->Cantidad($request->get('op_cant'), $request->get('cant'))
             ->paginate(25);
         // return $items;

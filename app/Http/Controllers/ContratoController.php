@@ -16,7 +16,7 @@ class ContratoController extends Controller
     {
         $items = ViewContrato::
             Search($request->get('field'), $request->get('value'))
-            ->Gestion($request->get('year'))
+            ->Gestion($request->get('op_year'), $request->get('year'))
             ->orderBy('gestion', 'desc')
             ->paginate(25);
         
