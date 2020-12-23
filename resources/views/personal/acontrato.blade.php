@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-<form id="form-filter" action="">
+<form id="form-filter" action="" method="get">
   <div class="row">
     <div class="col-xs-12">
       <div class="form-group">
@@ -67,92 +67,126 @@
         </div>
       </div>
     </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="box">
-          <div class="box-header">
-            <h3 class="box-title">
-              @php
-              $filter['default'] = 'Todos:';
-              if ((request('value')) != '' && (request('field') == 'nro'))
-                $filter['primary'] = 'Nro. contrato: '.request('value');
-              if ((request('value')) != '' && (request('field') == 'nombre'))
-                $filter['primary'] = 'Nombre: '.request('value');
-              if ((request('value')) != '' && (request('field') == 'nro_doc'))
-                $filter['primary'] = 'Nro. doc: '.request('value');
-              
-              if (request('year') != '')
-                $filter['success'] = 'Gestión '.request('op_year').' '.request('year');
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">
+            @php
+            $filter['default'] = 'Todos:';
+            if ((request('value')) != '' && (request('field') == 'nro'))
+              $filter['primary'] = 'Nro. contrato: '.request('value');
+            if ((request('value')) != '' && (request('field') == 'nombre'))
+              $filter['primary'] = 'Nombre: '.request('value');
+            if ((request('value')) != '' && (request('field') == 'nro_doc'))
+              $filter['primary'] = 'Nro. doc: '.request('value');
 
-              if (request('cant') != '')
-                $filter['info'] = 'Cant. contratos '.request('op_cant').' '.request('cant');
+            if (request('year') != '')
+              $filter['success'] = 'Gestión '.request('op_year').' '.request('year');
 
-              if (request('aval') != '')
-                $filter['warning'] = 'Aval: '.request('aval');
+            if (request('cant') != '')
+              $filter['info'] = 'Cant. contratos '.request('op_cant').' '.request('cant');
 
-              if (count($filter) > 1) $filter['default'] = 'Filtros:';
-              @endphp
-              @foreach($filter as $btn => $label)
-              <a class="btn btn-{{$btn}} btn-xs">{{$label}}</a>
-              @endforeach
-            </h3>
-            <div class="box-tools">
-              <div class="input-group input-group-sm float-left5" style="width: 115px;">
-                <select name="field" id="field" class="form-control">
-                  <option {!!((request('field') == 'nro') ? "selected=\"selected\"" : "")!!} value="nro">
-                    Nro contrato
-                  </option>
-                  <option {!!((request('field') == 'nombre') ? "selected=\"selected\"" : "")!!} value="nombre">
-                    Nombre
-                  </option>
-                  <option {!!((request('field') == 'nro_doc') ? "selected=\"selected\"" : "")!!} value="nro_doc">
-                    Nro doc
-                  </option>
-                </select>
-              </div>
-              @php $width = (request('field') == 'nombre' ? '220px' : '150px'); @endphp
-              <div id="group-value" class="input-group input-group-sm" style="width: {{$width}};">
-                <input type="text" name="value" id="value" style="text-transform:uppercase;" class="form-control" placeholder="Buscar..." value="{{request('value')}}" onkeyup="javascript:this.value=this.value.toUpperCase();">
-                <span class="input-group-btn">
-                  <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
-                </span>
-              </div>
+            if (request('aval') != '')
+              $filter['warning'] = 'Aval: '.request('aval');
+
+            if (count($filter) > 1) $filter['default'] = 'Filtros:';
+            @endphp
+            @foreach($filter as $btn => $label)
+            <a class="btn btn-{{$btn}} btn-xs">{{$label}}</a>
+            @endforeach
+          </h3>
+          <div class="box-tools">
+            <div class="input-group input-group-sm float-left5" style="width: 115px;">
+              <select name="field" id="field" class="form-control">
+                <option {!!((request('field') == 'nro') ? "selected=\"selected\"" : "")!!} value="nro">
+                  Nro contrato
+                </option>
+                <option {!!((request('field') == 'nombre') ? "selected=\"selected\"" : "")!!} value="nombre">
+                  Nombre
+                </option>
+                <option {!!((request('field') == 'nro_doc') ? "selected=\"selected\"" : "")!!} value="nro_doc">
+                  Nro doc
+                </option>
+              </select>
+            </div>
+            @php $width = (request('field') == 'nombre' ? '220px' : '150px'); @endphp
+            <div id="group-value" class="input-group input-group-sm" style="width: {{$width}};">
+              <input type="text" name="value" id="value" style="text-transform:uppercase;" class="form-control" placeholder="Buscar..." value="{{request('value')}}" onkeyup="javascript:this.value=this.value.toUpperCase();">
+              <span class="input-group-btn">
+                <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+              </span>
             </div>
           </div>
-          <div class="box-body table-responsive" style="padding-top: 0px;">
-            <div class="class" style="padding-bottom: 10px;">
-            </div>
-            <table class="table table-hover table-striped table-f12">
-              <thead>
-                <tr>
-                  <th>Id func.</th>
-                  <th>Cod. func.</th>
-                  <th>Nro. doc.</th>
-                  <th>Nombre completo</th>
-                  <th class="center">Cant. contratos</th>
-                  <th class="center">Fecha Mínima</th>
-                  <th class="center">Fecha Máxima</th>
-                  <th class="center">Gestiones</th>
-                  <th>Aval</th>
-                  <th>...</th>
-                </tr>
-              </thead>
-              <tbody>
-                @php $value = request('value'); @endphp
-                @foreach($items as $item)
-                <tr>
-                  <td>{{$item->id_func}}</td>
-                  <td>{{$item->cod_func}}</td>
-                  <td>{{$item->nro_doc}}</td>
-                  <td>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</td>
-                  <td class="center">{{$item->cant}}</td>
-                  <td class="center">{{date('d/m/Y', strtotime($item->fecha_min))}}</td>
-                  <td class="center">{{date('d/m/Y', strtotime($item->fecha_max))}}</td>
-                  <td class="center">{{$item->gestiones}}</td>
-                  <td>{{Str::limit($item->aval, 20)}}</td>
-                  <td>
-                    <a href="#" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-default"><i class="fa fa-file-o"></i></a>
+        </div>
+        <div class="box-body table-responsive" style="padding-top: 0px;">
+          <div class="class" style="padding-bottom: 10px;">
+          </div>
+          <table class="table table-hover table-striped table-f12" id="funcs">
+            <thead>
+              <tr>
+                <th>Id func.</th>
+                <th>Cod. func.</th>
+                <th>Nro. doc.</th>
+                <th>Nombre completo</th>
+                <th class="center">Cant. contratos</th>
+                <th class="center">Fecha Mínima</th>
+                <th class="center">Fecha Máxima</th>
+                <th class="center">Gestiones</th>
+                <th>Aval</th>
+                <th>...</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="clone" hidden="">
+                <td></td>
+                <td colspan="8">
+                  <table id="contratos" style="font-size: 11px;" class="table">
+                    <tr>
+                      <th>Id</th>
+                      <th class="right">Nro. contrato</th>
+                      <th>Nro. doc.</th>
+                      <th>Cargo/Unidad</th>
+                      <th class="right">Sueldo (Bs)</th>
+                      <th class="center">Fecha inicio</th>
+                      <th class="center">Fecha final</th>
+                      <th class="center">Gestión</th>
+                    </tr>
+                    <tr>
+                      <td id="id_ctr">36</td>
+                      <td id="nro_contrato" class="right">
+                        1329/2020
+                      </td>
+                      <td>5681639</td>
+                      <td>
+                        ADMINISTRADOR<br>
+                        SECRETARIA MUNICIPAL DE ORDENAMIENTO TERRITORIAL
+                      </td>
+                      <td class="right">5,000.00</td>
+                      <td class="center">08/09/2020</td>
+                      <td class="center">31/12/2020</td>
+                      <td class="center">2020</td>
+                    </tr>
+                  </table>
+
+                </td>
+              </tr>
+              @php $value = request('value'); @endphp
+              @foreach($items as $item)
+              <tr data-id="{{$item->id_func}}" >
+                <td>{{$item->id_func}}</td>
+                <td>{{$item->cod_func}}</td>
+                <td>{{$item->nro_doc}}</td>
+                <td>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</td>
+                <td class="center">{{$item->cant}}</td>
+                <td class="center">{{date('d/m/Y', strtotime($item->fecha_min))}}</td>
+                <td class="center">{{date('d/m/Y', strtotime($item->fecha_max))}}</td>
+                <td class="center">{{$item->gestiones}}</td>
+                <td style="width: 17%">{{Str::limit($item->aval, 20)}}</td>
+                <td>
+                  <a href="#" class="btn btn-primary btn-xs btn-contr" style="padding: 0px 5px;">
+                    <i class="fa fa-file-o"></i></a>
                   </td>
                 </tr>
                 @endforeach
@@ -227,6 +261,49 @@
         form.removeAttr('target');
         $('#pdf').removeAttr('value');
       });
+
+      $('.btn-contr').click(function(){
+        var row = $(this).parents('tr');
+        id = row.data('id');
+        // $('.btn-contr').attr('href', '#'+id)
+        contratos = $('#funcs').find('tr#'+id);
+        if (!contratos.length){
+          var url = '{{route('contratos.index')}}';
+          var data = $("#form-filter").serialize();
+          data = data+"&id_func="+id+"&type=json";
+          // console.log(data);
+          var type = "json";
+          $.get(url, data, function(data){
+            console.log(data);
+            $.each(data, function (index, value) {
+              $('#contratos').append('<tr><td>Hola</td></tr>');
+              // $('#contratos').append(
+              //   '<tr>'.
+              //   $('td').text(value.id), 
+              //   $('td').text(value.nro_contrato), 
+              //   $('td').text(value.nombre_completo),
+              //   '</tr>'
+              //  );
+              // $('#clone').append('<tr>');
+              // $('#clone td#id_ctr').html(value.id);
+              // $('#clone td#nro_contrato').html(value.nro_contrato);
+              console.log(value.nro_contrato);
+            });
+            // $('#id_ctr').html(data.)
+            // $.each(data, function(i, item) {
+            //   console.log(item);
+            // });
+          });
+          
+          tr_clone = $('#clone').clone();
+          tr_clone.attr('id', id);
+          row.after(tr_clone);
+
+          contratos = tr_clone;
+        }
+        contratos.toggle('slow');
+      });
+
     });
   </script>
   @endpush

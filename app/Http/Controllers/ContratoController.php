@@ -13,9 +13,11 @@ class ContratoController extends Controller
     }
     
     public function index(Request $request)
-    {
+    {   
+
         $rows = ViewContrato::
             Search($request->get('field'), $request->get('value'))
+            ->IdFunc($request->get('id_func'))
             ->Gestion($request->get('op_year'), $request->get('year'))
             ->orderBy('gestion', 'desc');
 
@@ -26,7 +28,10 @@ class ContratoController extends Controller
         // return $request;
         // return $items;
         if (is_null($request->get('pdf')))
-            return view('contratos.list', compact('items', 'total', 'years'));
+            if (!is_null($request->get('type')) )
+                return $items_pdf;
+            else
+                return view('contratos.list', compact('items', 'total', 'years'));
         else
             return view('pdf.layout_pdf', compact('items_pdf'));
     }

@@ -22,7 +22,8 @@ class PersonalContratoController extends Controller
             ->Aval($request->get('aval'))
             ->groupBy('id_func', 'cod_func')
             ->Cantidad($request->get('op_cant'), $request->get('cant'));
-        // return $items;
+
+        // return $ctrs;
         $items_pdf = $rows->get();
         $items = $rows->paginate(25);
     	$total = $items->total();

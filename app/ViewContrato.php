@@ -28,6 +28,11 @@ class ViewContrato extends Model
 			$query->where('gestion', $operator, $value);
 	}
 
+	public function scopeIdFunc($query, $value){
+		if ($value != '')
+			$query->where('id_func', $value);
+	}
+
 	public function scopeCantidad($query, $operator, $value){
 		if (($operator != '') && ($value != ''))
 			$query->havingRaw('count(*)'.$operator.$value);
