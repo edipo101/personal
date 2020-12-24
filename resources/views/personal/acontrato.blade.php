@@ -175,8 +175,9 @@
                 <td class="center">{{$item->gestiones}}</td>
                 <td style="width: 17%">{{Str::limit($item->aval, 20)}}</td>
                 <td>
-                  <a href="#" class="btn btn-primary btn-xs btn-contr" style="padding: 0px 5px;">
-                    <i class="fa fa-file-o"></i></a>
+                  <button class="btn btn-primary btn-xs btn-contr" style="padding: 0px 5px;">
+                    <i class="fa fa-file-o"></i>
+                  </button>
                   </td>
                 </tr>
                 @endforeach
@@ -252,7 +253,8 @@
         $('#pdf').removeAttr('value');
       });
 
-      $('.btn-contr').click(function(){
+      $('.btn-contr').click(function(e){
+        e.preventDefault();
         var row = $(this).parents('tr');
         id = row.data('id');
         console.log(id);
@@ -274,12 +276,11 @@
                   $('<td>').text(value.cargo),
                   $('<td>').text(value.unidad),
                   $('<td class="right">').text(value.sueldo),
-                  $('<td class="center">').text(value.fecha_inicio),
+                  $('<td class="center date">').text(value.fecha_inicio),
                   $('<td class="center">').text(value.fecha_final),
                   $('<td class="center">').text(value.gestion)
-                ));
-            });
-
+                  ));
+            });            
             tr_clone = $('#clone').clone();
             tr_clone.attr('id', id);
             tr_clone.find('#contratos').removeAttr('id');

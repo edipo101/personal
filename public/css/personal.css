@@ -41,3 +41,7 @@ th.center, td.center{
   top: 0px;
   font-size: 70px;
 }
+
+.skin-purple .sidebar-menu>li.header {
+    color: burlywood;
+}

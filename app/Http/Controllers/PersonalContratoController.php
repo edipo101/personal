@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\DB;
 
 class PersonalContratoController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    
     public function index(Request $request){
         $rows = ViewContrato::selectRaw('id_func, cod_func, nro_doc, nombre_completo, count(*) cant,
                 min(fecha_inicio) fecha_min, max(fecha_final) fecha_max,
