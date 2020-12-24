@@ -142,32 +142,22 @@
               <tr id="clone" hidden="">
                 <td></td>
                 <td colspan="8">
-                  <table id="contratos" style="font-size: 11px;" class="table">
-                    <tr>
-                      <th>Id</th>
-                      <th class="right">Nro. contrato</th>
-                      <th>Nro. doc.</th>
-                      <th>Cargo/Unidad</th>
-                      <th class="right">Sueldo (Bs)</th>
-                      <th class="center">Fecha inicio</th>
-                      <th class="center">Fecha final</th>
-                      <th class="center">Gestión</th>
-                    </tr>
-                    <tr>
-                      <td id="id_ctr">36</td>
-                      <td id="nro_contrato" class="right">
-                        1329/2020
-                      </td>
-                      <td>5681639</td>
-                      <td>
-                        ADMINISTRADOR<br>
-                        SECRETARIA MUNICIPAL DE ORDENAMIENTO TERRITORIAL
-                      </td>
-                      <td class="right">5,000.00</td>
-                      <td class="center">08/09/2020</td>
-                      <td class="center">31/12/2020</td>
-                      <td class="center">2020</td>
-                    </tr>
+                  <table class="table" style="font-size: 11px; background-color: #FEB;">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th class="center">Nro. doc.</th>
+                        <th class="right">Nro. contrato</th>
+                        <th>Cargo</th>
+                        <th>Unidad</th>
+                        <th class="right">Sueldo (Bs)</th>
+                        <th class="center">Fecha inicio</th>
+                        <th class="center">Fecha final</th>
+                        <th class="center">Gestión</th>
+                      </tr>
+                    </thead>
+                    <tbody id="contratos">
+                    </tbody>
                   </table>
 
                 </td>
@@ -265,43 +255,40 @@
       $('.btn-contr').click(function(){
         var row = $(this).parents('tr');
         id = row.data('id');
+        console.log(id);
         // $('.btn-contr').attr('href', '#'+id)
         contratos = $('#funcs').find('tr#'+id);
         if (!contratos.length){
           var url = '{{route('contratos.index')}}';
           var data = $("#form-filter").serialize();
           data = data+"&id_func="+id+"&type=json";
-          // console.log(data);
-          var type = "json";
-          $.get(url, data, function(data){
-            console.log(data);
-            $.each(data, function (index, value) {
-              $('#contratos').append('<tr><td>Hola</td></tr>');
-              // $('#contratos').append(
-              //   '<tr>'.
-              //   $('td').text(value.id), 
-              //   $('td').text(value.nro_contrato), 
-              //   $('td').text(value.nombre_completo),
-              //   '</tr>'
-              //  );
-              // $('#clone').append('<tr>');
-              // $('#clone td#id_ctr').html(value.id);
-              // $('#clone td#nro_contrato').html(value.nro_contrato);
-              console.log(value.nro_contrato);
-            });
-            // $('#id_ctr').html(data.)
-            // $.each(data, function(i, item) {
-            //   console.log(item);
-            // });
-          });
           
-          tr_clone = $('#clone').clone();
-          tr_clone.attr('id', id);
-          row.after(tr_clone);
+          $.get(url, data, function(data){
+            $('#contratos').html('');
+            $.each(data, function (index, value) {
+              $('#contratos').append(
+                $('<tr>').append(
+                  $('<td>').text(value.id),
+                  $('<td class="center">').text(value.nro_doc),
+                  $('<td class="right">').text(value.nro_contrato),
+                  $('<td>').text(value.cargo),
+                  $('<td>').text(value.unidad),
+                  $('<td class="right">').text(value.sueldo),
+                  $('<td class="center">').text(value.fecha_inicio),
+                  $('<td class="center">').text(value.fecha_final),
+                  $('<td class="center">').text(value.gestion)
+                ));
+            });
 
-          contratos = tr_clone;
+            tr_clone = $('#clone').clone();
+            tr_clone.attr('id', id);
+            tr_clone.find('#contratos').removeAttr('id');
+            row.after(tr_clone);
+            tr_clone.show();
+          });
+          // contratos = tr_clone;
         }
-        contratos.toggle('slow');
+        contratos.toggle();
       });
 
     });

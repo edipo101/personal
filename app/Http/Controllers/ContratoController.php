@@ -28,8 +28,9 @@ class ContratoController extends Controller
         // return $request;
         // return $items;
         if (is_null($request->get('pdf')))
-            if (!is_null($request->get('type')) )
+            if (!is_null($request->get('type'))){
                 return $items_pdf;
+            }
             else
                 return view('contratos.list', compact('items', 'total', 'years'));
         else
