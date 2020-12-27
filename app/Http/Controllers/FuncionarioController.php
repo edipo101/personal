@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Funcionario;
+use App\ViewContrato;
+use App\ViewFuncionario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FuncionarioController extends Controller
 {
@@ -11,27 +15,43 @@ class FuncionarioController extends Controller
         $this->middleware('auth');
     }
 
-    public function func_lactancia(){
+    public function func_lactancia(Request $request){
         $rows = ViewFuncionario::
-            // Search($request->get('field'), $request->get('value'))
-            // ->IdFunc($request->get('id_func'))
-            // Gestion($request->get('op_year'), $request->get('year'))
-            // ->Unidad($request->get('unid'))
-            ->orderBy('gestion', 'desc');
+            where('aval', 'like', '%LACTANCIA%')
+            ->Aval($request->get('aval'))
+            ->orderBy('nombre_completo');
 
         $items_pdf = $rows->get();
         $items = $rows->paginate(25);
         $total = $items->total();
-        $years = ViewConsultoria::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->get()->pluck('gestion');
-        $unidades = Unidad::get();
-        // return $request;
-        // return $items;
+        $avals = Funcionario::select('aval')->where('aval', 'like', '%LACTANCIA%')->groupBy('aval')->get()->pluck('aval');
         if (is_null($request->get('pdf')))
             if (!is_null($request->get('type'))){
                 return $items_pdf;
             }
             else
-                return view('consultorias.list', compact('items', 'total', 'years', 'unidades'));
+                return view('personal.lactancia', compact('items', 'total', 'avals'));
+        else
+            return view('pdf.layout_pdf', compact('items_pdf'));
+    }
+
+    public function func_codepedis(Request $request){
+        $rows = ViewFuncionario::
+            where('aval', 'like', '%CODEPEDIS%')
+            ->Aval($request->get('aval'))
+            ->orderBy('nombre_completo');
+
+        $items_pdf = $rows->get();
+        $items = $rows->paginate(25);
+        // return $items;
+        $total = $items->total();
+        $avals = Funcionario::select('aval')->where('aval', 'like', '%CODEPEDIS%')->groupBy('aval')->get()->pluck('aval');
+        if (is_null($request->get('pdf')))
+            if (!is_null($request->get('type'))){
+                return $items_pdf;
+            }
+            else
+                return view('personal.codepedis', compact('items', 'total', 'avals'));
         else
             return view('pdf.layout_pdf', compact('items_pdf'));
     }

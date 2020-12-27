@@ -3,41 +3,32 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <h3 style="margin-top: 0px;">Personal a contrato</h3>
+        <h3 style="margin-top: 0px; text-align: center">Personal a contrato</h3>
         <table class="table">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th class="right">Nro. contrato</th>
-                    <th>Nro. doc.</th>
+                    <th>Id func</th>
+                    <th>Nro doc.</th>
                     <th>Nombre completo</th>
-                    <th>Cargo/Unidad</th>
-                    {{-- <th>Unidad</th> --}}
-                    <th class="right">Sueldo (Bs)</th>
-                    <th class="center">Fecha inicio</th>
-                    <th class="center">Fecha final</th>
-                    <th class="center">Gestión</th>
+                    <th class="right">Cant. contratos</th>
+                    <th class="center">Primer contrato</th>
+                    <th class="center">Último contrato</th>
+                    <th class="center">Gestiones</th>
+                    <th class="center">Aval</th>
                 </tr>
             </thead>
             <tbody>
                 @php $value = request('value'); @endphp
                 @foreach($items_pdf as $item)
                 <tr>
-                    <td>{{$item->id}}</td>
-                    <td class="right">
-                        {!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nro_contrato)!!}
-                    </td>
+                    <td>{{$item->id_func}}</td>
                     <td>{{$item->nro_doc}}</td>
-                    <td>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</td>
-                    <td>
-                        {{Str::limit($item->cargo, 40)}}<br>
-                        {{$item->unidad}}
-                    </td>
-                    {{-- <td>{{Str::limit($item->unidad, 20)}}</td> --}}
-                    <td class="right">{{number_format($item->sueldo, 2)}}</td>
-                    <td class="center">{{date('d/m/Y', strtotime($item->fecha_inicio))}}</td>
-                    <td class="center">{{date('d/m/Y', strtotime($item->fecha_final))}}</td>
-                    <td class="center">{{$item->gestion}}</td>
+                    <td>{{$item->nombre_completo}}</td>
+                    <td class="right">{{$item->cant}}</td>
+                    <td class="center">{{date('d/m/Y', strtotime($item->primer_contr))}}</td>
+                    <td class="center">{{date('d/m/Y', strtotime($item->ult_contr))}}</td>
+                    <td class="center">{{$item->gestiones}}</td>
+                    <td>{{$item->aval}}</td>
                 </tr>
                 @endforeach
             </tbody>

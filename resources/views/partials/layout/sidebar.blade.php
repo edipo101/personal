@@ -4,7 +4,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="img/avatar/{{auth()->user()->avatar}}.jpg" class="img-circle" alt="User Image">
+          <img src="{{asset('img/avatar/'.auth()->user()->avatar.'.jpg')}}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>{{auth()->user()->login}}</p>
@@ -20,11 +20,11 @@
         <li class="{{!Route::is('home') ?: 'active'}}">
           <a href="{{route('home')}}"><i class="fa fa-users"></i> <span>Personal con item</span></a>
         </li>
-        <li class="{{!Route::is('home') ?: 'active'}}">
-          <a href="{{route('home')}}"><i class="fa fa-users"></i> <span>Personal con lactancia</span></a>
+        <li class="{{!Route::is('funcionarios.lactancia') ?: 'active'}}">
+          <a href="{{route('funcionarios.lactancia')}}"><i class="fa fa-users"></i> <span>Personal con lactancia</span></a>
         </li>
-        <li class="{{!Route::is('home') ?: 'active'}}">
-          <a href="{{route('home')}}"><i class="fa fa-users"></i> <span>Personal con Codepedis</span></a>
+        <li class="{{!Route::is('funcionarios.codepedis') ?: 'active'}}">
+          <a href="{{route('funcionarios.codepedis')}}"><i class="fa fa-users"></i> <span>Personal con Codepedis</span></a>
         </li>
         <li class="header">CONTRATOS</li>
         <li class="{{!Route::is('acontrato.index') ?: 'active'}}">

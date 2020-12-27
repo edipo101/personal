@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/pdf.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="width: 1500px;">
         <section class="content">
             @yield('content')
         </section>

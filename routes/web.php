@@ -7,6 +7,8 @@ Route::get('home', 'HomeController@index')->name('home');
 Route::resource('acontrato', 'PersonalContratoController');
 Route::resource('contratos', 'ContratoController');
 Route::resource('consultorias', 'ConsultoriaController');
+Route::get('funcionarios/lactancia', 'FuncionarioController@func_lactancia')->name('funcionarios.lactancia');
+Route::get('funcionarios/codepedis', 'FuncionarioController@func_codepedis')->name('funcionarios.codepedis');
 
 Route::get('/', 'Auth\LoginController@showLoginForm')->name('login.form');
 Route::post('login', 'Auth\LoginController@login')->name('login');

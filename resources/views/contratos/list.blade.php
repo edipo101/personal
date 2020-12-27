@@ -105,6 +105,7 @@
                   <th class="center">Fecha inicio</th>
                   <th class="center">Fecha final</th>
                   <th class="center">Gestión</th>
+                  <th>Estado</th>
                 </tr>
               </thead>
               <tbody>
@@ -126,6 +127,7 @@
                   <td class="center">{{date('d/m/Y', strtotime($item->fecha_inicio))}}</td>
                   <td class="center">{{date('d/m/Y', strtotime($item->fecha_final))}}</td>
                   <td class="center">{{$item->gestion}}</td>
+                  <td>{{$item->estado}}</td>
                 </tr>
                 @endforeach
               </tbody>

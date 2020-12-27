@@ -26,4 +26,10 @@ class ViewFuncionario extends Model
 					break;
 			}
 	}
+
+	public function scopeAval($query, $value){
+		if ($value != '')
+			$query->where('aval', $value);
+	}
+
 }
