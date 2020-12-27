@@ -2,7 +2,7 @@
 
 @section('content-header')
 <h1>
-  Lista de contratos
+  Lista de consultorias
   {{-- <small>(filtrada)</small> --}}
 </h1>
 <ol class="breadcrumb">
@@ -36,11 +36,22 @@
             @endforeach
           </select>
         </div>
+        <div class="input-group input-group-sm float-left5" style="width: 200px;">
+          <span class="input-group-btn">
+            <label class="btn btn-default btn-flat">Unidad</label>
+          </span>
+          <select name="unid" id="unid" class="form-control">
+            <option {!!((request('unid') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
+            @foreach($unidades as $unidad)
+            <option {!!((request('unid') == $unidad->id) ? "selected=\"selected\"" : "")!!} value="{{$unidad->id}}">{{$unidad->nombre}}</option>
+            @endforeach
+          </select>
+        </div>
         <div class="input-group input-group-sm float-left5">
           <button type="submit" class="btn btn-info btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
         </div>
         <div class="input-group input-group-sm">
-          <a href="{{route('contratos.index')}}" class="btn btn-info btn-danger form-control"><i class="fa fa-times"></i> Borrar</a>
+          <a href="{{route('consultorias.index')}}" class="btn btn-info btn-danger form-control"><i class="fa fa-times"></i> Borrar</a>
         </div>
       </div>
     </div>
@@ -60,6 +71,8 @@
                 $filter['primary'] = 'Nro. doc: '.request('value');
               if (request('year') != '')
                 $filter['success'] = 'Gestión '.request('op_year').' '.request('year');
+              if (request('unid') != '')
+                $filter['warning'] = 'Unidad: '.$unidades[request('unid')-1]->nombre;
               if (count($filter) > 1) $filter['default'] = 'Filtros:';
               @endphp
               @foreach($filter as $btn => $label)
@@ -118,8 +131,8 @@
                   <td>{{$item->nro_doc}}</td>
                   <td>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</td>
                   <td>
-                    {{Str::limit($item->cargo, 40)}}
-                    {{-- <br>{{$item->unidad}} --}}
+                    {{Str::limit($item->cargo, 40)}}<br>
+                    {{$item->unidad}}
                   </td>
                   {{-- <td>{{Str::limit($item->unidad, 20)}}</td> --}}
                   <td class="right">{{number_format($item->sueldo)}}</td>

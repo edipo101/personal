@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
   <link rel="stylesheet" href="css/personal.css">
 
 </head>
@@ -245,33 +246,38 @@
       </div>
     </aside>
     <!-- /.control-sidebar -->
-  <!-- Add the sidebar's background. This div must be placed
-   immediately after the control sidebar -->
-   <div class="control-sidebar-bg"></div>
- </div>
- <!-- ./wrapper -->
+<!-- Add the sidebar's background. This div must be placed
+  immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
 
- <!-- jQuery 3 -->
- <script src="bower_components/jquery/dist/jquery.min.js"></script>
- <!-- Bootstrap 3.3.7 -->
- <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
- <!-- SlimScroll -->
- <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
- <!-- FastClick -->
- <script src="bower_components/fastclick/lib/fastclick.js"></script>
- <!-- AdminLTE App -->
- <script src="dist/js/adminlte.min.js"></script>
- <!-- AdminLTE for demo purposes -->
- <script src="dist/js/demo.js"></script>
- <!-- bootstrap datepicker -->
+<!-- jQuery 3 -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
+<!-- bootstrap datepicker -->
 <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 
- @stack('javascript')
+<script>
+  function dateFormatSql(dateSql){
+    date = dateSql.split('-');
+    return date[2]+'/'+date[1]+'/'+date[0];
+  }
 
- <script>
   $(document).ready(function () {
-    // $('.sidebar-menu').tree()
-  })
+// $('.sidebar-menu').tree()
+})
 </script>
+
+@stack('javascript')
 </body>
 </html>

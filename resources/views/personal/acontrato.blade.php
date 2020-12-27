@@ -131,8 +131,8 @@
                 <th>Nro. doc.</th>
                 <th>Nombre completo</th>
                 <th class="center">Cant. contratos</th>
-                <th class="center">Fecha Mínima</th>
-                <th class="center">Fecha Máxima</th>
+                <th class="center">Primer contrato</th>
+                <th class="center">Ùltimo contrato</th>
                 <th class="center">Gestiones</th>
                 <th>Aval</th>
                 <th>...</th>
@@ -142,7 +142,7 @@
               <tr id="clone" hidden="">
                 <td></td>
                 <td colspan="8">
-                  <table class="table" style="font-size: 11px; background-color: #FEB;">
+                  <table class="table" style="background-color: #FEB;">
                     <thead>
                       <tr>
                         <th>Id</th>
@@ -170,8 +170,8 @@
                 <td>{{$item->nro_doc}}</td>
                 <td>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</td>
                 <td class="center">{{$item->cant}}</td>
-                <td class="center">{{date('d/m/Y', strtotime($item->fecha_min))}}</td>
-                <td class="center">{{date('d/m/Y', strtotime($item->fecha_max))}}</td>
+                <td class="center">{{date('d/m/Y', strtotime($item->primer_contr))}}</td>
+                <td class="center">{{date('d/m/Y', strtotime($item->ult_contr))}}</td>
                 <td class="center">{{$item->gestiones}}</td>
                 <td style="width: 17%">{{Str::limit($item->aval, 20)}}</td>
                 <td>
@@ -257,14 +257,13 @@
         e.preventDefault();
         var row = $(this).parents('tr');
         id = row.data('id');
-        console.log(id);
-        // $('.btn-contr').attr('href', '#'+id)
+        // console.log(id);
         contratos = $('#funcs').find('tr#'+id);
         if (!contratos.length){
           var url = '{{route('contratos.index')}}';
           var data = $("#form-filter").serialize();
           data = data+"&id_func="+id+"&type=json";
-          
+
           $.get(url, data, function(data){
             $('#contratos').html('');
             $.each(data, function (index, value) {
@@ -276,18 +275,17 @@
                   $('<td>').text(value.cargo),
                   $('<td>').text(value.unidad),
                   $('<td class="right">').text(value.sueldo),
-                  $('<td class="center date">').text(value.fecha_inicio),
-                  $('<td class="center">').text(value.fecha_final),
+                  $('<td class="center date">').text(dateFormatSql(value.fecha_inicio)),
+                  $('<td class="center">').text(dateFormatSql(value.fecha_final)),
                   $('<td class="center">').text(value.gestion)
                   ));
-            });            
+            });
             tr_clone = $('#clone').clone();
             tr_clone.attr('id', id);
             tr_clone.find('#contratos').removeAttr('id');
             row.after(tr_clone);
             tr_clone.show();
           });
-          // contratos = tr_clone;
         }
         contratos.toggle();
       });

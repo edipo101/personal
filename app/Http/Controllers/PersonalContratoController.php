@@ -15,10 +15,10 @@ class PersonalContratoController extends Controller
     public function __construct(){
         $this->middleware('auth');
     }
-    
+
     public function index(Request $request){
         $rows = ViewContrato::selectRaw('id_func, cod_func, nro_doc, nombre_completo, count(*) cant,
-                min(fecha_inicio) fecha_min, max(fecha_final) fecha_max,
+                min(fecha_inicio) primer_contr, max(fecha_inicio) ult_contr,
                 concat_ws("-",min(gestion),max(gestion)) gestiones')
             ->addSelect('aval')
             ->Gestion($request->get('op_year'), $request->get('year'))
@@ -27,9 +27,9 @@ class PersonalContratoController extends Controller
             ->groupBy('id_func', 'cod_func')
             ->Cantidad($request->get('op_cant'), $request->get('cant'));
 
-        // return $ctrs;
         $items_pdf = $rows->get();
         $items = $rows->paginate(25);
+        // return $items;
     	$total = $items->total();
     	$years = Contrato::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->get()->pluck('gestion');
         $avals = Funcionario::select('aval')->whereRaw('not isnull(aval)')->groupBy('aval')->get()->pluck('aval');
@@ -37,6 +37,6 @@ class PersonalContratoController extends Controller
         if (is_null($request->get('pdf')))
     	   return view('personal.acontrato', compact('items', 'total', 'years', 'avals'));
         else
-            return view('pdf.layout_pdf', compact('items_pdf'));
+            return view('pdf.contratos_list', compact('items_pdf'));
     }
 }

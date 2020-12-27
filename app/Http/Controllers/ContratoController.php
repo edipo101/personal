@@ -11,19 +11,17 @@ class ContratoController extends Controller
     public function __construct(){
         $this->middleware('auth');
     }
-    
-    public function index(Request $request)
-    {   
 
+    public function index(Request $request){
         $rows = ViewContrato::
             Search($request->get('field'), $request->get('value'))
             ->IdFunc($request->get('id_func'))
             ->Gestion($request->get('op_year'), $request->get('year'))
             ->orderBy('gestion', 'desc');
 
-        $items_pdf = $rows->get();        
+        $items_pdf = $rows->get();
         $items = $rows->paginate(25);
-        $total = $items->total();        
+        $total = $items->total();
         $years = Contrato::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->get()->pluck('gestion');
         // return $request;
         // return $items;
