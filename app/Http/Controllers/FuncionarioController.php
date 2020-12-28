@@ -18,6 +18,7 @@ class FuncionarioController extends Controller
     public function func_lactancia(Request $request){
         $rows = ViewFuncionario::
             where('aval', 'like', '%LACTANCIA%')
+            ->Search($request->get('field'), $request->get('value'))
             ->Aval($request->get('aval'))
             ->orderBy('nombre_completo');
 
@@ -38,6 +39,7 @@ class FuncionarioController extends Controller
     public function func_codepedis(Request $request){
         $rows = ViewFuncionario::
             where('aval', 'like', '%CODEPEDIS%')
+            ->Search($request->get('field'), $request->get('value'))
             ->Aval($request->get('aval'))
             ->orderBy('nombre_completo');
 

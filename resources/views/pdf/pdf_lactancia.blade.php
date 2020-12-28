@@ -9,7 +9,7 @@
             <div class="box-header">
                 <div class="filtros">
                     @foreach($filter as $btn => $label)
-                    <a class="btn btn-{{$btn}} btn-xs">{{$label}}</a>
+                    <a class="btn btn-{{$btn}} bg-{{$btn}} btn-xs">{{$label}}</a>
                     @endforeach
                 </div>
             </div>

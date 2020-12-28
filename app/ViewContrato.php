@@ -65,17 +65,29 @@ class ViewContrato extends Model
 	public function scopeAval($query, $value){
 		if ($value != '')
 			switch ($value) {
-				case 'NULL':
-					$query->whereNull('aval');
+				case 'LACTANCIA':
+					$query->where('lactancia', 1);
 					break;
-
-				case 'sin_aval':
-					$query->where('aval', 'NOT LIKE', '%LACTANCIA%');
-					$query->where('aval', 'NOT LIKE', '%CODEPEDIS%');
+				case 'CODEPEDIS':
+					$query->where('codepedis', 1);
 					break;
-				
+				case 'CONTINUIDAD':
+					$query->where('continuidad', 1);
+					break;
+				case 'LACTANCIA Y CODEPEDIS':
+					$query->where('lactancia', 1);
+					$query->orWhere('codepedis', 1);
+					break;
+				case 'LACTANCIA Y CONTINUIDAD':
+					$query->where('lactancia', 1);
+					$query->orWhere('continuidad', 1);
+					break;
+				case 'CODEPEDIS Y CONTINUIDAD':
+					$query->where('codepedis', 1);
+					$query->orWhere('continuidad', 1);
+					break;
 				default:
-					$query->where('aval', $value);
+					$query->where('id_aval', $value);
 					break;
 			}			
 	}

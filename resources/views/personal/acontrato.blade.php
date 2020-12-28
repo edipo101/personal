@@ -19,7 +19,7 @@
       <div class="form-group">
         <div class="input-group input-group-sm float-left5" style="width: 270px;">
           <span class="input-group-btn">
-            <label class="btn btn-default btn-flat">Gestion</label>
+            <label class="btn bg-purple btn-flat">Gestion</label>
           </span>
           <select name="op_year" id="op_year" class="form-control" style="width: 130px">
             <option {!!((request('op_year') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
@@ -38,7 +38,7 @@
         </div>
         <div class="input-group input-group-sm float-left5" style="width: 210px;">
           <span class="input-group-btn">
-            <label class="btn btn-default btn-flat">Cant. contratos</label>
+            <label class="btn btn-info btn-flat">Cant. contratos</label>
           </span>
           <select name="op_cant" id="op_cant" class="form-control" style="width: 70%">
             <option {!!((request('op_cant') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
@@ -48,9 +48,15 @@
           </select>
           <input type="text" name="cant" id="cant" class="form-control" value="{{request('cant')}}" style="width: 30%" disabled="disabled">
         </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="padding-top: 5px;">
+    <div class="col-xs-12">
+      <div class="form-group">
         <div class="input-group input-group-sm float-left5" style="width: 200px;">
           <span class="input-group-btn">
-            <label class="btn btn-default btn-flat">Estado func.</label>
+            <label class="btn btn-danger btn-flat">Estado func.</label>
           </span>
           <select name="estado" id="estado" class="form-control">
             <option {!!((request('estado') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
@@ -60,21 +66,25 @@
             @endforeach
           </select>
         </div>
-        <div class="input-group input-group-sm float-left5" style="width: 200px;">
+        <div class="input-group input-group-sm float-left5" style="width: 230px;">
           <span class="input-group-btn">
-            <label class="btn btn-default btn-flat">Aval</label>
+            <label class="btn btn-warning btn-flat">Aval</label>
           </span>
           <select name="aval" id="aval" class="form-control">
             <option {!!((request('aval') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
-            <option {!!((request('aval') == 'NULL') ? "selected=\"selected\"" : "")!!} value="NULL">(Nulo)</option>
-            <option {!!((request('aval') == 'sin_aval') ? "selected=\"selected\"" : "")!!} value="sin_aval">Sin aval (Lactancia y CODEPEDIS)</option>
-            @foreach($avals as $aval)
-            <option {!!((request('aval') == $aval) ? "selected=\"selected\"" : "")!!}>{{$aval}}</option>
+            <option {!!((request('aval') == 'LACTANCIA') ? "selected=\"selected\"" : "")!!}>LACTANCIA</option>
+            <option {!!((request('aval') == 'CODEPEDIS') ? "selected=\"selected\"" : "")!!}>CODEPEDIS</option>
+            <option {!!((request('aval') == 'CONTINUIDAD') ? "selected=\"selected\"" : "")!!}>CONTINUIDAD</option>
+            <option {!!((request('aval') == 'LACTANCIA Y CODEPEDIS') ? "selected=\"selected\"" : "")!!}>LACTANCIA Y CODEPEDIS</option>
+            <option {!!((request('aval') == 'LACTANCIA Y CONTINUIDAD') ? "selected=\"selected\"" : "")!!}>LACTANCIA Y CONTINUIDAD</option>
+            <option {!!((request('aval') == 'CODEPEDIS Y CONTINUIDAD') ? "selected=\"selected\"" : "")!!}>CODEPEDIS Y CONTINUIDAD</option>
+            @foreach($avales as $aval)
+            <option {!!((request('aval') == $aval->id) ? "selected=\"selected\"" : "")!!} value="{{$aval->id}}">{{$aval->aval}}</option>
             @endforeach
           </select>
         </div>
         <div class="input-group input-group-sm float-left5">
-          <button type="submit" class="btn btn-info btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
+          <button type="submit" class="btn btn-success btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
         </div>
         <div class="input-group input-group-sm">
           <a href="{{route('acontrato.index')}}" class="btn btn-info btn-danger form-control"><i class="fa fa-times"></i> Borrar</a>
@@ -88,7 +98,7 @@
         <div class="box-header">
           <h3 class="box-title">
             @foreach($filter as $btn => $label)
-            <a class="btn btn-{{$btn}} btn-xs">{{$label}}</a>
+            <a class="btn btn-{{$btn}} bg-{{$btn}} btn-xs">{{$label}}</a>
             @endforeach
           </h3>
           <div class="box-tools">
@@ -127,7 +137,7 @@
                 <th class="center">Primer contrato</th>
                 <th class="center">Ùltimo contrato</th>
                 <th class="center">Gestiones</th>
-                <th>Aval</th>
+                <th>Observaciones</th>
                 <th>Estado func.</th>
                 <th>...</th>
               </tr>
@@ -166,7 +176,7 @@
                 <td class="center">{{date('d/m/Y', strtotime($item->primer_contr))}}</td>
                 <td class="center">{{date('d/m/Y', strtotime($item->ult_contr))}}</td>
                 <td class="center">{{$item->gestiones}}</td>
-                <td style="width: 17%">{{Str::limit($item->aval, 20)}}</td>
+                <td style="width: 17%">{{Str::limit($item->obs_aval, 20)}}</td>
                 <td>{{$item->func_estado}}</td>
                 <td>
                   <button class="btn btn-primary btn-xs btn-contr" style="padding: 0px 5px;">

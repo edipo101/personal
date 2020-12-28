@@ -9,7 +9,7 @@
             <div class="box-header">
                 <div class="filtros">
                     @foreach($filter as $btn => $label)
-                    <a class="btn btn-{{$btn}} btn-xs">{{$label}}</a>
+                    <a class="btn btn-{{$btn}} bg-{{$btn}} btn-xs">{{$label}}</a>
                     @endforeach
                 </div>
             </div>
@@ -24,7 +24,8 @@
                             <th class="center">Primer contrato</th>
                             <th class="center">Último contrato</th>
                             <th class="center">Gestiones</th>
-                            <th class="center">Aval</th>
+                            <th class="center">Estado func.</th>
+                            <th class="center">Observaciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,12 +39,13 @@
                             <td class="center">{{date('d/m/Y', strtotime($item->primer_contr))}}</td>
                             <td class="center">{{date('d/m/Y', strtotime($item->ult_contr))}}</td>
                             <td class="center">{{$item->gestiones}}</td>
-                            <td>{{$item->aval}}</td>
+                            <td class="center">{{$item->func_estado}}</td>
+                            <td>{{$item->obs_aval}}</td>
                         </tr>
                         @endforeach
                     </tbody>
                     <tfoot>
-                        <tr><td>Total registros: {{$total}}</td></tr>
+                        <tr><td colspan="5">Total registros: {{$total}}</td></tr>
                     </tfoot>
                 </table>
             </div>

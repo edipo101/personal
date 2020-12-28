@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Aval;
 use App\Contrato;
 use App\Estado;
 use App\Funcionario;
@@ -22,7 +23,9 @@ class PersonalContratoController extends Controller
                 min(fecha_inicio) primer_contr, max(fecha_inicio) ult_contr,
                 concat_ws("-",min(gestion),max(gestion)) gestiones')
             ->addSelect('exp')
-            ->addSelect('aval')
+            ->addSelect('lactancia')
+            ->addSelect('id_aval')
+            ->addSelect('obs_aval')
             ->addSelect('func_id_estado')
             ->addSelect('func_estado')
             ->Estado($request->get('estado'))
@@ -37,12 +40,12 @@ class PersonalContratoController extends Controller
         // return $items;
     	$total = $items->total();
     	$years = Contrato::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->get()->pluck('gestion');
-        $avals = Funcionario::select('aval')->whereRaw('not isnull(aval)')->groupBy('aval')->get()->pluck('aval');
+        $avales = Aval::get();
         $estados = Estado::get();
         $filter = $this->get_filter($request);
 
         if (is_null($request->get('pdf')))
-    	   return view('personal.acontrato', compact('items', 'total', 'years', 'avals', 'filter', 'estados'));
+    	   return view('personal.acontrato', compact('items', 'total', 'years', 'avales', 'filter', 'estados'));
         else
             return view('pdf.contratos_list', compact('items_pdf', 'filter', 'total'));
     }
@@ -50,7 +53,7 @@ class PersonalContratoController extends Controller
     private function get_filter($request){
         $estados = Estado::get();
 
-        $filter['default'] = 'Todos:';
+        $filter['all'] = 'Todos:';
         if ((request('value')) != '' && (request('field') == 'nro'))
             $filter['primary'] = 'Nro. contrato: '.request('value');
         if ((request('value')) != '' && (request('field') == 'nombre'))
@@ -58,7 +61,7 @@ class PersonalContratoController extends Controller
         if ((request('value')) != '' && (request('field') == 'nro_doc'))
             $filter['primary'] = 'Nro. doc: '.request('value');
         if (request('year') != '')
-            $filter['success'] = 'Gestión '.request('op_year').' '.request('year');
+            $filter['purple'] = 'Gestión '.request('op_year').' '.request('year');
         if (request('cant') != '')
             $filter['info'] = 'Cant. contratos '.request('op_cant').' '.request('cant');
         if (request('estado') != '') //Estado funcionario
@@ -71,7 +74,7 @@ class PersonalContratoController extends Controller
                 $filter['warning'] = 'Aval: Sin aval (Lactancia y CODEPEDIS)';
             else
                 $filter['warning'] = 'Aval: '.request('aval');
-        if (count($filter) > 1) $filter['default'] = 'Filtros:';
+        if (count($filter) > 1) $filter['all'] = 'Filtros:';
         return $filter;
     }
 }
