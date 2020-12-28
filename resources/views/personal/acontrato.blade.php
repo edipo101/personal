@@ -73,26 +73,6 @@
       <div class="box">
         <div class="box-header">
           <h3 class="box-title">
-            @php
-            $filter['default'] = 'Todos:';
-            if ((request('value')) != '' && (request('field') == 'nro'))
-              $filter['primary'] = 'Nro. contrato: '.request('value');
-            if ((request('value')) != '' && (request('field') == 'nombre'))
-              $filter['primary'] = 'Nombre: '.request('value');
-            if ((request('value')) != '' && (request('field') == 'nro_doc'))
-              $filter['primary'] = 'Nro. doc: '.request('value');
-
-            if (request('year') != '')
-              $filter['success'] = 'Gestión '.request('op_year').' '.request('year');
-
-            if (request('cant') != '')
-              $filter['info'] = 'Cant. contratos '.request('op_cant').' '.request('cant');
-
-            if (request('aval') != '')
-              $filter['warning'] = 'Aval: '.request('aval');
-
-            if (count($filter) > 1) $filter['default'] = 'Filtros:';
-            @endphp
             @foreach($filter as $btn => $label)
             <a class="btn btn-{{$btn}} btn-xs">{{$label}}</a>
             @endforeach
@@ -127,7 +107,6 @@
             <thead>
               <tr>
                 <th>Id func.</th>
-                <th>Cod. func.</th>
                 <th>Nro. doc.</th>
                 <th>Nombre completo</th>
                 <th class="center">Cant. contratos</th>
@@ -166,8 +145,7 @@
               @foreach($items as $item)
               <tr data-id="{{$item->id_func}}" >
                 <td>{{$item->id_func}}</td>
-                <td>{{$item->cod_func}}</td>
-                <td>{{$item->nro_doc}}</td>
+                <td>{{$item->nro_doc.' '.$item->exp}}</td>
                 <td>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</td>
                 <td class="center">{{$item->cant}}</td>
                 <td class="center">{{date('d/m/Y', strtotime($item->primer_contr))}}</td>

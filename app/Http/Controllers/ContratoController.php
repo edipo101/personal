@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Contrato;
+use App\Dependencia;
+use App\Unidad;
 use App\ViewContrato;
 use Illuminate\Http\Request;
 
@@ -16,6 +18,8 @@ class ContratoController extends Controller
         $rows = ViewContrato::
             Search($request->get('field'), $request->get('value'))
             ->IdFunc($request->get('id_func'))
+            ->Unidad($request->get('unid'))
+            ->Secretaria($request->get('secre'))
             ->Gestion($request->get('op_year'), $request->get('year'))
             ->orderBy('gestion', 'desc');
 
@@ -23,6 +27,9 @@ class ContratoController extends Controller
         $items = $rows->paginate(25);
         $total = $items->total();
         $years = Contrato::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->get()->pluck('gestion');
+        $secretarias = Dependencia::get();
+        $unidades = Unidad::get();
+
         // return $request;
         // return $items;
         if (is_null($request->get('pdf')))
@@ -30,7 +37,7 @@ class ContratoController extends Controller
                 return $items_pdf;
             }
             else
-                return view('contratos.list', compact('items', 'total', 'years'));
+                return view('contratos.list', compact('items', 'total', 'years', 'secretarias', 'unidades'));
         else
             return view('pdf.layout_pdf', compact('items_pdf'));
     }

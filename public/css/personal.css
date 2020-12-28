@@ -2,11 +2,11 @@
   font-size: 12px;
 }
 
-.table>tbody>tr>td, 
-.table>tbody>tr>th, 
-.table>tfoot>tr>td, 
-.table>tfoot>tr>th, 
-.table>thead>tr>td, 
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
 .table>thead>tr>th {
   padding: 2px 5px;
 }
@@ -21,7 +21,7 @@ th.center, td.center{
 
 .float-left5{
   float: left;
-  margin-right: 5px; 
+  margin-right: 5px;
 }
 
 .highlight{

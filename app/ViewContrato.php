@@ -34,6 +34,16 @@ class ViewContrato extends Model
 			$query->where('id_func', $value);
 	}
 
+	public function scopeSecretaria($query, $value){
+		if ($value != '')
+			$query->where('dependencia_id', $value);
+	}
+
+	public function scopeUnidad($query, $value){
+		if ($value != '')
+			$query->where('unidad_id', $value);
+	}
+
 	public function scopeCantidad($query, $operator, $value){
 		if (($operator != '') && ($value != ''))
 			$query->havingRaw('count(*)'.$operator.$value);
