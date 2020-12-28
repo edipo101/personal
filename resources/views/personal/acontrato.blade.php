@@ -36,9 +36,9 @@
             @endforeach
           </select>
         </div>
-        <div class="input-group input-group-sm float-left5" style="width: 200px;">
+        <div class="input-group input-group-sm float-left5" style="width: 210px;">
           <span class="input-group-btn">
-            <label class="btn btn-default btn-flat">Cantidad</label>
+            <label class="btn btn-default btn-flat">Cant. contratos</label>
           </span>
           <select name="op_cant" id="op_cant" class="form-control" style="width: 70%">
             <option {!!((request('op_cant') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
@@ -50,10 +50,24 @@
         </div>
         <div class="input-group input-group-sm float-left5" style="width: 200px;">
           <span class="input-group-btn">
+            <label class="btn btn-default btn-flat">Estado func.</label>
+          </span>
+          <select name="estado" id="estado" class="form-control">
+            <option {!!((request('estado') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
+            <option {!!((request('estado') == 'NULL') ? "selected=\"selected\"" : "")!!} value="NULL">(Nulo)</option>
+            @foreach($estados as $estado)
+            <option {!!((request('estado') == $estado->id) ? "selected=\"selected\"" : "")!!} value="{{$estado->id}}">{{$estado->estado}}</option>
+            @endforeach
+          </select>
+        </div>
+        <div class="input-group input-group-sm float-left5" style="width: 200px;">
+          <span class="input-group-btn">
             <label class="btn btn-default btn-flat">Aval</label>
           </span>
           <select name="aval" id="aval" class="form-control">
             <option {!!((request('aval') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
+            <option {!!((request('aval') == 'NULL') ? "selected=\"selected\"" : "")!!} value="NULL">(Nulo)</option>
+            <option {!!((request('aval') == 'sin_aval') ? "selected=\"selected\"" : "")!!} value="sin_aval">Sin aval (Lactancia y CODEPEDIS)</option>
             @foreach($avals as $aval)
             <option {!!((request('aval') == $aval) ? "selected=\"selected\"" : "")!!}>{{$aval}}</option>
             @endforeach
@@ -114,6 +128,7 @@
                 <th class="center">Ùltimo contrato</th>
                 <th class="center">Gestiones</th>
                 <th>Aval</th>
+                <th>Estado func.</th>
                 <th>...</th>
               </tr>
             </thead>
@@ -152,6 +167,7 @@
                 <td class="center">{{date('d/m/Y', strtotime($item->ult_contr))}}</td>
                 <td class="center">{{$item->gestiones}}</td>
                 <td style="width: 17%">{{Str::limit($item->aval, 20)}}</td>
+                <td>{{$item->func_estado}}</td>
                 <td>
                   <button class="btn btn-primary btn-xs btn-contr" style="padding: 0px 5px;">
                     <i class="fa fa-file-o"></i>

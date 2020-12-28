@@ -19,18 +19,6 @@
       <div class="form-group">
         <div class="input-group input-group-sm float-left5" style="width: 200px;">
           <span class="input-group-btn">
-            <label class="btn btn-default btn-flat">Cantidad</label>
-          </span>
-          <select name="op_cant" id="op_cant" class="form-control" style="width: 70%">
-            <option {!!((request('op_cant') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
-            <option {!!((request('op_cant') == '=') ? "selected=\"selected\"" : "")!!} value="=">Igual a...</option>
-            <option {!!((request('op_cant') == '>') ? "selected=\"selected\"" : "")!!} value=">">Mayor a...</option>
-            <option {!!((request('op_cant') == '<') ? "selected=\"selected\"" : "")!!} value="<">Menor a...</option>
-          </select>
-          <input type="text" name="cant" id="cant" class="form-control" value="{{request('cant')}}" style="width: 30%" disabled="disabled">
-        </div>
-        <div class="input-group input-group-sm float-left5" style="width: 200px;">
-          <span class="input-group-btn">
             <label class="btn btn-default btn-flat">Aval</label>
           </span>
           <select name="aval" id="aval" class="form-control">

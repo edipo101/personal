@@ -24,6 +24,19 @@ class ViewContrato extends Model
 			}
 	}
 
+	public function scopeEstado($query, $value){
+		if ($value != '')
+			switch ($value) {
+				case 'NULL':
+					$query->whereNull('func_id_estado');
+					break;
+				
+				default:
+					$query->where('func_id_estado', $value);
+					break;
+			}			
+	}
+
 	public function scopeGestion($query, $operator, $value){
 		if (($operator != '') && ($value != ''))
 			$query->where('gestion', $operator, $value);
@@ -51,6 +64,19 @@ class ViewContrato extends Model
 
 	public function scopeAval($query, $value){
 		if ($value != '')
-			$query->where('aval', $value);
+			switch ($value) {
+				case 'NULL':
+					$query->whereNull('aval');
+					break;
+
+				case 'sin_aval':
+					$query->where('aval', 'NOT LIKE', '%LACTANCIA%');
+					$query->where('aval', 'NOT LIKE', '%CODEPEDIS%');
+					break;
+				
+				default:
+					$query->where('aval', $value);
+					break;
+			}			
 	}
 }

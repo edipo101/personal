@@ -56,6 +56,24 @@ class FuncionarioController extends Controller
             return view('pdf.layout_pdf', compact('items_pdf'));
     }
 
+    private function get_filter($request){
+        $filter['default'] = 'Todos:';
+        if ((request('value')) != '' && (request('field') == 'nro'))
+            $filter['primary'] = 'Nro. contrato: '.request('value');
+        if ((request('value')) != '' && (request('field') == 'nombre'))
+            $filter['primary'] = 'Nombre: '.request('value');
+        if ((request('value')) != '' && (request('field') == 'nro_doc'))
+            $filter['primary'] = 'Nro. doc: '.request('value');
+        if (request('year') != '')
+            $filter['success'] = 'Gestión '.request('op_year').' '.request('year');
+        if (request('cant') != '')
+            $filter['info'] = 'Cant. contratos '.request('op_cant').' '.request('cant');
+        if (request('aval') != '')
+            $filter['warning'] = 'Aval: '.request('aval');
+        if (count($filter) > 1) $filter['default'] = 'Filtros:';
+        return $filter;
+    }
+
     public function create()
     {
         //
