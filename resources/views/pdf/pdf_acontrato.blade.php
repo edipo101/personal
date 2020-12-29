@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <h3 style="margin-top: 0px; text-align: center">Personal a contrato</h3>
+        <h3 style="margin-top: 0px;">Personal a contrato</h3>
 
         <div class="box">
             <div class="box-header">
@@ -11,6 +11,9 @@
                     @foreach($filter as $btn => $label)
                     <a class="btn btn-{{$btn}} bg-{{$btn}} btn-xs">{{$label}}</a>
                     @endforeach
+                </div>
+                <div class="box-tools">
+                    <strong>Total registros: {{$total}}</strong>
                 </div>
             </div>
             <div class="box-body">

@@ -29,7 +29,20 @@ class ViewFuncionario extends Model
 
 	public function scopeAval($query, $value){
 		if ($value != '')
-			$query->where('aval', $value);
+			switch ($value) {
+				case 'lac_cod':
+					$query->where('lactancia', 1);
+					$query->where('codepedis', 1);
+					break;
+				case 'lac_cont':
+					$query->where('lactancia', 1);
+					$query->where('continuidad', 1);
+					break;
+				case 'cod_cont':
+					$query->where('codepedis', 1);
+					$query->where('continuidad', 1);
+					break;
+			}			
 	}
 
 }

@@ -19,7 +19,7 @@
       <div class="form-group">
         <div class="input-group input-group-sm float-left5" style="width: 270px;">
           <span class="input-group-btn">
-            <label class="btn btn-default btn-flat">Gestion</label>
+            <label class="btn bg-purple btn-flat">Gestion</label>
           </span>
           <select name="op_year" id="op_year" class="form-control" style="width: 130px">
             <option {!!((request('op_year') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
@@ -36,9 +36,9 @@
             @endforeach
           </select>
         </div>
-        <div class="input-group input-group-sm float-left5" style="width: 200px;">
+        <div class="input-group input-group-sm float-left5" style="width: 300px;">
           <span class="input-group-btn">
-            <label class="btn btn-default btn-flat">Secretaria</label>
+            <label class="btn bg-maroon btn-flat">Secretaria</label>
           </span>
           <select name="secre" id="secre" class="form-control">
             <option {!!((request('secre') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
@@ -47,9 +47,9 @@
             @endforeach
           </select>
         </div>
-        <div class="input-group input-group-sm float-left5" style="width: 200px;">
+        <div class="input-group input-group-sm float-left5" style="width: 400px;">
           <span class="input-group-btn">
-            <label class="btn btn-default btn-flat">Unidad</label>
+            <label class="btn bg-olive btn-flat">Unidad</label>
           </span>
           <select name="unid" id="unid" class="form-control">
             <option {!!((request('unid') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
@@ -72,37 +72,21 @@
         <div class="box">
           <div class="box-header">
             <h3 class="box-title">
-              @php
-              $filter['default'] = 'Todos:';
-              if ((request('value')) != '' && (request('field') == 'nro'))
-                $filter['primary'] = 'Nro. contrato: '.request('value');
-              if ((request('value')) != '' && (request('field') == 'nombre'))
-                $filter['primary'] = 'Nombre: '.request('value');
-              if ((request('value')) != '' && (request('field') == 'nro_doc'))
-                $filter['primary'] = 'Nro. doc: '.request('value');
-              if (request('year') != '')
-                $filter['success'] = 'Gestión '.request('op_year').' '.request('year');
-              if (request('secre') != '')
-                $filter['info'] = 'Secretaria: '.$secretarias[request('secre')-1]->nombre_corto;
-              if (request('unid') != '')
-                $filter['warning'] = 'Unidad: '.$unidades[request('unid')-1]->nombre;
-              if (count($filter) > 1) $filter['default'] = 'Filtros:';
-              @endphp
               @foreach($filter as $btn => $label)
-              <a class="btn btn-{{$btn}} btn-xs">{{$label}}</a>
+              <a class="btn btn-{{$btn}} bg-{{$btn}} btn-xs">{{$label}}</a>
               @endforeach
             </h3>
             <div class="box-tools">
               <div class="input-group input-group-sm float-left5" style="width: 115px;">
                 <select name="field" id="field" class="form-control">
-                  <option {!!((request('field') == 'nro') ? "selected=\"selected\"" : "")!!} value="nro">
-                    Nro contrato
+                  <option {!!((request('field') == 'nro_doc') ? "selected=\"selected\"" : "")!!} value="nro_doc">
+                    Nro doc
                   </option>
                   <option {!!((request('field') == 'nombre') ? "selected=\"selected\"" : "")!!} value="nombre">
                     Nombre
                   </option>
-                  <option {!!((request('field') == 'nro_doc') ? "selected=\"selected\"" : "")!!} value="nro_doc">
-                    Nro doc
+                  <option {!!((request('field') == 'nro') ? "selected=\"selected\"" : "")!!} value="nro">
+                    Nro contrato
                   </option>
                 </select>
               </div>

@@ -65,24 +65,24 @@ class ViewContrato extends Model
 	public function scopeAval($query, $value){
 		if ($value != '')
 			switch ($value) {
-				case 'LACTANCIA':
+				case 'lac':
 					$query->where('lactancia', 1);
 					break;
-				case 'CODEPEDIS':
+				case 'cod':
 					$query->where('codepedis', 1);
 					break;
-				case 'CONTINUIDAD':
+				case 'cont':
 					$query->where('continuidad', 1);
 					break;
-				case 'LACTANCIA Y CODEPEDIS':
+				case 'lac_cod':
 					$query->where('lactancia', 1);
 					$query->orWhere('codepedis', 1);
 					break;
-				case 'LACTANCIA Y CONTINUIDAD':
+				case 'lac_cont':
 					$query->where('lactancia', 1);
 					$query->orWhere('continuidad', 1);
 					break;
-				case 'CODEPEDIS Y CONTINUIDAD':
+				case 'cod_cont':
 					$query->where('codepedis', 1);
 					$query->orWhere('continuidad', 1);
 					break;

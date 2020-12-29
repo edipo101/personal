@@ -60,7 +60,7 @@
           </span>
           <select name="estado" id="estado" class="form-control">
             <option {!!((request('estado') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
-            <option {!!((request('estado') == 'NULL') ? "selected=\"selected\"" : "")!!} value="NULL">(Nulo)</option>
+            <option {!!((request('estado') == 'NULL') ? "selected=\"selected\"" : "")!!} value="NULL">SIN DEFINIR</option>
             @foreach($estados as $estado)
             <option {!!((request('estado') == $estado->id) ? "selected=\"selected\"" : "")!!} value="{{$estado->id}}">{{$estado->estado}}</option>
             @endforeach
@@ -72,12 +72,12 @@
           </span>
           <select name="aval" id="aval" class="form-control">
             <option {!!((request('aval') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
-            <option {!!((request('aval') == 'LACTANCIA') ? "selected=\"selected\"" : "")!!}>LACTANCIA</option>
-            <option {!!((request('aval') == 'CODEPEDIS') ? "selected=\"selected\"" : "")!!}>CODEPEDIS</option>
-            <option {!!((request('aval') == 'CONTINUIDAD') ? "selected=\"selected\"" : "")!!}>CONTINUIDAD</option>
-            <option {!!((request('aval') == 'LACTANCIA Y CODEPEDIS') ? "selected=\"selected\"" : "")!!}>LACTANCIA Y CODEPEDIS</option>
-            <option {!!((request('aval') == 'LACTANCIA Y CONTINUIDAD') ? "selected=\"selected\"" : "")!!}>LACTANCIA Y CONTINUIDAD</option>
-            <option {!!((request('aval') == 'CODEPEDIS Y CONTINUIDAD') ? "selected=\"selected\"" : "")!!}>CODEPEDIS Y CONTINUIDAD</option>
+            <option {!!((request('aval') == 'lac') ? "selected=\"selected\"" : "")!!} value="lac">LACTANCIA</option>
+            <option {!!((request('aval') == 'cod') ? "selected=\"selected\"" : "")!!} value="cod">CODEPEDIS</option>
+            <option {!!((request('aval') == 'cont') ? "selected=\"selected\"" : "")!!} value="cont">CONTINUIDAD</option>
+            <option {!!((request('aval') == 'lac_cod') ? "selected=\"selected\"" : "")!!} value="lac_cod">LACTANCIA Y CODEPEDIS</option>
+            <option {!!((request('aval') == 'lac_cont') ? "selected=\"selected\"" : "")!!} value="lac_cont">LACTANCIA Y CONTINUIDAD</option>
+            <option {!!((request('aval') == 'cod_cont') ? "selected=\"selected\"" : "")!!} value="cod_cont">CODEPEDIS Y CONTINUIDAD</option>
             @foreach($avales as $aval)
             <option {!!((request('aval') == $aval->id) ? "selected=\"selected\"" : "")!!} value="{{$aval->id}}">{{$aval->aval}}</option>
             @endforeach
@@ -104,14 +104,14 @@
           <div class="box-tools">
             <div class="input-group input-group-sm float-left5" style="width: 115px;">
               <select name="field" id="field" class="form-control">
-                <option {!!((request('field') == 'nro') ? "selected=\"selected\"" : "")!!} value="nro">
-                  Nro contrato
+                <option {!!((request('field') == 'nro_doc') ? "selected=\"selected\"" : "")!!} value="nro_doc">
+                  Nro. doc
                 </option>
                 <option {!!((request('field') == 'nombre') ? "selected=\"selected\"" : "")!!} value="nombre">
                   Nombre
                 </option>
-                <option {!!((request('field') == 'nro_doc') ? "selected=\"selected\"" : "")!!} value="nro_doc">
-                  Nro doc
+                <option {!!((request('field') == 'nro') ? "selected=\"selected\"" : "")!!} value="nro">
+                  Nro. contrato
                 </option>
               </select>
             </div>

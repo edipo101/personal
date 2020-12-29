@@ -17,19 +17,18 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="form-group">
-        <div class="input-group input-group-sm float-left5" style="width: 200px;">
+        <div class="input-group input-group-sm float-left5" style="width: 300px;">
           <span class="input-group-btn">
-            <label class="btn btn-default btn-flat">Aval</label>
+            <label class="btn btn-warning btn-flat">Tipo</label>
           </span>
           <select name="aval" id="aval" class="form-control">
             <option {!!((request('aval') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
-            @foreach($avals as $aval)
-            <option {!!((request('aval') == $aval) ? "selected=\"selected\"" : "")!!}>{{$aval}}</option>
-            @endforeach
+            <option {!!((request('aval') == 'lac_cod') ? "selected=\"selected\"" : "")!!} value="lac_cod">LACTANCIA Y CODEPEDIS</option>
+            <option {!!((request('aval') == 'lac_cont') ? "selected=\"selected\"" : "")!!} value="lac_cont">LACTANCIA Y CONTINUIDAD</option>
           </select>
         </div>
         <div class="input-group input-group-sm float-left5">
-          <button type="submit" class="btn btn-info btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
+          <button type="submit" class="btn btn-success btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
         </div>
         <div class="input-group input-group-sm">
           <a href="{{route('acontrato.index')}}" class="btn btn-info btn-danger form-control"><i class="fa fa-times"></i> Borrar</a>
@@ -42,23 +41,6 @@
       <div class="box box-primary">
         <div class="box-header">
           <h3 class="box-title">
-            @php
-            $filter['default'] = 'Todos:';
-            if ((request('value')) != '' && (request('field') == 'nro'))
-              $filter['primary'] = 'Nro. contrato: '.request('value');
-            if ((request('value')) != '' && (request('field') == 'nombre'))
-              $filter['primary'] = 'Nombre: '.request('value');
-            if ((request('value')) != '' && (request('field') == 'nro_doc'))
-              $filter['primary'] = 'Nro. doc: '.request('value');
-
-            if (request('cant') != '')
-              $filter['info'] = 'Cant. contratos '.request('op_cant').' '.request('cant');
-
-            if (request('aval') != '')
-              $filter['warning'] = 'Aval: '.request('aval');
-
-            if (count($filter) > 1) $filter['default'] = 'Filtros:';
-            @endphp
             @foreach($filter as $btn => $label)
             <a class="btn btn-{{$btn}} btn-xs">{{$label}}</a>
             @endforeach
@@ -66,14 +48,14 @@
           <div class="box-tools">
             <div class="input-group input-group-sm float-left5" style="width: 115px;">
               <select name="field" id="field" class="form-control">
-                <option {!!((request('field') == 'nro') ? "selected=\"selected\"" : "")!!} value="nro">
-                  Nro contrato
+                <option {!!((request('field') == 'nro_doc') ? "selected=\"selected\"" : "")!!} value="nro_doc">
+                  Nro doc
                 </option>
                 <option {!!((request('field') == 'nombre') ? "selected=\"selected\"" : "")!!} value="nombre">
                   Nombre
                 </option>
-                <option {!!((request('field') == 'nro_doc') ? "selected=\"selected\"" : "")!!} value="nro_doc">
-                  Nro doc
+                <option {!!((request('field') == 'nro') ? "selected=\"selected\"" : "")!!} value="nro">
+                  Nro contrato
                 </option>
               </select>
             </div>
@@ -102,7 +84,7 @@
                 <th class="center">Desde</th>
                 <th class="center">Hasta</th>
                 <th class="center">Días restantes</th>
-                <th>Aval</th>
+                <th>Observaciones</th>
                 <th>...</th>
               </tr>
             </thead>
@@ -111,7 +93,7 @@
               @foreach($items as $item)
               <tr data-id="{{$item->id_func}}" >
                 <td>{{$item->id}}</td>
-                <td>{{$item->nro_doc.' '.$item->sigla}}</td>
+                <td>{{$item->nro_doc.' '.$item->exp}}</td>
                 <td>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</td>
                 <td>{{'Tipo_func'}}</td>
                 <td class="center">{{$item->estado}}</td>
@@ -127,7 +109,7 @@
                   $dias = ($item->dias_rest < 0) ? '<span class="label label-danger">CONCLUIDO</span>' : '<span class="badge bg-green">'.$item->dias_rest.'</span>';
                 @endphp
                 <td class="center">{!!$dias!!}</td>
-                <td style="width: 17%">{{Str::limit($item->aval, 20)}}</td>
+                <td style="width: 17%">{{Str::limit($item->obs_aval, 20)}}</td>
                 <td>
                   <button class="btn btn-primary btn-xs btn-contr" style="padding: 0px 5px;">
                     <i class="fa fa-file-o"></i>

@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <h3 style="margin-top: 0px;">Personal con lactancia</h3>
+        <h3 style="margin-top: 0px;">Personal con Codepedis</h3>
 
         <div class="box">
             <div class="box-header">
@@ -25,11 +25,11 @@
                             <th>Nombre completo</th>
                             <th>Tipo</th>
                             <th class="center">Estado func.</th>
-                            <th class="center">Prenatal</th>
-                            <th>Nombre beneficiario</th>
-                            <th class="center">Desde</th>
-                            <th class="center">Hasta</th>
-                            <th class="center">Días restantes</th>
+                            <th>Dependiente con disc.</th>
+                            <th class="center">Edad depen.</th>
+                            <th>Parentezco</th>
+                            <th>Tipo discapacidad</th>
+                            <th class="center">Porcen.</th>
                             <th>Observaciones</th>
                         </tr>
                     </thead>
@@ -41,29 +41,23 @@
                             <td>{{$item->nombre_completo}}</td>
                             <td>{{'Tipo_func'}}</td>
                             <td class="center">{{$item->estado}}</td>
-                            <td class="center">{{($item->prenatal == 1) ? 'SI' : ''}}</td>
-                            <td>{{$item->nombre_benef}}</td>
-                            <td class="center">
-                              {{(isset($item->desde)) ? date('d/m/Y', strtotime($item->desde)) : ''}}
-                          </td>
-                          <td class="center">
-                              {{(isset($item->hasta)) ? date('d/m/Y', strtotime($item->hasta)) : ''}}
-                          </td>
-                          @php
-                          $dias = ($item->dias_rest < 0) ? 'CONCLUIDO' : $item->dias_rest;
-                          @endphp
-                          <td class="center">{!!$dias!!}</td>
-                          <td style="width: 17%">{{Str::limit($item->obs_aval, 30)}}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-                <tfoot>
-                    <tr><td colspan="5">Total registros: {{$total}}</td></tr>
-                </tfoot>
-            </table>
+                            <td>{{$item->depen_discapacidad}}</td>
+                            <td class="center">{{$item->edad_depen}}</td>
+                            <td>{{$item->parentezco}}</td>
+                            <td>{{$item->tipo_discapacidad}}</td>
+                            <td class="center">{{($item->porc != '') ? $item->porc.'%' : ''}}</td>
+                            <td style="width: 17%">{{Str::limit($item->obs_aval, 20)}}</td>
+                            <td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr><td colspan="5">Total registros: {{$total}}</td></tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
-
-</div>
-</div>
-@endsection
+    @endsection
