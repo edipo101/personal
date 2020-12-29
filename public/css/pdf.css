@@ -1,5 +1,5 @@
 .table{
-	font-size: 12px;
+	font-size: 10px;
 }
 
 .table>tbody>tr>td,
@@ -20,7 +20,81 @@
   font-size:14px;
 }
 
+th.right, td.right{
+  text-align: right;
+}
+
+th.center, td.center{
+  text-align: center;
+}
+
+h3.title{
+  margin-top: 0px;
+  width: 50%;
+  display: inline-block;
+}
+
+.date{
+  padding-top: 10px;
+  display: inline-block;
+  float: right;
+}
+
+.filtros{
+  float: left;
+  width: 80%;
+}
+
+.box-header>.box-tools {
+  margin-top: 0px;
+}
+
 .header {
     position: fixed;
     top: 0;
+}
+
+.bg-red,
+.bg-yellow,
+.bg-aqua,
+.bg-blue,
+.bg-light-blue,
+.bg-green,
+.bg-navy,
+.bg-teal,
+.bg-olive,
+.bg-lime,
+.bg-orange,
+.bg-fuchsia,
+.bg-purple,
+.bg-maroon,
+.bg-black,
+.bg-red-active,
+.bg-yellow-active,
+.bg-aqua-active,
+.bg-blue-active,
+.bg-light-blue-active,
+.bg-green-active,
+.bg-navy-active,
+.bg-teal-active,
+.bg-olive-active,
+.bg-lime-active,
+.bg-orange-active,
+.bg-fuchsia-active,
+.bg-purple-active,
+.bg-maroon-active,
+.bg-black-active,
+.btn-warning,
+.btn-success,
+.btn-info,
+.btn-primary,
+.btn-danger 
+{
+  background-color: #fff !important;
+  color: black !important;
+  border-color: black;
+}
+
+a {
+  color: black !important; 
 }

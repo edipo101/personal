@@ -80,7 +80,7 @@ class ContratoController extends Controller
             ->Unidad($request->get('unid'))
             ->Secretaria($request->get('secre'))
             ->Gestion($request->get('op_year'), $request->get('year'))
-            ->orderBy('gestion', 'desc');
+            ->orderBy('nombre_completo');
 
         $items_pdf = $rows->get();
         $items = $rows->paginate(25);
@@ -97,7 +97,7 @@ class ContratoController extends Controller
             else
                 return view('contratos.list', compact('items', 'total', 'years', 'secretarias', 'unidades', 'filter'));
         else
-            return view('pdf.layout_pdf', compact('items_pdf'));
+            return view('pdf.pdf_contratos', compact('items_pdf', 'total', 'filter'));
     }
 
     /**

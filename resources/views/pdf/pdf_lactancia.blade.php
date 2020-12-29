@@ -3,7 +3,8 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <h3 style="margin-top: 0px;">Personal con lactancia</h3>
+        <h3 class="title">Personal con Lactancia</h3>
+        <div class="date"><strong>Fecha y hora: </strong>{{date('d/m/Y h:m:s')}}</div>
 
         <div class="box">
             <div class="box-header">

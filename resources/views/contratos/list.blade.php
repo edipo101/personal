@@ -36,7 +36,7 @@
             @endforeach
           </select>
         </div>
-        <div class="input-group input-group-sm float-left5" style="width: 300px;">
+        <div class="input-group input-group-sm float-left5" style="width: 250px;">
           <span class="input-group-btn">
             <label class="btn bg-maroon btn-flat">Secretaria</label>
           </span>
@@ -47,7 +47,7 @@
             @endforeach
           </select>
         </div>
-        <div class="input-group input-group-sm float-left5" style="width: 400px;">
+        <div class="input-group input-group-sm float-left5" style="width: 300px;">
           <span class="input-group-btn">
             <label class="btn bg-olive btn-flat">Unidad</label>
           </span>
@@ -59,7 +59,7 @@
           </select>
         </div>
         <div class="input-group input-group-sm float-left5">
-          <button type="submit" class="btn btn-info btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
+          <button type="submit" class="btn btn-success btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
         </div>
         <div class="input-group input-group-sm">
           <a href="{{route('contratos.index')}}" class="btn btn-info btn-danger form-control"><i class="fa fa-times"></i> Borrar</a>
@@ -110,7 +110,6 @@
                   <th>Nro. doc.</th>
                   <th>Nombre completo</th>
                   <th>Cargo/Unidad</th>
-                  {{-- <th>Unidad</th> --}}
                   <th class="right">Sueldo (Bs)</th>
                   <th class="center">Fecha inicio</th>
                   <th class="center">Fecha final</th>
