@@ -100,16 +100,14 @@
             </div>
           </div>
           <div class="box-body table-responsive" style="padding-top: 0px;">
-            <div class="class" style="padding-bottom: 10px;">
-            </div>
             <table class="table table-hover table-striped table-f12">
               <thead>
                 <tr>
                   <th>Id</th>
                   <th class="right">Nro. contrato</th>
                   <th>Nro. doc.</th>
-                  <th>Nombre completo</th>
-                  <th>Cargo/Unidad</th>
+                  <th>NOMBRE COMPLETO/CARGO</th>
+                  <th>Unidad/Secretaria</th>
                   <th class="right">Sueldo (Bs)</th>
                   <th class="center">Fecha inicio</th>
                   <th class="center">Fecha final</th>
@@ -126,12 +124,14 @@
                     {!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nro_contrato)!!}
                   </td>
                   <td>{{$item->nro_doc.' '.$item->exp}}</td>
-                  <td>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</td>
                   <td>
-                    {{Str::limit($item->cargo, 40)}}
-                    {{-- <br>{{$item->unidad}} --}}
+                    <strong>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</strong><br>
+                    <div class="cargo" style="font-size: 11px;">{{Str::limit($item->cargo, 40)}}</div>
                   </td>
-                  {{-- <td>{{Str::limit($item->unidad, 20)}}</td> --}}
+                  <td>
+                    {{Str::limit($item->unidad, 40)}}<br>
+                    {{$item->abrev}}
+                  </td>
                   <td class="right">{{number_format($item->sueldo)}}</td>
                   <td class="center">{{date('d/m/Y', strtotime($item->fecha_inicio))}}</td>
                   <td class="center">{{date('d/m/Y', strtotime($item->fecha_final))}}</td>

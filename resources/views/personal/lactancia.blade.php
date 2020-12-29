@@ -69,8 +69,6 @@
           </div>
         </div>
         <div class="box-body table-responsive" style="padding-top: 0px;">
-          <div class="class" style="padding-bottom: 10px;">
-          </div>
           <table class="table table-hover table-striped table-f12" id="funcs">
             <thead>
               <tr>

@@ -82,7 +82,7 @@ class ContratoController extends Controller
             ->Gestion($request->get('op_year'), $request->get('year'))
             ->orderBy('nombre_completo');
 
-        $items_pdf = $rows->get();
+        $items_pdf = $rows->orderBy('gestion', 'desc')->get();
         $items = $rows->paginate(25);
         $total = $items->total();
         $years = Contrato::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->get()->pluck('gestion');

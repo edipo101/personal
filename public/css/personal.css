@@ -11,6 +11,16 @@
   padding: 2px 5px;
 }
 
+.table>thead>tr{
+  color: #000;
+  background-color: #d2d6de !important;
+}
+
+.table>thead>tr>th {
+  vertical-align: middle;
+  padding: 5px;
+}
+
 th.right, td.right{
   text-align: right;
 }
