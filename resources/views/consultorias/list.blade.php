@@ -3,7 +3,7 @@
 @section('content-header')
 <h1>
   Lista de consultorias
-  {{-- <small>(filtrada)</small> --}}
+  <small>({{$total}} registros)</small>
 </h1>
 <ol class="breadcrumb">
   <li><a href=""><i class="fa fa-dashboard"></i> Inicio</a></li>
@@ -36,15 +36,28 @@
             @endforeach
           </select>
         </div>
+        <div class="input-group input-group-sm float-left5" style="width: 250px;">
+          <span class="input-group-btn">
+            <label class="btn bg-maroon btn-flat">Secretaria</label>
+          </span>
+          <select name="secre" id="secre" class="form-control">
+            <option {!!((request('secre') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
+            @foreach($secretarias as $secretaria)
+            <option {!!((request('secre') == $secretaria->id) ? "selected=\"selected\"" : "")!!} value="{{$secretaria->id}}">{{$secretaria->nombre_corto}}</option>
+            @endforeach
+          </select>
+        </div>
         <div class="input-group input-group-sm float-left5" style="width: 300px;">
           <span class="input-group-btn">
             <label class="btn bg-olive btn-flat">Unidad</label>
           </span>
           <select name="unid" id="unid" class="form-control">
             <option {!!((request('unid') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
+            @isset($unidades)
             @foreach($unidades as $unidad)
             <option {!!((request('unid') == $unidad->id) ? "selected=\"selected\"" : "")!!} value="{{$unidad->id}}">{{$unidad->nombre}}</option>
             @endforeach
+            @endisset
           </select>
         </div>
         <div class="input-group input-group-sm float-left5">
@@ -95,9 +108,8 @@
                   <th>Id</th>
                   <th class="right">Nro. contrato</th>
                   <th>Nro. doc.</th>
-                  <th>Nombre completo</th>
-                  <th>Cargo/Unidad</th>
-                  {{-- <th>Unidad</th> --}}
+                  <th>NOMBRE COMPLETO/CARGO</th>
+                  <th>Unidad/Secretaria</th>
                   <th class="right">Sueldo (Bs)</th>
                   <th class="center">Fecha inicio</th>
                   <th class="center">Fecha final</th>
@@ -113,10 +125,13 @@
                     {!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nro_contrato)!!}
                   </td>
                   <td>{{$item->nro_doc}}</td>
-                  <td>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</td>
                   <td>
-                    {{Str::limit($item->cargo, 40)}}<br>
-                    {{$item->unidad}}
+                    <strong>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</strong><br>
+                    <div class="cargo" style="font-size: 11px;">{{Str::limit($item->cargo, 40)}}</div>
+                  </td>
+                  <td>
+                    {{Str::limit($item->unidad, 40)}}<br>
+                    {{$item->abrev}}
                   </td>
                   {{-- <td>{{Str::limit($item->unidad, 20)}}</td> --}}
                   <td class="right">{{number_format($item->sueldo)}}</td>
@@ -183,6 +198,25 @@
         form.removeAttr('target');
         $('#pdf').removeAttr('value');
       });
+
+      $('#secre').change(function(){
+        option = this.value;
+        $('#unid').empty();
+        $('#unid').append($('<option value="">').text('Todos'));
+        if (option != ''){
+          url = '{{route('unidades.getitems')}}';
+          data = "id_secre="+option;
+          $.get(url, data, function(data){
+            $.each(data, function (index, value) {
+              $('#unid').append(
+                $('<option value='+value.id+'>').text(value.nombre)
+              );
+            });
+
+          });
+        }
+      });
+
     });
   </script>
   @endpush

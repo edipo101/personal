@@ -9,6 +9,7 @@ Route::resource('contratos', 'ContratoController');
 Route::resource('consultorias', 'ConsultoriaController');
 Route::get('funcionarios/lactancia', 'FuncionarioController@func_lactancia')->name('funcionarios.lactancia');
 Route::get('funcionarios/codepedis', 'FuncionarioController@func_codepedis')->name('funcionarios.codepedis');
+Route::get('unidades/items', 'UnidadController@getItems')->name('unidades.getitems');
 
 Route::get('/', 'Auth\LoginController@showLoginForm')->name('login.form');
 Route::post('login', 'Auth\LoginController@login')->name('login');

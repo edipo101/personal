@@ -3,7 +3,7 @@
 @section('content-header')
 <h1>
   Lista de contratos
-  {{-- <small>(filtrada)</small> --}}
+  <small>({{$total}} registros)</small>
 </h1>
 <ol class="breadcrumb">
   <li><a href=""><i class="fa fa-dashboard"></i> Inicio</a></li>
@@ -53,9 +53,11 @@
           </span>
           <select name="unid" id="unid" class="form-control">
             <option {!!((request('unid') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
+            @isset($unidades)
             @foreach($unidades as $unidad)
             <option {!!((request('unid') == $unidad->id) ? "selected=\"selected\"" : "")!!} value="{{$unidad->id}}">{{$unidad->nombre}}</option>
             @endforeach
+            @endisset
           </select>
         </div>
         <div class="input-group input-group-sm float-left5">
@@ -197,6 +199,25 @@
         form.removeAttr('target');
         $('#pdf').removeAttr('value');
       });
+
+      $('#secre').change(function(){
+        option = this.value;
+        $('#unid').empty();
+        $('#unid').append($('<option value="">').text('Todos'));
+        if (option != ''){
+          url = '{{route('unidades.getitems')}}';
+          data = "id_secre="+option;
+          $.get(url, data, function(data){
+            $.each(data, function (index, value) {
+              $('#unid').append(
+                $('<option value='+value.id+'>').text(value.nombre)
+              );
+            });
+
+          });
+        }
+      });
+
     });
   </script>
   @endpush
