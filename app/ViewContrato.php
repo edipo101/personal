@@ -30,11 +30,24 @@ class ViewContrato extends Model
 				case 'NULL':
 					$query->whereNull('func_id_estado');
 					break;
-				
+
 				default:
 					$query->where('func_id_estado', $value);
 					break;
-			}			
+			}
+	}
+
+	public function scopeObs($query, $value){
+		if ($value != '')
+			switch ($value) {
+				case 'NULL':
+					$query->whereNull('id_obs');
+					break;
+
+				default:
+					$query->where('id_obs', $value);
+					break;
+			}
 	}
 
 	public function scopeGestion($query, $operator, $value){
@@ -89,6 +102,6 @@ class ViewContrato extends Model
 				default:
 					$query->where('id_aval', $value);
 					break;
-			}			
+			}
 	}
 }

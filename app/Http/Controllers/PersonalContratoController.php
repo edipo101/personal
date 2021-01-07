@@ -7,6 +7,7 @@ use App\Contrato;
 use App\Dependencia;
 use App\Estado;
 use App\Funcionario;
+use App\Observacion;
 use App\Unidad;
 use App\ViewContrato;
 use App\ViewFuncionario;
@@ -29,8 +30,11 @@ class PersonalContratoController extends Controller
             ->addSelect('id_aval')
             ->addSelect('obs_aval')
             ->addSelect('func_id_estado')
+            ->addSelect('obs_tipo')
+            ->addSelect('label')
             ->addSelect('func_estado')
             ->Estado($request->get('estado'))
+            ->Obs($request->get('func_obs'))
             ->Gestion($request->get('op_year'), $request->get('year'))
             ->Search($request->get('field'), $request->get('value'))
             ->Aval($request->get('aval'))
@@ -45,10 +49,11 @@ class PersonalContratoController extends Controller
     	$years = Contrato::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->get()->pluck('gestion');
         $avales = Aval::get();
         $estados = Estado::get();
+        $observaciones = Observacion::get();
         $filter = get_filter($request);
 
         if (is_null($request->get('pdf')))
-    	   return view('personal.acontrato', compact('items', 'total', 'years', 'avales', 'filter', 'estados'));
+    	   return view('personal.acontrato', compact('items', 'total', 'years', 'avales', 'filter', 'estados', 'observaciones'));
         else
             return view('pdf.pdf_acontrato', compact('items_pdf', 'filter', 'total'));
     }

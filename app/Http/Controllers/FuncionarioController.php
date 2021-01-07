@@ -63,6 +63,20 @@ class FuncionarioController extends Controller
             return view('pdf.pdf_codepedis', compact('items_pdf', 'total', 'filter'));
     }
 
+    public function view(Request $request){
+        $row = ViewFuncionario::where('id', $request->get('id'))->first();
+        return $row;
+    }
+
+    public function save_obs(Request $request){
+        $row = Funcionario::where('id', $request->get('id'))->first();
+        $row->id_obs = $request->get('id_obs');
+        $row->func_obs = $request->get('obs');
+        $row->save();
+        $item = ViewFuncionario::where('id', $request->get('id'))->first();
+        return $item;
+    }
+
     public function create()
     {
         //

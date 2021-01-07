@@ -55,3 +55,7 @@ th.center, td.center{
 .skin-purple .sidebar-menu>li.header {
     color: burlywood;
 }
+
+.modal-body{
+  font-size: 12px;
+}

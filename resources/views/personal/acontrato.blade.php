@@ -13,6 +13,8 @@
 @endsection
 
 @section('content')
+@include('modals.view')
+
 <form id="form-filter" action="" method="get">
   <div class="row">
     <div class="col-xs-12">
@@ -83,6 +85,18 @@
             @endforeach
           </select>
         </div>
+        <div class="input-group input-group-sm float-left5" style="width: 200px;">
+          <span class="input-group-btn">
+            <label class="btn bg-navy btn-flat">Observ.</label>
+          </span>
+          <select name="func_obs" id="func_obs" class="form-control">
+            <option {!!((request('func_obs') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
+            <option {!!((request('func_obs') == 'NULL') ? "selected=\"selected\"" : "")!!} value="NULL">SIN DEFINIR</option>
+            @foreach($observaciones as $obs)
+            <option {!!((request('func_obs') == $obs->id) ? "selected=\"selected\"" : "")!!} value="{{$obs->id}}">{{$obs->detalle}}</option>
+            @endforeach
+          </select>
+        </div>
         <div class="input-group input-group-sm float-left5">
           <button type="submit" class="btn btn-success btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
         </div>
@@ -131,11 +145,12 @@
                 <th>Id func.</th>
                 <th>Nro. doc.</th>
                 <th>Nombre completo</th>
-                <th class="center">Cant. contratos</th>
+                <th class="center">Cant.</th>
                 <th class="center">Primer contrato</th>
                 <th class="center">Ùltimo contrato</th>
                 <th class="center">Gestiones</th>
-                <th>Observaciones</th>
+                <th>Obs. aval</th>
+                <th>Observ.</th>
                 <th>Estado func.</th>
                 <th>...</th>
               </tr>
@@ -143,7 +158,7 @@
             <tbody>
               <tr id="clone" hidden="">
                 <td></td>
-                <td colspan="8">
+                <td colspan="9">
                   <table class="table" style="background-color: #FEB;">
                     <thead>
                       <tr>
@@ -175,11 +190,13 @@
                 <td class="center">{{date('d/m/Y', strtotime($item->ult_contr))}}</td>
                 <td class="center">{{$item->gestiones}}</td>
                 <td style="width: 17%">{{Str::limit($item->obs_aval, 20)}}</td>
+                <td id="td-{{$item->id_func}}"><span class="label label-{{$item->label}}">{{$item->obs_tipo}}</span></td>
                 <td>{{$item->func_estado}}</td>
                 <td>
                   <button class="btn btn-primary btn-xs btn-contr" style="padding: 0px 5px;">
                     <i class="fa fa-file-o"></i>
                   </button>
+                  <a href="#" class="btn btn-info btn-xs btn-view" data-toggle="modal" data-target="#modal-view"><i class="fa fa-eye"></i></a>
                   </td>
                 </tr>
                 @endforeach
@@ -290,6 +307,35 @@
           });
         }
         contratos.toggle();
+      });
+
+      $('.btn-view').click(function(){
+        $('#select-obs option:selected').removeAttr('selected');
+        row = $(this).parents('tr');
+        id = row.data('id');
+        data = "id="+id;
+        url = '{{route('funcionarios.view')}}';
+        $.get(url, data, function(data){
+          // console.log(data);
+          $('#id-func').attr('value', data.id);
+          $('#cod-func').html(data.cod_func);
+          $('#nro-doc').html(data.nro_doc+' '+data.exp);
+          $('#nombre-completo').html(data.nombre_completo);
+          $('#fecha-nac').html(dateFormatSql(data.fecha_nac));
+          $('#obs-aval').html(data.obs_aval);
+          $('#estado').html(data.estado);
+          $('#select-obs option[value="'+data.id_obs+'"]').attr('selected', 'selected');
+          $('#text-obs').html(data.obs);
+        });
+      });
+
+      $('#btn-save').click(function(){
+        data = $("#form-obs").serialize();
+        url = '{{route('funcionarios.save_obs')}}';
+        $.get(url, data, function(data){
+          // console.log(data);
+          $('#td-'+data.id).html('<span class="label label-'+data.label+'">'+data.obs_tipo+'</span>');
+        });
       });
 
     });

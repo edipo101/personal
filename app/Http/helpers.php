@@ -3,20 +3,21 @@
 use App\Aval;
 use App\Dependencia;
 use App\Estado;
+use App\Observacion;
 use App\Unidad;
 
 function get_filter($request){
 	$filter['all'] = 'Todos:';
 	if ((request('value')) != '' && (request('field') == 'nro'))
-		$filter['primary'] = 'Nro. contrato: '.request('value');	
+		$filter['primary'] = 'Nro. contrato: '.request('value');
 	if ((request('value')) != '' && (request('field') == 'nombre'))
 		$filter['primary'] = 'Nombre: '.request('value');
 	if ((request('value')) != '' && (request('field') == 'nro_doc'))
 		$filter['primary'] = 'Nro. doc: '.request('value');
-	
+
 	if (request('year') != '')
 		$filter['purple'] = 'Gestión '.request('op_year').' '.request('year');
-	
+
 	if (request('cant') != '')
 		$filter['info'] = 'Cant. contratos '.request('op_cant').' '.request('cant');
 
@@ -25,6 +26,12 @@ if (request('estado') != '') //Estado funcionario
 		$filter['danger'] = 'Estado func.: SIN DEFINIR';
 	else
 		$filter['danger'] = 'Estado func.: '.Estado::where('id', request('estado'))->pluck('estado')->first();
+
+if (request('func_obs') != '') //Estado funcionario
+	if (request('func_obs') == 'NULL')
+		$filter['navy'] = 'Observaciones: SIN DEFINIR';
+	else
+		$filter['navy'] = 'Observaciones: '.Observacion::where('id', request('func_obs'))->pluck('detalle')->first();
 
 //Aval
 if (request('aval') != '')
@@ -54,7 +61,7 @@ if (request('aval') != '')
 
 	if (request('secre') != '')
 		$filter['maroon'] = 'Secretaria: '.Dependencia::where('id', request('secre'))->pluck('nombre_corto')->first();
-	
+
 	if (request('unid') != '')
 		$filter['olive'] = 'Unidad: '.Unidad::where('id', request('unid'))->pluck('nombre')->first();
 
