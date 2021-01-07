@@ -189,7 +189,7 @@
                 <td class="center">{{date('d/m/Y', strtotime($item->primer_contr))}}</td>
                 <td class="center">{{date('d/m/Y', strtotime($item->ult_contr))}}</td>
                 <td class="center">{{$item->gestiones}}</td>
-                <td style="width: 17%">{{Str::limit($item->obs_aval, 20)}}</td>
+                <td style="width: 17%">{{Str::limit($item->obs_aval, 12)}}</td>
                 <td id="td-{{$item->id_func}}"><span class="label label-{{$item->label}}">{{$item->obs_tipo}}</span></td>
                 <td>{{$item->func_estado}}</td>
                 <td>
@@ -316,12 +316,13 @@
         data = "id="+id;
         url = '{{route('funcionarios.view')}}';
         $.get(url, data, function(data){
-          // console.log(data);
+          console.log(data);
           $('#id-func').attr('value', data.id);
           $('#cod-func').html(data.cod_func);
           $('#nro-doc').html(data.nro_doc+' '+data.exp);
           $('#nombre-completo').html(data.nombre_completo);
-          $('#fecha-nac').html(dateFormatSql(data.fecha_nac));
+          if (data.fecha_nac)
+            $('#fecha-nac').html(dateFormatSql(data.fecha_nac));
           $('#obs-aval').html(data.obs_aval);
           $('#estado').html(data.estado);
           $('#select-obs option[value="'+data.id_obs+'"]').attr('selected', 'selected');
