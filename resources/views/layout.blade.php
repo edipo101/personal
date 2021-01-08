@@ -23,6 +23,8 @@
 
   <link rel="stylesheet" href="{{asset('css/personal.css')}}">
 
+  <link rel="shortcut icon" href="{{asset('img/favicon.ico')}}">
+
 </head>
 <body class="hold-transition skin-purple sidebar-mini">
   <!-- Site wrapper -->
@@ -274,8 +276,42 @@
   }
 
   $(document).ready(function () {
-// $('.sidebar-menu').tree()
-})
+    // $('.sidebar-menu').tree()
+
+    $('.btn-view').click(function(){
+      $('#select-obs option:selected').removeAttr('selected');
+      row = $(this).parents('tr');
+      id = row.data('id');
+      data = "id="+id;
+      url = '{{route('funcionarios.view')}}';
+      $.get(url, data, function(data){
+        // console.log(data);
+        $('#id').html(data.id);
+        $('#func-title').html(data.nombre_completo);
+        $('#id-func').attr('value', data.id);
+        $('#cod-func').html(data.cod_func);
+        $('#nro-doc').html(data.nro_doc+' '+data.exp);
+        $('#nombre-completo').html(data.nombre_completo);
+        if (data.fecha_nac)
+          $('#fecha-nac').html(dateFormatSql(data.fecha_nac));
+        $('#obs-aval').html(data.obs_aval);
+        $('#estado').html(data.estado);
+
+        $('#select-obs option[value="'+data.id_obs+'"]').attr('selected', 'selected');
+        $('#text-obs').html(data.obs);
+      });
+    });
+
+    $('#btn-save').click(function(){
+      data = $("#form-obs").serialize();
+      url = '{{route('funcionarios.save_obs')}}';
+      $.get(url, data, function(data){
+          // console.log(data);
+          $('#td-'+data.id).html('<span class="label label-'+data.label+'">'+data.obs_tipo+'</span>');
+        });
+    });
+
+  })
 </script>
 
 @stack('javascript')

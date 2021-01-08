@@ -6,6 +6,7 @@ use App\Aval;
 use App\Dependencia;
 use App\Estado;
 use App\Funcionario;
+use App\Observacion;
 use App\Unidad;
 use App\ViewContrato;
 use App\ViewFuncionario;
@@ -30,13 +31,14 @@ class FuncionarioController extends Controller
         $items = $rows->paginate(25);
         $total = $items->total();
         $filter = get_filter($request);
+        $observaciones = Observacion::get();
 
         if (is_null($request->get('pdf')))
             if (!is_null($request->get('type'))){
                 return $items_pdf;
             }
             else
-                return view('personal.lactancia', compact('items', 'total', 'filter'));
+                return view('personal.lactancia', compact('items', 'total', 'filter', 'observaciones'));
         else
             return view('pdf.pdf_lactancia', compact('items_pdf', 'total', 'filter'));
     }
@@ -52,13 +54,14 @@ class FuncionarioController extends Controller
         $items = $rows->paginate(25);
         $total = $items->total();
         $filter = get_filter($request);
+        $observaciones = Observacion::get();
 
         if (is_null($request->get('pdf')))
             if (!is_null($request->get('type'))){
                 return $items_pdf;
             }
             else
-                return view('personal.codepedis', compact('items', 'total', 'filter'));
+                return view('personal.codepedis', compact('items', 'total', 'filter', 'observaciones'));
         else
             return view('pdf.pdf_codepedis', compact('items_pdf', 'total', 'filter'));
     }

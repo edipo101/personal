@@ -14,7 +14,6 @@
 
 @section('content')
 @include('modals.view')
-
 <form id="form-filter" action="" method="get">
   <div class="row">
     <div class="col-xs-12">
@@ -87,7 +86,7 @@
         </div>
         <div class="input-group input-group-sm float-left5" style="width: 200px;">
           <span class="input-group-btn">
-            <label class="btn bg-navy btn-flat">Observ.</label>
+            <label class="btn bg-navy btn-flat">Obs. 2021</label>
           </span>
           <select name="func_obs" id="func_obs" class="form-control">
             <option {!!((request('func_obs') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
@@ -142,7 +141,7 @@
           <table class="table table-hover table-striped table-f12" id="funcs">
             <thead>
               <tr>
-                <th>Id func.</th>
+                <th>Idfunc</th>
                 <th>Nro. doc.</th>
                 <th>Nombre completo</th>
                 <th class="center">Cant.</th>
@@ -150,7 +149,7 @@
                 <th class="center">Ùltimo contrato</th>
                 <th class="center">Gestiones</th>
                 <th>Obs. aval</th>
-                <th>Observ.</th>
+                <th>Obs. 2021</th>
                 <th>Estado func.</th>
                 <th>...</th>
               </tr>
@@ -162,7 +161,7 @@
                   <table class="table" style="background-color: #FEB;">
                     <thead>
                       <tr>
-                        <th>Id</th>
+                        <th>Idcont</th>
                         <th class="center">Nro. doc.</th>
                         <th class="right">Nro. contrato</th>
                         <th>Cargo</th>
@@ -192,7 +191,7 @@
                 <td style="width: 17%">{{Str::limit($item->obs_aval, 12)}}</td>
                 <td id="td-{{$item->id_func}}"><span class="label label-{{$item->label}}">{{$item->obs_tipo}}</span></td>
                 <td>{{$item->func_estado}}</td>
-                <td>
+                <td style="width: 60px;">
                   <button class="btn btn-primary btn-xs btn-contr" style="padding: 0px 5px;">
                     <i class="fa fa-file-o"></i>
                   </button>
@@ -220,125 +219,5 @@
   @endsection
 
   @push('javascript')
-  <script>
-    function resize(option){
-      if (option == 'nombre')
-        $('#group-value').width(220);
-      else
-        $('#group-value').width(150);
-    }
-
-    $(document).ready(function(){
-      $('#field').change(function(){
-        resize(this.value);
-        $('#value').val('');
-      });
-
-      op_cant = "{{request('op_cant')}}";
-      if (op_cant != '')
-        $('#cant').removeAttr('disabled');
-
-      $('#op_cant').change(function(){
-        option = this.value;
-        if (option == ''){
-          $('#cant').attr('disabled', 'disabled');
-          $('#cant').val('');
-        }
-        else
-          $('#cant').removeAttr('disabled');
-      });
-
-      op_year = "{{request('op_year')}}";
-      if (op_year != '')
-        $('#year').removeAttr('disabled');
-
-      $('#op_year').change(function(){
-        option = this.value;
-        if (option == ''){
-          $('#year').attr('disabled', 'disabled');
-          $('#year').val('');
-        }
-        else
-          $('#year').removeAttr('disabled');
-      });
-
-      $('#btn-pdf').click(function(){
-        console.log('pdf');
-        $('#pdf').val('1');
-        var form = $('#form-filter');
-        form.attr('target', '_blank');
-        form.submit();
-        form.removeAttr('target');
-        $('#pdf').removeAttr('value');
-      });
-
-      $('.btn-contr').click(function(e){
-        e.preventDefault();
-        var row = $(this).parents('tr');
-        id = row.data('id');
-        // console.log(id);
-        contratos = $('#funcs').find('tr#'+id);
-        if (!contratos.length){
-          var url = '{{route('contratos.index')}}';
-          var data = $("#form-filter").serialize();
-          data = data+"&id_func="+id+"&type=json";
-
-          $.get(url, data, function(data){
-            $('#contratos').html('');
-            $.each(data, function (index, value) {
-              $('#contratos').append(
-                $('<tr>').append(
-                  $('<td>').text(value.id),
-                  $('<td class="center">').text(value.nro_doc),
-                  $('<td class="right">').text(value.nro_contrato),
-                  $('<td>').text(value.cargo),
-                  $('<td>').text(value.unidad),
-                  $('<td class="right">').text(value.sueldo),
-                  $('<td class="center date">').text(dateFormatSql(value.fecha_inicio)),
-                  $('<td class="center">').text(dateFormatSql(value.fecha_final)),
-                  $('<td class="center">').text(value.gestion)
-                  ));
-            });
-            tr_clone = $('#clone').clone();
-            tr_clone.attr('id', id);
-            tr_clone.find('#contratos').removeAttr('id');
-            row.after(tr_clone);
-            tr_clone.show();
-          });
-        }
-        contratos.toggle();
-      });
-
-      $('.btn-view').click(function(){
-        $('#select-obs option:selected').removeAttr('selected');
-        row = $(this).parents('tr');
-        id = row.data('id');
-        data = "id="+id;
-        url = '{{route('funcionarios.view')}}';
-        $.get(url, data, function(data){
-          console.log(data);
-          $('#id-func').attr('value', data.id);
-          $('#cod-func').html(data.cod_func);
-          $('#nro-doc').html(data.nro_doc+' '+data.exp);
-          $('#nombre-completo').html(data.nombre_completo);
-          if (data.fecha_nac)
-            $('#fecha-nac').html(dateFormatSql(data.fecha_nac));
-          $('#obs-aval').html(data.obs_aval);
-          $('#estado').html(data.estado);
-          $('#select-obs option[value="'+data.id_obs+'"]').attr('selected', 'selected');
-          $('#text-obs').html(data.obs);
-        });
-      });
-
-      $('#btn-save').click(function(){
-        data = $("#form-obs").serialize();
-        url = '{{route('funcionarios.save_obs')}}';
-        $.get(url, data, function(data){
-          // console.log(data);
-          $('#td-'+data.id).html('<span class="label label-'+data.label+'">'+data.obs_tipo+'</span>');
-        });
-      });
-
-    });
-  </script>
+  @include('partials.js_acontrato')
   @endpush

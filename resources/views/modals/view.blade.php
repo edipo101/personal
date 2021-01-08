@@ -5,10 +5,12 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
-        <h4 class="modal-title">Funcionario</h4>
+        <h4 id="func-title" class="modal-title">Funcionario</h4>
       </div>
       <div class="modal-body">
         <dl class="dl-horizontal">
+          <dt>Id func.</dt>
+          <dd id="id"></dd>
           <dt>Cod. func. (Sigma)</dt>
           <dd id="cod-func"></dd>
           <dt>Nro. doc</dt>

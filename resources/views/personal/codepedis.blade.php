@@ -13,6 +13,7 @@
 @endsection
 
 @section('content')
+@include('modals.view')
 <form id="form-filter" action="" method="get">
   <div class="row">
     <div class="col-xs-12">
@@ -31,7 +32,7 @@
           <button type="submit" class="btn btn-success btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
         </div>
         <div class="input-group input-group-sm">
-          <a href="{{route('acontrato.index')}}" class="btn btn-info btn-danger form-control"><i class="fa fa-times"></i> Borrar</a>
+          <a href="{{route('funcionarios.codepedis')}}" class="btn btn-info btn-danger form-control"><i class="fa fa-times"></i> Borrar</a>
         </div>
       </div>
     </div>
@@ -77,7 +78,7 @@
                 <th>Nombre completo</th>
                 <th>Tipo</th>
                 <th class="center">Estado func.</th>
-                <th>Dependiente con disc.</th>
+                <th>Dependiente</th>
                 <th class="center">Edad depen.</th>
                 <th>Parentezco</th>
                 <th>Tipo discapacidad</th>
@@ -89,22 +90,20 @@
             <tbody>
               @php $value = request('value'); @endphp
               @foreach($items as $item)
-              <tr data-id="{{$item->id_func}}" >
+              <tr data-id="{{$item->id}}" >
                 <td>{{$item->id}}</td>
                 <td>{{$item->nro_doc.' '.$item->exp}}</td>
                 <td>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</td>
                 <td>{{'Tipo_func'}}</td>
                 <td class="center">{{$item->estado}}</td>
-                <td>{{$item->depen_discapacidad}}</td>
+                <td>{{Str::limit($item->depen_discapacidad, 15)}}</td>
                 <td class="center">{{$item->edad_depen}}</td>
                 <td>{{$item->parentezco}}</td>
                 <td>{{$item->tipo_discapacidad}}</td>
                 <td class="center">{{($item->porc != '') ? $item->porc.'%' : ''}}</td>
-                <td style="width: 17%">{{Str::limit($item->obs_aval, 20)}}</td>
+                <td style="width: 12%">{{Str::limit($item->obs_aval, 15)}}</td>
                 <td>
-                  <button class="btn btn-primary btn-xs btn-contr" style="padding: 0px 5px;">
-                    <i class="fa fa-file-o"></i>
-                  </button>
+                  <a href="#" class="btn btn-info btn-xs btn-view" data-toggle="modal" data-target="#modal-view"><i class="fa fa-eye"></i></a>
                   </td>
                 </tr>
                 @endforeach
