@@ -35,7 +35,7 @@
             </select>
           </dd>
           <dd id="obs">
-            <textarea name="obs" id="text-obs" cols="55" rows="3"></textarea>
+            <textarea name="obs" id="text-obs" cols="55" rows="2"></textarea>
           </dd>
           </form>
         </dl>

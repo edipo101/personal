@@ -267,7 +267,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('dist/js/demo.js')}}"></script>
 <!-- bootstrap datepicker -->
-<script src="{{asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js')}}"></script>
 
 <script>
   function dateFormatSql(dateSql){
@@ -281,10 +281,10 @@
     $('.btn-view').click(function(){
       $('#select-obs option:selected').removeAttr('selected');
       row = $(this).parents('tr');
-      id = row.data('id');
-      data = "id="+id;
-      url = '{{route('funcionarios.view')}}';
-      $.get(url, data, function(data){
+        id = row.data('id');
+        data = "id="+id;
+        url = '{{route('funcionarios.view')}}';
+        $.get(url, data, function(data){
         // console.log(data);
         $('#id').html(data.id);
         $('#func-title').html(data.nombre_completo);

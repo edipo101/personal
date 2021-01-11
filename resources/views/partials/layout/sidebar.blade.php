@@ -33,9 +33,19 @@
         <li class="{{!Route::is('contratos.index') ?: 'active'}}">
           <a href="{{route('contratos.index')}}"><i class="fa fa-file-text-o"></i> <span>Lista de contratos</span></a>
         </li>
+        <li class="{{!Route::is('contratos.2021') ?: 'active'}}">
+          <a href="{{route('contratos.2021')}}"><i class="fa fa-file-text-o"></i> <span>Contratos 2021</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-green">Nuevo</small>
+            </span>
+          </a>
+        </li>
         <li class="header">CONSULTORIAS</li>
         <li class="{{!Route::is('consultorias.index') ?: 'active'}}">
           <a href="{{route('consultorias.index')}}"><i class="fa fa-file-text-o"></i> <span>Lista de consultorias</span></a>
+        </li>
+        <li class="{{!Route::is('consultorias.index') ?: 'active'}}">
+          <a href="{{route('consultorias.index')}}"><i class="fa fa-file-text-o"></i> <span>Consultorias 2021</span></a>
         </li>
       </ul>
     </section>

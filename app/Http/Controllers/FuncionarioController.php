@@ -71,6 +71,11 @@ class FuncionarioController extends Controller
         return $row;
     }
 
+    public function search(Request $request){
+        $row = ViewFuncionario::where('nro_doc', $request->get('nro-doc'))->first();
+        return $row;
+    }
+
     public function save_obs(Request $request){
         $row = Funcionario::where('id', $request->get('id'))->first();
         $row->id_obs = $request->get('id_obs');

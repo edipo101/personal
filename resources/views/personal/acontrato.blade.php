@@ -130,7 +130,7 @@
             </div>
             @php $width = (request('field') == 'nombre' ? '220px' : '150px'); @endphp
             <div id="group-value" class="input-group input-group-sm" style="width: {{$width}};">
-              <input type="text" name="value" id="value" style="text-transform:uppercase;" class="form-control" placeholder="Buscar..." value="{{request('value')}}" onkeyup="javascript:this.value=this.value.toUpperCase();">
+              <input type="text" name="value" id="value" style="text-transform:uppercase;" class="form-control" placeholder="Buscar..." value="{{request('value')}}">
               <span class="input-group-btn">
                 <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
               </span>

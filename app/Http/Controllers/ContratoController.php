@@ -6,6 +6,7 @@ use App\Aval;
 use App\Contrato;
 use App\Dependencia;
 use App\Estado;
+use App\EstadoContrato;
 use App\Unidad;
 use App\ViewContrato;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ class ContratoController extends Controller
     public function index(Request $request){
         $rows = ViewContrato::
             Search($request->get('field'), $request->get('value'))
+            ->where('gestion', '<=', 2020)
             ->IdFunc($request->get('id_func'))
             ->Unidad($request->get('unid'))
             ->Secretaria($request->get('secre'))
@@ -28,7 +30,7 @@ class ContratoController extends Controller
         $items_pdf = $rows->orderBy('gestion', 'desc')->get();
         $items = $rows->paginate(25);
         $total = $items->total();
-        $years = Contrato::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->get()->pluck('gestion');
+        $years = Contrato::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->having('gestion', '<=', 2020)->get()->pluck('gestion');
         $secretarias = Dependencia::get();
         $unidades = (!is_null(request('secre'))) ? Unidad::where('id_depend', request('secre'))->get() : null;
         $filter = get_filter($request);
@@ -43,59 +45,135 @@ class ContratoController extends Controller
             return view('pdf.pdf_contratos', compact('items_pdf', 'total', 'filter'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function gestion_2021(Request $request){
+        $rows = ViewContrato::
+            Search($request->get('field'), $request->get('value'))
+            ->IdFunc($request->get('id_func'))
+            ->Unidad($request->get('unid'))
+            ->Secretaria($request->get('secre'))
+            ->where('gestion', 2021);
+            // ->orderBy('nombre_completo');
+
+        $items_pdf = $rows->orderBy('gestion', 'desc')->get();
+        $items = $rows->paginate(25);
+        $total = $items->total();
+        $secretarias = Dependencia::get();
+        $unidades = (!is_null(request('secre'))) ? Unidad::where('id_depend', request('secre'))->get() : null;
+        $filter = get_filter($request);
+
+        if (is_null($request->get('pdf')))
+            if (!is_null($request->get('type'))){
+                return $items_pdf;
+            }
+            else
+                return view('contratos.contr_2021', compact('items', 'total', 'secretarias', 'unidades', 'filter'));
+        else
+            return view('pdf.pdf_contratos', compact('items_pdf', 'total', 'filter'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function create(){
+        $item = new Contrato;
+        $secretarias = Dependencia::get();
+        $unidades = (!is_null(old('secretaria'))) ? Unidad::where('id_depend', old('secretaria'))->get() : null;
+        $estados = EstadoContrato::get();
+        return view('contratos.contr_create', compact('item', 'secretarias', 'unidades', 'estados'));
+    }
+
+    private function getValidate(){
+        $validate = [
+            'nro_doc' => 'required',
+            'nombre' => 'required',
+            'cargo' => 'required',
+            'secretaria' => 'required',
+            'unidad' => 'required',
+            'fecha_inicio' => 'required',
+            'fecha_final' => 'required',
+            'estado' => 'required',
+        ];
+        return $validate;
+    }
+
+    private function getMessages(){
+        $messages = [
+            'nro_doc.required' => 'Requerido',
+            'nombre.required' => 'Requerido',
+            'cargo.required' => 'Requerido',
+            'secretaria.required' => 'Requerido',
+            'unidad.required' => 'Requerido',
+            'fecha_inicio.required' => 'Requerido',
+            'fecha_final.required' => 'Requerido',
+            'estado.required' => 'Requerido',
+        ];
+        return $messages;
+    }
+
     public function store(Request $request)
     {
-        //
+        $validate = $this->getValidate();
+        $validatedData = $request->validate($validate, $this->getMessages());
+        // return $request;
+        $item = new Contrato;
+        $cant = Contrato::selectRaw('count(*) as cant')->where('gestion', 2021)->pluck('cant')->first();
+        $item->nro_contrato = $cant + 1;
+        $item->id_func = request('id_func');
+        $item->cargo = strtoupper(request('cargo'));
+        $item->gestion = 2021;
+        $item->dependencia_id = request('secretaria');
+        $item->unidad_id = request('unidad');
+        $date = str_replace('/', '-', request('fecha_inicio'));
+        $fecha = date("Y-m-d", strtotime($date));
+        $item->fecha_inicio = $fecha;
+        $date = str_replace('/', '-', request('fecha_final'));
+        $fecha = date("Y-m-d", strtotime($date));
+        $item->fecha_final = $fecha;
+        $item->sueldo = request('sueldo');
+        $item->id_estado = request('estado');
+        $item->observaciones = strtoupper(request('obs'));
+        // return $item;
+        $item->save();
+        return redirect(route('contratos.2021'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Contrato  $contrato
-     * @return \Illuminate\Http\Response
-     */
     public function show(Contrato $contrato)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Contrato  $contrato
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Contrato $contrato)
+    public function edit($id)
     {
-        //
+        $item = ViewContrato::FindOrFail($id);
+
+        $secretarias = Dependencia::get();
+        $unidades = (!is_null(old('secretaria', $item->dependencia_id))) ? Unidad::where('id_depend', old('secretaria', $item->dependencia_id))->get() : null;
+        $estados = EstadoContrato::get();
+        return view('contratos.contr_edit', compact('item', 'secretarias', 'unidades', 'estados'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Contrato  $contrato
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Contrato $contrato)
+    public function update(Request $request, $id)
     {
-        //
+        $validate = $this->getValidate();
+        $validatedData = $request->validate($validate, $this->getMessages());
+        // return $request;
+        $item = Contrato::FindOrFail($id);
+        // $cant = Contrato::selectRaw('count(*) as cant')->where('gestion', 2021)->pluck('cant')->first();
+        // $item->nro_contrato = $cant + 1;
+        $item->id_func = request('id_func');
+        $item->cargo = strtoupper(request('cargo'));
+        $item->gestion = 2021;
+        $item->dependencia_id = request('secretaria');
+        $item->unidad_id = request('unidad');
+        $date = str_replace('/', '-', request('fecha_inicio'));
+        $fecha = date("Y-m-d", strtotime($date));
+        $item->fecha_inicio = $fecha;
+        $date = str_replace('/', '-', request('fecha_final'));
+        $fecha = date("Y-m-d", strtotime($date));
+        $item->fecha_final = $fecha;
+        $item->sueldo = request('sueldo');
+        $item->id_estado = request('estado');
+        $item->observaciones = strtoupper(request('obs'));
+        // return $item;
+        $item->save();
+        return redirect(route('contratos.2021'));
     }
 
     /**

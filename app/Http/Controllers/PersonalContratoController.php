@@ -33,6 +33,7 @@ class PersonalContratoController extends Controller
             ->addSelect('obs_tipo')
             ->addSelect('label')
             ->addSelect('func_estado')
+            ->where('gestion', '<=', 2020)
             ->Estado($request->get('estado'))
             ->Obs($request->get('func_obs'))
             ->Gestion($request->get('op_year'), $request->get('year'))
@@ -46,7 +47,7 @@ class PersonalContratoController extends Controller
         $items = $rows->paginate(25);
         // return $items;
     	$total = $items->total();
-    	$years = Contrato::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->get()->pluck('gestion');
+    	$years = Contrato::select('gestion')->orderBy('gestion', 'desc')->groupBy('gestion')->having('gestion', '<=', 2020)->get()->pluck('gestion');
         $avales = Aval::get();
         $estados = Estado::get();
         $observaciones = Observacion::get();
