@@ -3,7 +3,7 @@
   <label for="nro_doc" class="col-sm-2 control-label">Nro. doc. <span class="required">*</span></label>
   <div class="col-sm-3">
     <div class="input-group">
-      <input id="nro_doc" name="nro_doc" type="text" class="form-control" value="{{old('nro_doc', $item->nro_doc)}}" autocomplete="off">
+      <input id="nro_doc" name="nro_doc" type="text" class="form-control" value="{{old('nro_doc', $item->nro_doc)}}" autocomplete="off" required="">
           <span class="input-group-btn">
             <button id="btn-search" type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i> Buscar</button>
           </span>
@@ -15,7 +15,7 @@
 <div id="div-nombre" class="form-group {{$errors->has('nombre') ? 'has-error' : ''}}">
   <label for="nombre" class="col-sm-2 control-label">Nombre completo <span class="required">*</span></label>
   <div id="div2-nombre" class="col-sm-6">
-    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" value="{{old('nombre', $item->nombre_completo)}}" readonly="">
+    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" value="{{old('nombre', $item->nombre_completo)}}" readonly="" required="">
     {!! $errors->first('nombre', '<span id="mess-nombre" class="help-block">:message</span>')!!}
   </div>
 </div>
@@ -23,14 +23,14 @@
 <div class="form-group {{$errors->has('cargo') ? 'has-error' : ''}}">
   <label for="cargo" class="col-sm-2 control-label">Cargo <span class="required">*</span></label>
   <div class="col-sm-5">
-    <input type="text" class="form-control" id="cargo" name="cargo" placeholder="Cargo que ocupará" value="{{old('cargo', $item->cargo)}}" style="text-transform:uppercase;">
+    <input type="text" class="form-control" id="cargo" name="cargo" placeholder="Cargo que ocupará" value="{{old('cargo', $item->cargo)}}" style="text-transform:uppercase;" required="">
     {!! $errors->first('cargo', '<span class="help-block">:message</span>')!!}
   </div>
 </div>
 <div class="form-group {{$errors->has('secretaria') ? 'has-error' : ''}}">
   <label for="secretaria" class="col-sm-2 control-label">Secretaría <span class="required">*</span></label>
   <div class="col-sm-5">
-    <select name="secretaria" id="secretaria" class="form-control">
+    <select name="secretaria" id="secretaria" class="form-control" required="">
       <option value="" disabled selected style="display:none;">Seleccionar</option>
       @foreach($secretarias as $secretaria)
       <option {!!((old('secretaria', $item->dependencia_id) == $secretaria->id) ? "selected=\"selected\"" : "")!!} value="{{$secretaria->id}}">{{$secretaria->nombre_corto}}
@@ -43,7 +43,7 @@
 <div class="form-group {{$errors->has('unidad') ? 'has-error' : ''}}">
   <label for="unidad" class="col-sm-2 control-label">Unidad <span class="required">*</span></label>
   <div class="col-sm-5">
-    <select name="unidad" id="unidad" class="form-control">
+    <select name="unidad" id="unidad" class="form-control" required="">
       <option value="" disabled selected style="display:none;">Seleccionar</option>
       @isset($unidades)
       @foreach($unidades as $unidad)
@@ -61,7 +61,8 @@
       <div class="input-group-addon">
         <i class="fa fa-calendar"></i>
       </div>
-      <input type="text" class="form-control pull-right" id="fecha-inicio" name="fecha_inicio" value="{{old('fecha_inicio', date("d/m/Y", strtotime($item->fecha_inicio)))}}" autocomplete="off">
+      @php $date = (is_null($item->fecha_inicio)) ? '': date("d/m/Y", strtotime($item->fecha_inicio)) @endphp
+      <input type="text" class="form-control pull-right" id="fecha-inicio" name="fecha_inicio" value="{{old('fecha_inicio', $date)}}" autocomplete="off" required="">
     </div>
     {!! $errors->first('fecha_inicio', '<span class="help-block">:message</span>')!!}
   </div>
@@ -73,7 +74,8 @@
       <div class="input-group-addon">
         <i class="fa fa-calendar"></i>
       </div>
-      <input type="text" class="form-control pull-right" id="fecha-final" name="fecha_final" value="{{old('fecha_final', date("d/m/Y", strtotime($item->fecha_final)))}}" autocomplete="off">
+      @php $date = (is_null($item->fecha_final)) ? '': date("d/m/Y", strtotime($item->fecha_final)) @endphp
+      <input type="text" class="form-control pull-right" id="fecha-final" name="fecha_final" value="{{old('fecha_final', $date)}}" autocomplete="off" required="">
     </div>
     {!! $errors->first('fecha_final', '<span class="help-block">:message</span>')!!}
   </div>
@@ -89,7 +91,7 @@
 <div class="form-group {{$errors->has('estado') ? 'has-error' : ''}}">
   <label for="estado" class="col-sm-2 control-label">Estado <span class="required">*</span></label>
   <div class="col-sm-3">
-    <select name="estado" id="estado" class="form-control">
+    <select name="estado" id="estado" class="form-control" required="">
       <option value="" disabled selected style="display:none;">Seleccionar</option>
       @isset($estados)
       @foreach($estados as $estado)
