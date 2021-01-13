@@ -44,8 +44,12 @@
         <li class="{{!Route::is('consultorias.index') ?: 'active'}}">
           <a href="{{route('consultorias.index')}}"><i class="fa fa-file-text-o"></i> <span>Lista de consultorias</span></a>
         </li>
-        <li class="{{!Route::is('consultorias.index') ?: 'active'}}">
-          <a href="{{route('consultorias.index')}}"><i class="fa fa-file-text-o"></i> <span>Consultorias 2021</span></a>
+        <li class="{{!Route::is('consultorias.2021') ?: 'active'}}">
+          <a href="{{route('consultorias.2021')}}"><i class="fa fa-file-text-o"></i> <span>Consultorias 2021</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-green">Nuevo</small>
+            </span>
+          </a>
         </li>
       </ul>
     </section>

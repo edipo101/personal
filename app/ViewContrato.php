@@ -37,6 +37,19 @@ class ViewContrato extends Model
 			}
 	}
 
+	public function scopeEstadoContrato($query, $value){
+		if ($value != '')
+			switch ($value) {
+				case 'NULL':
+					$query->whereNull('id_estado');
+					break;
+
+				default:
+					$query->where('id_estado', $value);
+					break;
+			}
+	}
+
 	public function scopeObs($query, $value){
 		if ($value != '')
 			switch ($value) {

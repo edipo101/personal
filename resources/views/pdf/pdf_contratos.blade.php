@@ -1,10 +1,17 @@
 @extends('layout_pdf')
 
+@section('title', 'CP | Lista contratos')
+
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <h3 class="title">Lista de contratos</h3>
-        <div class="date"><strong>Fecha y hora: </strong>{{date('d/m/Y h:m:s')}}</div>
+        <h3 class="title">
+            Lista de contratos
+            @isset($gestion)
+            (gestión {{$gestion}})
+            @endisset
+        </h3>
+        <div class="date"><strong>Fecha y hora: </strong>{{date('d/m/Y')}} {{date('h:i:s A', time())}}</div>
 
         <div class="box">
             <div class="box-header">
@@ -24,8 +31,8 @@
                             <th>Id</th>
                             <th class="right">Nro. contrato</th>
                             <th>Nro. doc.</th>
-                            <th>Nombre completo</th>
-                            <th>Cargo/Unidad</th>
+                            <th>Nombre completo/Cargo</th>
+                            <th>Unidad/Secretaria</th>
                             <th class="right">Sueldo (Bs)</th>
                             <th class="center">Fecha inicio</th>
                             <th class="center">Fecha final</th>
@@ -40,13 +47,25 @@
                             <td>{{$item->id}}</td>
                             <td class="right">{{$item->nro_contrato}}</td>
                             <td>{{$item->nro_doc.' '.$item->exp}}</td>
-                            <td>{{$item->nombre_completo}}</td>
                             <td>
+                                @if(!is_null($item->nombre_completo))
+                                <strong>{{$item->nombre_completo}}</strong><br>
+                                @else
+                                <strong>ACÉFALO</strong><br>
+                                @endif
                                 {{Str::limit($item->cargo, 40)}}
                             </td>
+                            <td>
+                                {{Str::limit($item->unidad, 40)}}<br>
+                                {{$item->abrev}}
+                            </td>
                             <td class="right">{{number_format($item->sueldo)}}</td>
-                            <td class="center">{{date('d/m/Y', strtotime($item->fecha_inicio))}}</td>
-                            <td class="center">{{date('d/m/Y', strtotime($item->fecha_final))}}</td>
+                            @php
+                                $date_inicio = (is_null($item->fecha_inicio) ? '': date('d/m/Y', strtotime($item->fecha_inicio)));
+                                $date_final = (is_null($item->fecha_final) ? '': date('d/m/Y', strtotime($item->fecha_final)));
+                            @endphp
+                            <td class="center">{{$date_inicio}}</td>
+                            <td class="center">{{$date_final}}</td>
                             <td class="center">{{$item->gestion}}</td>
                             <td>{{$item->estado}}</td>
                         </tr>

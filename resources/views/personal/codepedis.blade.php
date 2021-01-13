@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', 'CP | Codepedis')
+
 @section('content-header')
 <h1>
   Personal con Codepedis

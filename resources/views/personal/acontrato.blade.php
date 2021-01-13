@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', 'CP | Personal a contrato')
+
 @section('content-header')
 <h1>
   Personal a contrato

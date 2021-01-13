@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', 'CP | Lactancia')
+
 @section('content-header')
 <h1>
   Personal con lactancia

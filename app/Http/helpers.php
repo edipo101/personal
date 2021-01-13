@@ -3,6 +3,7 @@
 use App\Aval;
 use App\Dependencia;
 use App\Estado;
+use App\EstadoContrato;
 use App\Observacion;
 use App\Unidad;
 
@@ -64,6 +65,9 @@ if (request('aval') != '')
 
 	if (request('unid') != '')
 		$filter['olive'] = 'Unidad: '.Unidad::where('id', request('unid'))->pluck('nombre')->first();
+
+	if (request('estado_contr') != '')
+		$filter['teal'] = 'Estado contr.: '.EstadoContrato::where('id', request('estado_contr'))->pluck('estado')->first();
 
 	if (count($filter) > 1) $filter['all'] = 'Filtros:';
 	return $filter;

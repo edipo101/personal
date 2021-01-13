@@ -1,16 +1,16 @@
 @extends('layout')
 
-@section('title', 'CP | Listar contratos')
+@section('title', 'CP | Consultorias 2021')
 
 @section('content-header')
 <h1>
-  Lista de contratos
+  Lista de consultorias - Gestion 2021
   <small>({{$total}} registros)</small>
 </h1>
 <ol class="breadcrumb">
   <li><a href=""><i class="fa fa-dashboard"></i> Inicio</a></li>
   <li>Personal</li>
-  <li class="active">Contratos</li>
+  <li class="active">Consultorias</li>
 </ol>
 @endsection
 
@@ -19,25 +19,6 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="form-group">
-        <div class="input-group input-group-sm float-left5" style="width: 270px;">
-          <span class="input-group-btn">
-            <label class="btn bg-purple btn-flat">Gestion</label>
-          </span>
-          <select name="op_year" id="op_year" class="form-control" style="width: 130px">
-            <option {!!((request('op_year') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
-            <option {!!((request('op_year') == '=') ? "selected=\"selected\"" : "")!!} value="=">Igual a...</option>
-            <option {!!((request('op_year') == '>') ? "selected=\"selected\"" : "")!!} value=">">Mayor a...</option>
-            <option {!!((request('op_year') == '>=') ? "selected=\"selected\"" : "")!!} value=">=">Mayor o igual a...</option>
-            <option {!!((request('op_year') == '<') ? "selected=\"selected\"" : "")!!} value="<">Menor a...</option>
-            <option {!!((request('op_year') == '<=') ? "selected=\"selected\"" : "")!!} value="<=">Menor o igual a...</option>
-          </select>
-          <select name="year" id="year" class="form-control" style="width: 80px" disabled="disabled">
-            <option value=""></option>
-            @foreach($years as $year)
-            <option {!!((request('year') == $year) ? "selected=\"selected\"" : "")!!}>{{$year}}</option>
-            @endforeach
-          </select>
-        </div>
         <div class="input-group input-group-sm float-left5" style="width: 250px;">
           <span class="input-group-btn">
             <label class="btn bg-maroon btn-flat">Secretaria</label>
@@ -62,16 +43,39 @@
             @endisset
           </select>
         </div>
+        <div class="input-group input-group-sm float-left5" style="width: 170px;">
+          <span class="input-group-btn">
+            <label class="btn bg-teal btn-flat">Estado</label>
+          </span>
+          <select name="estado_contr" id="estado_contr" class="form-control">
+            <option {!!((request('estado_contr') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
+            @isset($estados)
+            @foreach($estados as $estado)
+            <option {!!((request('estado_contr') == $estado->id) ? "selected=\"selected\"" : "")!!} value="{{$estado->id}}">{{$estado->estado}}</option>
+            @endforeach
+            @endisset
+          </select>
+        </div>
         <div class="input-group input-group-sm float-left5">
           <button type="submit" class="btn btn-success btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
         </div>
+        <div class="input-group input-group-sm float-left5 pull-right">
+          <a class=" btn btn-info btn-flat form-control dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+            Nuevo <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="{{route('consultorias.create')}}">Consultoría normal</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="{{route('consultorias.acefalo')}}">Consultoría acéfalo</a></li>
+          </ul>
+        </div>
         <div class="input-group input-group-sm">
-          <a href="{{route('contratos.index')}}" class="btn btn-info btn-danger form-control"><i class="fa fa-times"></i> Borrar</a>
+          <a href="{{route('consultorias.2021')}}" class="btn btn-info btn-danger form-control"><i class="fa fa-times"></i> Borrar</a>
         </div>
       </div>
     </div>
-    </div>
-    <div class="row">
+  </div>
+
+  <div class="row">
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
@@ -115,8 +119,8 @@
                   <th class="right">Sueldo (Bs)</th>
                   <th class="center">Fecha inicio</th>
                   <th class="center">Fecha final</th>
-                  <th class="center">Gestión</th>
                   <th>Estado</th>
+                  <th>...</th>
                 </tr>
               </thead>
               <tbody>
@@ -129,7 +133,11 @@
                   </td>
                   <td>{{$item->nro_doc.' '.$item->exp}}</td>
                   <td>
+                    @if(!is_null($item->nombre_completo))
                     <strong>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</strong><br>
+                    @else
+                    <strong style="color: #D81B60;">ACÉFALO</strong><br>
+                    @endif
                     <div class="cargo" style="font-size: 11px;">{{Str::limit($item->cargo, 40)}}</div>
                   </td>
                   <td>
@@ -137,10 +145,16 @@
                     {{$item->abrev}}
                   </td>
                   <td class="right">{{number_format($item->sueldo)}}</td>
-                  <td class="center">{{date('d/m/Y', strtotime($item->fecha_inicio))}}</td>
-                  <td class="center">{{date('d/m/Y', strtotime($item->fecha_final))}}</td>
-                  <td class="center">{{$item->gestion}}</td>
-                  <td>{{$item->estado}}</td>
+                  @php
+                    $date_inicio = (is_null($item->fecha_inicio) ? '': date('d/m/Y', strtotime($item->fecha_inicio)));
+                    $date_final = (is_null($item->fecha_final) ? '': date('d/m/Y', strtotime($item->fecha_final)));
+                  @endphp
+                  <td class="center">{{$date_inicio}}</td>
+                  <td class="center">{{$date_final}}</td>
+                  <td><span class="label label-{{$item->label}} bg-{{$item->label}}">{{$item->consul_estado}}</span></td>
+                  <td>
+                    <a href="{{route('consultorias.edit', $item->id)}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+                  </td>
                 </tr>
                 @endforeach
               </tbody>

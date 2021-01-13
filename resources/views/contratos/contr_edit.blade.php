@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'ProgramaCovid | Crear usuario')
+@section('title', 'CP | Modificar contrato')
 
 @section('content-header')
 <h1>

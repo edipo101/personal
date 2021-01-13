@@ -1,15 +1,15 @@
 @extends('layout')
 
-@section('title', 'CP | Crear contrato')
+@section('title', 'CP | Modificar consultoria')
 
 @section('content-header')
 <h1>
-  Crear contrato
+  Modificar consultoría
   <small>gestión 2021</small>
 </h1>
 <ol class="breadcrumb">
   <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
-  <li class="active">Crear contrato</li>
+  <li class="active">Modificar consultoria</li>
 </ol>
 @endsection
 
@@ -18,10 +18,11 @@
   <div class="col-md-12">
     <div class="box box-primary">
       <div class="box-body">
-        <form method="post" action="{{route('contratos.store')}}" class="form-horizontal" style="margin-top: 15px;">
+        <form method="post" action="{{route('consultorias.update', $item->id)}}" class="form-horizontal" style="margin-top: 15px;">
+          <input name="_method" type="hidden" value="PATCH">
           <input name="url_previous" type="hidden" value="{{old('url_previous', url()->previous())}}">
           {{ csrf_field() }}
-          @include('contratos.contr_form')
+          @include('consultorias.consul_form')
         </form>
       </div>
     </div>

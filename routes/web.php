@@ -9,11 +9,20 @@ Route::resource('acontrato', 'PersonalContratoController');
 Route::get('contratos', 'ContratoController@index')->name('contratos.index');
 Route::get('contratos/2021', 'ContratoController@gestion_2021')->name('contratos.2021');
 Route::get('contratos/create', 'ContratoController@create')->name('contratos.create');
+Route::get('contratos/acefalo', 'ContratoController@acefalo')->name('contratos.acefalo');
 Route::post('contratos/store', 'ContratoController@store')->name('contratos.store');
+Route::post('contratos/store_acefalo', 'ContratoController@store_acefalo')->name('contratos.store_acefalo');
 Route::get('contratos/{id}/edit', 'ContratoController@edit')->name('contratos.edit');
 Route::patch('contratos/{id}', 'ContratoController@update')->name('contratos.update');
 
-Route::resource('consultorias', 'ConsultoriaController');
+Route::get('consultorias', 'ConsultoriaController@index')->name('consultorias.index');
+Route::get('consultorias/2021', 'ConsultoriaController@gestion_2021')->name('consultorias.2021');
+Route::get('consultorias/create', 'ConsultoriaController@create')->name('consultorias.create');
+Route::get('consultorias/acefalo', 'ConsultoriaController@acefalo')->name('consultorias.acefalo');
+Route::post('consultorias/store', 'ConsultoriaController@store')->name('consultorias.store');
+Route::post('consultorias/store_acefalo', 'ConsultoriaController@store_acefalo')->name('consultorias.store_acefalo');
+Route::get('consultorias/{id}/edit', 'ConsultoriaController@edit')->name('consultorias.edit');
+Route::patch('consultorias/{id}', 'ConsultoriaController@update')->name('consultorias.update');
 
 Route::get('funcionarios/save_obs', 'FuncionarioController@save_obs')->name('funcionarios.save_obs');
 Route::get('funcionarios/view', 'FuncionarioController@view')->name('funcionarios.view');

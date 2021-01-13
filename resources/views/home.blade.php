@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', 'CP | Inicio')
+
 @section('content-header')
 <h1>
     Inicio

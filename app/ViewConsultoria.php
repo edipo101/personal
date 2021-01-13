@@ -42,4 +42,17 @@ class ViewConsultoria extends Model
 		if ($value != '')
 			$query->where('unidad_id', $value);
 	}
+
+	public function scopeEstadoContrato($query, $value){
+		if ($value != '')
+			switch ($value) {
+				case 'NULL':
+					$query->whereNull('id_estado');
+					break;
+
+				default:
+					$query->where('id_estado', $value);
+					break;
+			}
+	}
 }

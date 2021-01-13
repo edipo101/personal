@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', 'CP | Listar consultorias')
+
 @section('content-header')
 <h1>
   Lista de consultorias
@@ -8,7 +10,7 @@
 <ol class="breadcrumb">
   <li><a href=""><i class="fa fa-dashboard"></i> Inicio</a></li>
   <li>Personal</li>
-  <li class="active">Contratos</li>
+  <li class="active">Consultorias</li>
 </ol>
 @endsection
 
@@ -124,7 +126,7 @@
                   <td class="right">
                     {!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nro_contrato)!!}
                   </td>
-                  <td>{{$item->nro_doc}}</td>
+                  <td>{{$item->nro_doc.' '.$item->exp}}</td>
                   <td>
                     <strong>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</strong><br>
                     <div class="cargo" style="font-size: 11px;">{{Str::limit($item->cargo, 40)}}</div>

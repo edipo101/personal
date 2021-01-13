@@ -51,8 +51,9 @@ class ContratoController extends Controller
             ->IdFunc($request->get('id_func'))
             ->Unidad($request->get('unid'))
             ->Secretaria($request->get('secre'))
-            ->where('gestion', 2021);
-            // ->orderBy('nombre_completo');
+            ->EstadoContrato($request->get('estado_contr'))
+            ->where('gestion', 2021)
+            ->orderBy('id', 'desc');
 
         $items_pdf = $rows->orderBy('gestion', 'desc')->get();
         $items = $rows->paginate(25);
@@ -60,15 +61,17 @@ class ContratoController extends Controller
         $secretarias = Dependencia::get();
         $unidades = (!is_null(request('secre'))) ? Unidad::where('id_depend', request('secre'))->get() : null;
         $filter = get_filter($request);
+        $gestion = 2021;
+        $estados = EstadoContrato::get();
 
         if (is_null($request->get('pdf')))
             if (!is_null($request->get('type'))){
                 return $items_pdf;
             }
             else
-                return view('contratos.contr_2021', compact('items', 'total', 'secretarias', 'unidades', 'filter'));
+                return view('contratos.contr_2021', compact('items', 'total', 'secretarias', 'unidades', 'filter', 'estados'));
         else
-            return view('pdf.pdf_contratos', compact('items_pdf', 'total', 'filter'));
+            return view('pdf.pdf_contratos', compact('items_pdf', 'total', 'filter', 'gestion'));
     }
 
     public function create(){
@@ -77,6 +80,14 @@ class ContratoController extends Controller
         $unidades = (!is_null(old('secretaria'))) ? Unidad::where('id_depend', old('secretaria'))->get() : null;
         $estados = EstadoContrato::get();
         return view('contratos.contr_create', compact('item', 'secretarias', 'unidades', 'estados'));
+    }
+
+    public function acefalo(){
+        $item = new Contrato;
+        $secretarias = Dependencia::get();
+        $unidades = (!is_null(old('secretaria'))) ? Unidad::where('id_depend', old('secretaria'))->get() : null;
+        $estados = EstadoContrato::get();
+        return view('contratos.contr_acefalo', compact('item', 'secretarias', 'unidades', 'estados'));
     }
 
     private function getValidate(){
@@ -126,6 +137,36 @@ class ContratoController extends Controller
         $date = str_replace('/', '-', request('fecha_final'));
         $fecha = date("Y-m-d", strtotime($date));
         $item->fecha_final = $fecha;
+        $item->sueldo = request('sueldo');
+        $item->id_estado = request('estado');
+        $item->observaciones = strtoupper(request('obs'));
+        // return $item;
+        $item->save();
+        return redirect(route('contratos.2021'));
+    }
+
+    public function store_acefalo(Request $request){
+        // return $request;
+        $validate = [
+            'cargo' => 'required',
+            'secretaria' => 'required',
+            'unidad' => 'required',
+            'estado' => 'required',
+        ];
+        $messages = [
+            'cargo.required' => 'Requerido',
+            'secretaria.required' => 'Requerido',
+            'unidad.required' => 'Requerido',
+            'estado.required' => 'Requerido',
+        ];
+        $validatedData = $request->validate($validate, $messages);
+        $item = new Contrato;
+        $cant = Contrato::selectRaw('count(*) as cant')->where('gestion', 2021)->pluck('cant')->first();
+        $item->nro_contrato = $cant + 1;
+        $item->cargo = strtoupper(request('cargo'));
+        $item->gestion = 2021;
+        $item->dependencia_id = request('secretaria');
+        $item->unidad_id = request('unidad');
         $item->sueldo = request('sueldo');
         $item->id_estado = request('estado');
         $item->observaciones = strtoupper(request('obs'));

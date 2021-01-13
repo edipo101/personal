@@ -1,8 +1,10 @@
 @extends('layout')
 
+@section('title', 'CP | Contratos 2021')
+
 @section('content-header')
 <h1>
-  Lista de contratos gestion 2021
+  Lista de contratos - Gestion 2021
   <small>({{$total}} registros)</small>
 </h1>
 <ol class="breadcrumb">
@@ -41,11 +43,30 @@
             @endisset
           </select>
         </div>
+        <div class="input-group input-group-sm float-left5" style="width: 170px;">
+          <span class="input-group-btn">
+            <label class="btn bg-teal btn-flat">Estado</label>
+          </span>
+          <select name="estado_contr" id="estado_contr" class="form-control">
+            <option {!!((request('estado_contr') == '') ? "selected=\"selected\"" : "")!!} value="">Todos</option>
+            @isset($estados)
+            @foreach($estados as $estado)
+            <option {!!((request('estado_contr') == $estado->id) ? "selected=\"selected\"" : "")!!} value="{{$estado->id}}">{{$estado->estado}}</option>
+            @endforeach
+            @endisset
+          </select>
+        </div>
         <div class="input-group input-group-sm float-left5">
           <button type="submit" class="btn btn-success btn-flat form-control"><i class="fa fa-filter"></i> Filtrar</button>
         </div>
         <div class="input-group input-group-sm float-left5 pull-right">
-          <a href="{{route('contratos.create')}}" class="btn btn-info btn-flat form-control"><i class="fa fa-plus"></i> Nuevo</a>
+          <a class=" btn btn-info btn-flat form-control dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+            Nuevo <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="{{route('contratos.create')}}">Contrato normal</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="{{route('contratos.acefalo')}}">Contrato acéfalo</a></li>
+          </ul>
         </div>
         <div class="input-group input-group-sm">
           <a href="{{route('contratos.2021')}}" class="btn btn-info btn-danger form-control"><i class="fa fa-times"></i> Borrar</a>
@@ -112,7 +133,11 @@
                   </td>
                   <td>{{$item->nro_doc.' '.$item->exp}}</td>
                   <td>
+                    @if(!is_null($item->nombre_completo))
                     <strong>{!!str_replace($value, '<span class="highlight">'.$value.'</span>', $item->nombre_completo)!!}</strong><br>
+                    @else
+                    <strong style="color: #D81B60;">ACÉFALO</strong><br>
+                    @endif
                     <div class="cargo" style="font-size: 11px;">{{Str::limit($item->cargo, 40)}}</div>
                   </td>
                   <td>
@@ -120,9 +145,13 @@
                     {{$item->abrev}}
                   </td>
                   <td class="right">{{number_format($item->sueldo)}}</td>
-                  <td class="center">{{date('d/m/Y', strtotime($item->fecha_inicio))}}</td>
-                  <td class="center">{{date('d/m/Y', strtotime($item->fecha_final))}}</td>
-                  <td><span class="label label-{{$item->contr_label}}">{{$item->estado}}</span></td>
+                  @php
+                    $date_inicio = (is_null($item->fecha_inicio) ? '': date('d/m/Y', strtotime($item->fecha_inicio)));
+                    $date_final = (is_null($item->fecha_final) ? '': date('d/m/Y', strtotime($item->fecha_final)));
+                  @endphp
+                  <td class="center">{{$date_inicio}}</td>
+                  <td class="center">{{$date_final}}</td>
+                  <td><span class="label label-{{$item->contr_label}} bg-{{$item->contr_label}}">{{$item->estado}}</span></td>
                   <td>
                     <a href="{{route('contratos.edit', $item->id)}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
                   </td>
