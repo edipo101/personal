@@ -24,8 +24,14 @@ class ContratoController extends Controller
             ->IdFunc($request->get('id_func'))
             ->Unidad($request->get('unid'))
             ->Secretaria($request->get('secre'))
-            ->Gestion($request->get('op_year'), $request->get('year'))
-            ->orderBy('nombre_completo');
+            ->Gestion($request->get('op_year'), $request->get('year'));
+
+        if (!is_null($request->get('pdf'))){
+            $rows->orderBy('dependencia');
+            $rows->orderBy('unidad');
+        }
+        else
+            $rows->orderBy('nombre_completo');
 
         $items_pdf = $rows->orderBy('gestion', 'desc')->get();
         $items = $rows->paginate(25);
@@ -42,7 +48,17 @@ class ContratoController extends Controller
             else
                 return view('contratos.list', compact('items', 'total', 'years', 'secretarias', 'unidades', 'filter'));
         else
-            return view('pdf.pdf_contratos', compact('items_pdf', 'total', 'filter'));
+            switch ($request->get('pdf')) {
+                case '2':
+                    return view('pdf.pdf_contratos_bysecre', compact('items_pdf', 'total', 'filter'));
+                    break;
+                case '3':
+                    return view('pdf.pdf_contratos_byunid', compact('items_pdf', 'total', 'filter'));
+                    break;
+                default:
+                    return view('pdf.pdf_contratos', compact('items_pdf', 'total', 'filter'));
+                    break;
+            }
     }
 
     public function gestion_2021(Request $request){
@@ -71,7 +87,17 @@ class ContratoController extends Controller
             else
                 return view('contratos.contr_2021', compact('items', 'total', 'secretarias', 'unidades', 'filter', 'estados'));
         else
-            return view('pdf.pdf_contratos', compact('items_pdf', 'total', 'filter', 'gestion'));
+            switch ($request->get('pdf')) {
+                case '2':
+                    return view('pdf.pdf_contratos_bysecre', compact('items_pdf', 'total', 'filter', 'gestion'));
+                    break;
+                case '3':
+                    return view('pdf.pdf_contratos_byunid', compact('items_pdf', 'total', 'filter', 'gestion'));
+                    break;
+                default:
+                    return view('pdf.pdf_contratos', compact('items_pdf', 'total', 'filter', 'gestion'));
+                    break;
+            }
     }
 
     public function create(){
@@ -142,7 +168,7 @@ class ContratoController extends Controller
         $item->observaciones = strtoupper(request('obs'));
         // return $item;
         $item->save();
-        return redirect(route('contratos.2021'));
+        return redirect(request('url_previous'));
     }
 
     public function store_acefalo(Request $request){
@@ -172,7 +198,7 @@ class ContratoController extends Controller
         $item->observaciones = strtoupper(request('obs'));
         // return $item;
         $item->save();
-        return redirect(route('contratos.2021'));
+        return redirect(request('url_previous'));
     }
 
     public function show(Contrato $contrato)

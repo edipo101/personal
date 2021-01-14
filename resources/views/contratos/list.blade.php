@@ -151,7 +151,17 @@
             <strong>Total registros: {{number_format($total)}}</strong>
             <div class="pull-right">
               <input type="hidden" name="pdf" id="pdf">
-              <button id="btn-pdf" class="btn btn-sm btn-danger"><i class="fa fa-download"></i> Descargar</button>
+              <div class="input-group input-group-sm pull-right">
+                <a class=" btn btn-danger btn-sm form-control dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                  Descargar <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li role="presentation"><a id="impr-lista" role="menuitem" tabindex="-1">Imprimir lista</a></li>
+                  <li role="presentation"><a id="impr-secre" role="menuitem" tabindex="-1">Por secretarias</a></li>
+                  <li role="presentation"><a id="impr-unid" role="menuitem" tabindex="-1">Por secretarias y unidades</a></li>
+                </ul>
+              </div>
+              {{-- <button id="btn-pdf" class="btn btn-sm btn-danger"><i class="fa fa-download"></i> Descargar</button> --}}
             </div>
             <nav class="text-center">{{$items->appends(Request::all())->links()}}</nav>
           </div>
@@ -173,6 +183,33 @@
     }
 
     $(document).ready(function(){
+      $('#impr-lista').click(function(){
+        $('#pdf').val('1');
+        var form = $('#form-filter');
+        form.attr('target', '_blank');
+        form.submit();
+        form.removeAttr('target');
+        $('#pdf').removeAttr('value');
+      });
+
+      $('#impr-secre').click(function(){
+        $('#pdf').val('2');
+        var form = $('#form-filter');
+        form.attr('target', '_blank');
+        form.submit();
+        form.removeAttr('target');
+        $('#pdf').removeAttr('value');
+      });
+
+      $('#impr-unid').click(function(){
+        $('#pdf').val('3');
+        var form = $('#form-filter');
+        form.attr('target', '_blank');
+        form.submit();
+        form.removeAttr('target');
+        $('#pdf').removeAttr('value');
+      });
+
       $('#field').change(function(){
         resize(this.value);
         $('#value').val('');

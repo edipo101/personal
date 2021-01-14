@@ -1,17 +1,17 @@
 @extends('layout_pdf')
 
-@section('title', 'Reporte contratos')
+@section('title', 'Reporte consultorias')
 
 @section('content')
 <div class="row">
     <div class="col-md-12">
         <h3 class="title">
-            Lista de contratos
+            Lista de consultorias
             @isset($gestion)
             (gestión {{$gestion}})
             @endisset
         </h3>
-        <div class="date"><strong>Fecha y hora: </strong>{{date('d/m/Y')}} {{date('h:i:s', time())}}</div>
+        <div class="date"><strong>Fecha y hora: </strong>{{date('d/m/Y')}} {{date('h:i:s A', time())}}</div>
 
         <div class="box">
             <div class="box-header">
@@ -43,7 +43,33 @@
                     <tbody>
                         @php $value = request('value'); @endphp
                         @foreach($items_pdf as $item)
+                        @if($loop->first)
+                            @php
+                                $id_secre = $item->dependencia_id;
+                                $secre = $item->abrev;
+                                $total_secre = 0;
+                            @endphp
+                            <tr class="group">
+                                <td colspan="10">{{$item->dependencia.' ('.$item->abrev.')'}}</td>
+                            </tr>
+                        @endif
+                        @if ($item->dependencia_id <> $id_secre)
+                            <tr class="total">
+                                <td colspan="10">Total Secretaria ({{$secre}}): {{$total_secre}}</td>
+                            </tr>
+                            @php
+                                $id_secre = $item->dependencia_id;
+                                $secre = $item->abrev;
+                                $total_secre = 0;
+                            @endphp
+                            <tr class="group">
+                                <td colspan="10">{{$item->dependencia.' ('.$item->abrev.')'}}</td>
+                            </tr>
+                        @endif
                         <tr>
+                            @php
+                                $total_secre++;
+                            @endphp
                             <td>{{$item->id}}</td>
                             <td class="right">{{$item->nro_contrato}}</td>
                             <td>{{$item->nro_doc.' '.$item->exp}}</td>
@@ -67,9 +93,12 @@
                             <td class="center">{{$date_inicio}}</td>
                             <td class="center">{{$date_final}}</td>
                             <td class="center">{{$item->gestion}}</td>
-                            <td>{{$item->estado}}</td>
+                            <td>{{$item->consul_estado}}</td>
                         </tr>
                         @endforeach
+                        <tr class="total">
+                            <td colspan="10">Total Secretaria ({{$secre}}): {{$total_secre}}</td>
+                        </tr>
                     </tbody>
                     <tfoot>
                         <tr><td colspan="5">Total registros: {{$total}}</td></tr>

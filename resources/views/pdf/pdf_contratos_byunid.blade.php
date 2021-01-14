@@ -43,7 +43,61 @@
                     <tbody>
                         @php $value = request('value'); @endphp
                         @foreach($items_pdf as $item)
+                        @if($loop->first)
+                            @php
+                                $id_secre = $item->dependencia_id;
+                                $secre = $item->abrev;
+                                $total_secre = 0;
+
+                                $id_unid = $item->unidad_id;
+                                $unid = $item->unidad;
+                                $total_unid = 0;
+                            @endphp
+                            <tr class="group">
+                                <td colspan="10">Secretaria: {{$item->dependencia.' ('.$item->abrev.')'}}</td>
+                            </tr>
+                            <tr class="group">
+                                <td colspan="10">Unidad: {{$item->unidad}}</td>
+                            </tr>
+                        @endif
+
+                        @if ($item->unidad_id <> $id_unid)
+                            <tr class="total">
+                                <td colspan="10">Total Unidad: {{$total_unid}}</td>
+                            </tr>
+                            @php
+                                $id_unid = $item->unidad_id;
+                                $unid = $item->unidad;
+                                $total_unid = 0;
+                            @endphp
+                            @if($item->dependencia_id == $id_secre)
+                                <tr class="group">
+                                    <td colspan="10">Unidad: {{$item->unidad}}</td>
+                                </tr>
+                            @endif
+                        @endif
+
+                        @if ($item->dependencia_id <> $id_secre)
+                            <tr class="total">
+                                <td colspan="10">Total Secretaria ({{$secre}}): {{$total_secre}}</td>
+                            </tr>
+                            @php
+                                $id_secre = $item->dependencia_id;
+                                $secre = $item->abrev;
+                                $total_secre = 0;
+                            @endphp
+                            <tr class="group">
+                                <td colspan="10">Secretaria: {{$item->dependencia.' ('.$item->abrev.')'}}</td>
+                            </tr>
+                            <tr class="group">
+                                <td colspan="10">Unidad: {{$item->unidad}}</td>
+                            </tr>
+                        @endif
                         <tr>
+                            @php
+                                $total_unid++;
+                                $total_secre++;
+                            @endphp
                             <td>{{$item->id}}</td>
                             <td class="right">{{$item->nro_contrato}}</td>
                             <td>{{$item->nro_doc.' '.$item->exp}}</td>
@@ -70,6 +124,12 @@
                             <td>{{$item->estado}}</td>
                         </tr>
                         @endforeach
+                        <tr class="total">
+                            <td colspan="10">Total Unidad: {{$total_unid}}</td>
+                        </tr>
+                        <tr class="total">
+                            <td colspan="10">Total Secretaria ({{$secre}}): {{$total_secre}}</td>
+                        </tr>
                     </tbody>
                     <tfoot>
                         <tr><td colspan="5">Total registros: {{$total}}</td></tr>

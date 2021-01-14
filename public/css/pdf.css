@@ -88,7 +88,7 @@ h3.title{
 .btn-success,
 .btn-info,
 .btn-primary,
-.btn-danger 
+.btn-danger
 {
   background-color: #fff !important;
   color: black !important;
@@ -96,5 +96,19 @@ h3.title{
 }
 
 a {
-  color: black !important; 
+  color: black !important;
+}
+
+tr.group{
+  font-weight: bold;
+  font-size: 11px;
+}
+
+tr.total{
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.total>td{
+  background-color: beige;
 }

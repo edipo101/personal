@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-12">
         <h3 class="title">Personal a contrato</h3>
-        <div class="date"><strong>Fecha y hora: </strong>{{date('d/m/Y h:m:s')}}</div>
+        <div class="date"><strong>Fecha y hora: </strong>{{date('d/m/Y')}} {{date('h:i:s', time())}}</div>
 
         <div class="box">
             <div class="box-header">
