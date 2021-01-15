@@ -3,7 +3,7 @@
   <label for="nro_doc" class="col-sm-2 control-label">Nro. doc. <span class="required">*</span></label>
   <div class="col-sm-3">
     <div class="input-group">
-      <input id="nro_doc" name="nro_doc" type="text" class="form-control" value="{{old('nro_doc', $item->nro_doc)}}" autocomplete="off" required="">
+      <input id="nro_doc" name="nro_doc" type="text" class="form-control" value="{{old('nro_doc', $item->nro_doc)}}" autocomplete="off">
           <span class="input-group-btn">
             <button id="btn-search" type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i> Buscar</button>
           </span>
@@ -62,7 +62,7 @@
         <i class="fa fa-calendar"></i>
       </div>
       @php $date = (is_null($item->fecha_inicio)) ? '': date("d/m/Y", strtotime($item->fecha_inicio)) @endphp
-      <input type="text" class="form-control pull-right" id="fecha-inicio" name="fecha_inicio" value="{{old('fecha_inicio', $date)}}" autocomplete="off" required="">
+      <input type="text" class="form-control pull-right" id="fecha-inicio" name="fecha_inicio" value="{{old('fecha_inicio', $date)}}" autocomplete="off">
     </div>
     {!! $errors->first('fecha_inicio', '<span class="help-block">:message</span>')!!}
   </div>
@@ -75,7 +75,7 @@
         <i class="fa fa-calendar"></i>
       </div>
       @php $date = (is_null($item->fecha_final)) ? '': date("d/m/Y", strtotime($item->fecha_final)) @endphp
-      <input type="text" class="form-control pull-right" id="fecha-final" name="fecha_final" value="{{old('fecha_final', $date)}}" autocomplete="off" required="">
+      <input type="text" class="form-control pull-right" id="fecha-final" name="fecha_final" value="{{old('fecha_final', $date)}}" autocomplete="off">
     </div>
     {!! $errors->first('fecha_final', '<span class="help-block">:message</span>')!!}
   </div>

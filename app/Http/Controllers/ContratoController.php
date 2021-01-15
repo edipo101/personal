@@ -118,13 +118,13 @@ class ContratoController extends Controller
 
     private function getValidate(){
         $validate = [
-            'nro_doc' => 'required',
-            'nombre' => 'required',
+            // 'nro_doc' => 'required',
+            // 'nombre' => 'required',
             'cargo' => 'required',
             'secretaria' => 'required',
             'unidad' => 'required',
-            'fecha_inicio' => 'required',
-            'fecha_final' => 'required',
+            // 'fecha_inicio' => 'required',
+            // 'fecha_final' => 'required',
             'estado' => 'required',
         ];
         return $validate;
@@ -132,13 +132,13 @@ class ContratoController extends Controller
 
     private function getMessages(){
         $messages = [
-            'nro_doc.required' => 'Requerido',
-            'nombre.required' => 'Requerido',
+            // 'nro_doc.required' => 'Requerido',
+            // 'nombre.required' => 'Requerido',
             'cargo.required' => 'Requerido',
             'secretaria.required' => 'Requerido',
             'unidad.required' => 'Requerido',
-            'fecha_inicio.required' => 'Requerido',
-            'fecha_final.required' => 'Requerido',
+            // 'fecha_inicio.required' => 'Requerido',
+            // 'fecha_final.required' => 'Requerido',
             'estado.required' => 'Requerido',
         ];
         return $messages;
@@ -229,12 +229,20 @@ class ContratoController extends Controller
         $item->gestion = 2021;
         $item->dependencia_id = request('secretaria');
         $item->unidad_id = request('unidad');
-        $date = str_replace('/', '-', request('fecha_inicio'));
-        $fecha = date("Y-m-d", strtotime($date));
-        $item->fecha_inicio = $fecha;
-        $date = str_replace('/', '-', request('fecha_final'));
-        $fecha = date("Y-m-d", strtotime($date));
-        $item->fecha_final = $fecha;
+        if (!is_null(request('fecha_inicio'))){
+            $date = str_replace('/', '-', request('fecha_inicio'));
+            $fecha = date("Y-m-d", strtotime($date));
+            $item->fecha_inicio = $fecha;
+        }
+        else
+            $item->fecha_inicio = null;
+        if (!is_null(request('fecha_final'))){
+            $date = str_replace('/', '-', request('fecha_final'));
+            $fecha = date("Y-m-d", strtotime($date));
+            $item->fecha_final = $fecha;
+        }
+        else
+            $item->fecha_final = null;
         $item->sueldo = request('sueldo');
         $item->id_estado = request('estado');
         $item->observaciones = strtoupper(request('obs'));

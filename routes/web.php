@@ -6,6 +6,8 @@ Route::get('home', 'HomeController@index')->name('home');
 
 Route::resource('acontrato', 'PersonalContratoController');
 
+Route::get('items', 'ItemController@index')->name('items.index');
+
 Route::get('contratos', 'ContratoController@index')->name('contratos.index');
 Route::get('contratos/2021', 'ContratoController@gestion_2021')->name('contratos.2021');
 Route::get('contratos/create', 'ContratoController@create')->name('contratos.create');
