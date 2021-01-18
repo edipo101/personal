@@ -68,8 +68,15 @@ class ContratoController extends Controller
             ->Unidad($request->get('unid'))
             ->Secretaria($request->get('secre'))
             ->EstadoContrato($request->get('estado_contr'))
-            ->where('gestion', 2021)
-            ->orderBy('id', 'desc');
+            ->where('gestion', 2021);
+            // ->orderBy('id', 'desc');
+
+        if (!is_null($request->get('pdf'))){
+            $rows->orderBy('dependencia');
+            $rows->orderBy('unidad');
+        }
+        else
+            $rows->orderBy('id', 'desc');
 
         $items_pdf = $rows->orderBy('gestion', 'desc')->get();
         $items = $rows->paginate(25);
@@ -157,12 +164,20 @@ class ContratoController extends Controller
         $item->gestion = 2021;
         $item->dependencia_id = request('secretaria');
         $item->unidad_id = request('unidad');
-        $date = str_replace('/', '-', request('fecha_inicio'));
-        $fecha = date("Y-m-d", strtotime($date));
-        $item->fecha_inicio = $fecha;
-        $date = str_replace('/', '-', request('fecha_final'));
-        $fecha = date("Y-m-d", strtotime($date));
-        $item->fecha_final = $fecha;
+        if (!is_null(request('fecha_inicio'))){
+            $date = str_replace('/', '-', request('fecha_inicio'));
+            $fecha = date("Y-m-d", strtotime($date));
+            $item->fecha_inicio = $fecha;
+        }
+        else
+            $item->fecha_inicio = null;
+        if (!is_null(request('fecha_final'))){
+            $date = str_replace('/', '-', request('fecha_final'));
+            $fecha = date("Y-m-d", strtotime($date));
+            $item->fecha_final = $fecha;
+        }
+        else
+            $item->fecha_final = null;
         $item->sueldo = request('sueldo');
         $item->id_estado = request('estado');
         $item->observaciones = strtoupper(request('obs'));
@@ -248,7 +263,7 @@ class ContratoController extends Controller
         $item->observaciones = strtoupper(request('obs'));
         // return $item;
         $item->save();
-        return redirect(route('contratos.2021'));
+        return redirect(request('url_previous'));
     }
 
     /**

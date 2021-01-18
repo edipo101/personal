@@ -29,15 +29,18 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th class="right">Nro. contrato</th>
+                            <th class="right">Nro. contr.</th>
                             <th>Nro. doc.</th>
-                            <th>Nombre completo/Cargo</th>
-                            <th>Unidad/Secretaria</th>
+                            <th>Nombre completo</th>
+                            <th>Cargo</th>
+                            <th>Unidad</th>
+                            <th>Secretaria</th>
                             <th class="right">Sueldo (Bs)</th>
                             <th class="center">Fecha inicio</th>
                             <th class="center">Fecha final</th>
                             <th class="center">Gestión</th>
                             <th>Estado</th>
+                            <th>Observaciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,16 +52,14 @@
                             <td>{{$item->nro_doc.' '.$item->exp}}</td>
                             <td>
                                 @if(!is_null($item->nombre_completo))
-                                <strong>{{$item->nombre_completo}}</strong><br>
+                                <strong>{{$item->nombre_completo}}</strong>
                                 @else
-                                <strong>ACÉFALO</strong><br>
+                                <strong>ACÉFALO</strong>
                                 @endif
-                                {{Str::limit($item->cargo, 40)}}
                             </td>
-                            <td>
-                                {{Str::limit($item->unidad, 40)}}<br>
-                                {{$item->abrev}}
-                            </td>
+                            <td>{{Str::limit($item->cargo, 40)}}</td>
+                            <td>{{Str::limit($item->unidad, 40)}}</td>
+                            <td>{{$item->abrev}}</td>
                             <td class="right">{{number_format($item->sueldo)}}</td>
                             @php
                                 $date_inicio = (is_null($item->fecha_inicio) ? '': date('d/m/Y', strtotime($item->fecha_inicio)));
@@ -68,6 +69,7 @@
                             <td class="center">{{$date_final}}</td>
                             <td class="center">{{$item->gestion}}</td>
                             <td>{{$item->estado}}</td>
+                            <td>{{$item->observaciones}}</td>
                         </tr>
                         @endforeach
                     </tbody>

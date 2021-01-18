@@ -70,8 +70,14 @@ class ConsultoriaController extends Controller
             ->Unidad($request->get('unid'))
             ->Secretaria($request->get('secre'))
             ->EstadoContrato($request->get('estado_contr'))
-            ->where('gestion', 2021)
-            ->orderBy('id', 'desc');
+            ->where('gestion', 2021);
+            // ->orderBy('id', 'desc');
+        if (!is_null($request->get('pdf'))){
+            $rows->orderBy('dependencia');
+            $rows->orderBy('unidad');
+        }
+        else
+            $rows->orderBy('id', 'desc');
 
         $items_pdf = $rows->orderBy('gestion', 'desc')->get();
         $items = $rows->paginate(25);
@@ -120,13 +126,13 @@ class ConsultoriaController extends Controller
 
     private function getValidate(){
         $validate = [
-            'nro_doc' => 'required',
-            'nombre' => 'required',
+            // 'nro_doc' => 'required',
+            // 'nombre' => 'required',
             'cargo' => 'required',
             'secretaria' => 'required',
             'unidad' => 'required',
-            'fecha_inicio' => 'required',
-            'fecha_final' => 'required',
+            // 'fecha_inicio' => 'required',
+            // 'fecha_final' => 'required',
             'estado' => 'required',
         ];
         return $validate;
@@ -134,13 +140,13 @@ class ConsultoriaController extends Controller
 
     private function getMessages(){
         $messages = [
-            'nro_doc.required' => 'Requerido',
-            'nombre.required' => 'Requerido',
+            // 'nro_doc.required' => 'Requerido',
+            // 'nombre.required' => 'Requerido',
             'cargo.required' => 'Requerido',
             'secretaria.required' => 'Requerido',
             'unidad.required' => 'Requerido',
-            'fecha_inicio.required' => 'Requerido',
-            'fecha_final.required' => 'Requerido',
+            // 'fecha_inicio.required' => 'Requerido',
+            // 'fecha_final.required' => 'Requerido',
             'estado.required' => 'Requerido',
         ];
         return $messages;

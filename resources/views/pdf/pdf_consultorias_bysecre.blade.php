@@ -38,6 +38,7 @@
                             <th class="center">Fecha final</th>
                             <th class="center">Gestión</th>
                             <th>Estado</th>
+                            <th>Observaciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -94,6 +95,7 @@
                             <td class="center">{{$date_final}}</td>
                             <td class="center">{{$item->gestion}}</td>
                             <td>{{$item->consul_estado}}</td>
+                            <td>{{$item->observaciones}}</td>
                         </tr>
                         @endforeach
                         <tr class="total">
