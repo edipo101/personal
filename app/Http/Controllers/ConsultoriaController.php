@@ -175,7 +175,7 @@ class ConsultoriaController extends Controller
         $item->observaciones = strtoupper(request('obs'));
         // return $item;
         $item->save();
-        return redirect(route('consultorias.2021'));
+        return redirect(request('url_previous'));
     }
 
     public function store_acefalo(Request $request){
@@ -205,7 +205,7 @@ class ConsultoriaController extends Controller
         $item->observaciones = strtoupper(request('obs'));
         // return $item;
         $item->save();
-        return redirect(route('consultorias.2021'));
+        return redirect(request('url_previous'));
     }
 
     public function edit($id){
@@ -241,6 +241,6 @@ class ConsultoriaController extends Controller
         $item->observaciones = strtoupper(request('obs'));
         // return $item;
         $item->save();
-        return redirect(route('consultorias.2021'));
+        return redirect(request('url_previous'));
     }
 }
