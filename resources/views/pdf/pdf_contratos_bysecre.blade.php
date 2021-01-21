@@ -52,12 +52,12 @@
                                 $total_secre = 0;
                             @endphp
                             <tr class="group">
-                                <td colspan="10">{{$item->dependencia.' ('.$item->abrev.')'}}</td>
+                                <td colspan="13">{{$item->dependencia.' ('.$item->abrev.')'}}</td>
                             </tr>
                         @endif
                         @if ($item->dependencia_id <> $id_secre)
                             <tr class="total">
-                                <td colspan="10">Total Secretaria ({{$secre}}): {{$total_secre}}</td>
+                                <td colspan="13">Total Secretaria ({{$secre}}): {{$total_secre}}</td>
                             </tr>
                             @php
                                 $id_secre = $item->dependencia_id;
@@ -65,7 +65,7 @@
                                 $total_secre = 0;
                             @endphp
                             <tr class="group">
-                                <td colspan="10">{{$item->dependencia.' ('.$item->abrev.')'}}</td>
+                                <td colspan="13">{{$item->dependencia.' ('.$item->abrev.')'}}</td>
                             </tr>
                         @endif
                         <tr>
@@ -97,7 +97,7 @@
                         </tr>
                         @endforeach
                         <tr class="total">
-                            <td colspan="10">Total Secretaria ({{$secre}}): {{$total_secre}}</td>
+                            <td colspan="13">Total Secretaria ({{$secre}}): {{$total_secre}}</td>
                         </tr>
                     </tbody>
                     <tfoot>
