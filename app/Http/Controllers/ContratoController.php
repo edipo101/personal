@@ -272,8 +272,11 @@ class ContratoController extends Controller
      * @param  \App\Contrato  $contrato
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contrato $contrato)
+    public function destroy(Request $request)
     {
-        //
+        $contr = Contrato::find(request('id'));
+        if ($contr)
+            $contr->delete();
+        return redirect(url()->previous());
     }
 }

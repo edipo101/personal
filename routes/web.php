@@ -6,7 +6,7 @@ Route::get('home', 'HomeController@index')->name('home');
 
 Route::resource('acontrato', 'PersonalContratoController');
 
-Route::get('items', 'ItemController@index')->name('items.index');
+// Route::get('items', 'ItemController@index')->name('items.index');
 
 Route::get('contratos', 'ContratoController@index')->name('contratos.index');
 Route::get('contratos/2021', 'ContratoController@gestion_2021')->name('contratos.2021');
@@ -16,6 +16,7 @@ Route::post('contratos/store', 'ContratoController@store')->name('contratos.stor
 Route::post('contratos/store_acefalo', 'ContratoController@store_acefalo')->name('contratos.store_acefalo');
 Route::get('contratos/{id}/edit', 'ContratoController@edit')->name('contratos.edit');
 Route::patch('contratos/{id}', 'ContratoController@update')->name('contratos.update');
+Route::delete('contratos/destroy', 'ContratoController@destroy')->name('contratos.destroy');
 
 Route::get('consultorias', 'ConsultoriaController@index')->name('consultorias.index');
 Route::get('consultorias/2021', 'ConsultoriaController@gestion_2021')->name('consultorias.2021');
